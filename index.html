@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <title>My Vote Matters</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.2/css/bootstrap.min.css" media="screen">
+        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,700'>
+        <link rel="stylesheet" type="text/css" href="css/main.css" media="screen">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+    </head>
+
+    <body>
+        <main class="body-main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1 class="main-header">My vote matters</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 main-content">
+                        <div class="camera">
+                            <video id="video">Video stream not available.</video>
+                            <button id="startbutton">Take photo</button>
+                        </div>
+                        <canvas id="canvas">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="body-footer">Built by <a href="http://devprogress.us">DevProgress</a>.
+            Image by <a href="https://www.flickr.com/photos/gageskidmore/8567825104">Gage Skidmore</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>.
+        </footer>
+        <div class="overlay confirmation-container hidden" id="photo-success">
+            <div class="confirmation-overlay close-overlay"></div>
+            <div class="confirmation-body">
+                <p>Thanks!</p>
+                <div class="output">
+                    <img id="photo" alt="The screen capture will appear in this box.">
+               </div>
+            </div>
+        </div>
+    </body>
+</html>
