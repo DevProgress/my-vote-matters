@@ -214,7 +214,21 @@ p {
     right: 10px;
 }
 
+.output {
+    margin-top: 1em;
+}
+
 .twitter-share {
     text-align: center;
     margin-top: 1em;
+    cursor: pointer;
+}
+
+#result {
+    text-align: center;
+    margin-top: 1em;
+}
+
+.noDisplay {
+    display: none;
 }

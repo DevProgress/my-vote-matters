@@ -54,14 +54,14 @@
     video.addEventListener('canplay', function(ev){
       if (!streaming) {
         height = video.videoHeight / (video.videoWidth/width);
-      
+
         // Firefox currently has a bug where the height can't be read from
         // the video, so we will make assumptions if this happens.
-      
+
         if (isNaN(height)) {
           height = width / (4/3);
         }
-      
+
         video.setAttribute('width', width);
         video.setAttribute('height', height);
         canvas.setAttribute('width', width);
@@ -79,6 +79,10 @@
 
     $('.overlay').on('click', '.close-overlay', function(ev) {
       $(ev.delegateTarget).addClass('hidden');
+    });
+
+    $('.overlay').on('click', '.twitter-share', function(ev) {
+      postToTwitter();
     });
 
   }
@@ -115,6 +119,60 @@
     } else {
       clearphoto();
     }
+  }
+
+  function postToTwitter() {
+    // http://blog.devteaminc.co/posting-a-canvas-image-to-twitter-using-oauth/
+    var OAuthKey = "";
+    OAuth.initialize(OAuthKey);
+
+    // Convert Base64 image to binary
+    var canvas = document.getElementById('canvas');
+    var data = canvas.toDataURL('image/png');
+    var file = dataURItoBlob(data);
+
+    // Open a tweet popup and autopopulate with data
+    OAuth.popup("twitter").then(function(result) {
+      var data = new FormData();
+      // Tweet text
+      data.append('status', "#myvotematters");
+      // Binary image
+      data.append('media[]', file, 'pic.png');
+      // Post to Twitter as an update with media
+      return result.post('/1.1/statuses/update_with_media.json', {
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false
+      });
+      // Success/Error Logging
+    }).done(function(data){
+      var url = data.entities.media[0].display_url;
+      $(".twitter-share").addClass("noDisplay");
+      $("#result").removeClass("noDisplay");
+      $("#result").html("Success! View your tweet here: <a href=\"http://" + url +"\">" + url +"</a>");
+    }).fail(function(e){
+      $(".twitter-share").addClass("noDisplay");
+      $("#result").removeClass("noDisplay");
+      $("#result").html("Sorry, something went wrong.");
+    });
+  }
+
+  function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+      byteString = atob(dataURI.split(',')[1]);
+    else
+      byteString = unescape(dataURI.split(',')[1]);
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], {type:mimeString});
   }
 
   // Set up our event listener to run the startup process

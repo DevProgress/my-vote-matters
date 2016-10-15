@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="css/main.css" media="screen">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/oauth.js"></script>
     </head>
 
     <body>
@@ -42,34 +43,15 @@
             <div class="confirmation-overlay close-overlay"></div>
             <div class="confirmation-body">
                 <div class="btn-close close-overlay">×</div>
-                <p>Thanks!</p>
                 <div class="output">
                     <img id="photo" alt="The screen capture will appear in this box.">
                 </div>
                 <div class="twitter-share">
-                    <a class="twitter-share-button"
-                       href="https://twitter.com/intent/tweet?hashtags=myvotematters"
-                       data-size="large">
-                        Tweet</a>
+                    <a class="twitter-share-button">Tweet</a>
+                </div>
+                <div id="result" class="noDisplay">
                 </div>
             </div>
         </div>
-        <!-- Twitter widget -->
-        <script>window.twttr = (function(d, s, id) {
-             var js, fjs = d.getElementsByTagName(s)[0],
-                 t = window.twttr || {};
-             if (d.getElementById(id)) return t;
-             js = d.createElement(s);
-             js.id = id;
-             js.src = "https://platform.twitter.com/widgets.js";
-             fjs.parentNode.insertBefore(js, fjs);
-
-             t._e = [];
-             t.ready = function(f) {
-                 t._e.push(f);
-             };
-
-             return t;
-         }(document, "script", "twitter-wjs"));</script>
     </body>
 </html>
