@@ -1,5 +1,7 @@
+/* Styles borrowed from https://github.com/DevProgress/swear-jar */
+
 body {
-    background: #215baa url('https://c1.staticflickr.com/9/8105/8567825104_e14db572a1_k.jpg') top no-repeat;
+    background: #eee top no-repeat;
     background-size: 100%;
     font: 16px Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
     -moz-osx-font-smoothing: grayscale;
@@ -35,8 +37,7 @@ p {
 }
 
 .body-main {
-    background: #215baa;
-    color: #fff;
+    background: #fff;
     padding-bottom: 40px;
     -webkit-box-flex: 1;
     box-flex: 1;
@@ -74,9 +75,17 @@ p {
     vertical-align: baseline
 }
 
+.camera {
+    text-align: center;
+}
+
+#startbutton {
+    margin-top: 1em;
+}
+
 #video, #photo {
-  width:320px;
-  height:240px;
+  width: 320px;
+  height: 240px;
 }
 
 #canvas {
@@ -147,8 +156,7 @@ p {
 }
 
 .body-footer {
-    background-color: #000;
-    color: #fff;
+    background-color: #ccc;
     font-size: 14px;
     padding: 15px;
     width: 100%
@@ -181,7 +189,7 @@ p {
 .confirmation-body {
     background: #fff;
     box-sizing: border-box;
-    max-width: 300px;
+    max-width: 360px;
     padding: 20px;
     width: 100%;
     z-index: 2;
@@ -189,16 +197,22 @@ p {
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
 }
 
 .confirmation-body .btn-close {
     background: none;
     cursor: pointer;
     font-size: 24px;
-    font-weight: 700;
+    color: #aaa;
     padding: 0;
     position: absolute;
     top: 0;
-    right: 10px
+    right: 10px;
+}
+
+.twitter-share {
+    text-align: center;
+    margin-top: 1em;
 }
