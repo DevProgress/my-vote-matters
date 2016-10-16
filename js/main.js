@@ -106,6 +106,11 @@
   // other changes before drawing it.
 
   function takepicture() {
+    // clear popup state
+    $(".input-message").val("");
+    $(".twitter-share").removeClass("no-display");
+    $("#result").addClass("no-display");
+
     var context = canvas.getContext('2d');
     if (width && height) {
       canvas.width = 454; // size of polaroid
