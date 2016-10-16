@@ -144,6 +144,15 @@ p {
     cursor: pointer;
 }
 
+.input-message {
+    margin-top: 1em;
+    width: 454px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    height: 35px;
+    text-indent: 10px;
+}
+
 #result {
     text-align: center;
     margin-top: 1em;

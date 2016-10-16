@@ -138,11 +138,14 @@
     var data = canvas.toDataURL('image/png');
     var file = dataURItoBlob(data);
 
+    // Get message
+    var message = $(".input-message").val();
+
     // Open a tweet popup and autopopulate with data
     OAuth.popup("twitter").then(function(result) {
       var data = new FormData();
       // Tweet text
-      data.append('status', "#myvotematters");
+      data.append('status', message + " #myvotematters");
       // Binary image
       data.append('media[]', file, 'pic.png');
       // Post to Twitter as an update with media
@@ -155,12 +158,12 @@
       // Success/Error Logging
     }).done(function(data){
       var url = data.entities.media[0].display_url;
-      $(".twitter-share").addClass("noDisplay");
-      $("#result").removeClass("noDisplay");
+      $(".twitter-share").addClass("no-display");
+      $("#result").removeClass("no-display");
       $("#result").html("Success! View your tweet here: <a href=\"http://" + url +"\">" + url +"</a>");
     }).fail(function(e){
-      $(".twitter-share").addClass("noDisplay");
-      $("#result").removeClass("noDisplay");
+      $(".twitter-share").addClass("no-display");
+      $("#result").removeClass("no-display");
       $("#result").html("Sorry, something went wrong.");
     });
   }
