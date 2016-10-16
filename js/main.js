@@ -62,10 +62,8 @@
           height = width / (4/3);
         }
 
-        video.setAttribute('width', width);
-        video.setAttribute('height', height);
-        canvas.setAttribute('width', width);
-        canvas.setAttribute('height', height);
+        document.getElementById("video-wrapper").style.height = (height + 80) + "px";
+        document.getElementById("video-wrapper").style.width = (width + 63) + "px";
         streaming = true;
       }
     }, false);

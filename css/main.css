@@ -46,8 +46,8 @@ p {
     text-align: center;
 }
 
-.video-wrapper {
-    background: url("/img/polaroid.png");
+#video-wrapper {
+    border: 3px solid black;
     width: 454px;
     height: 404px;
     position: relative;
@@ -55,10 +55,20 @@ p {
 }
 
 #video {
+    border: 3px solid black;
     width: 396px;
     position: absolute;
     top: 30px;
     left: 29px;
+}
+
+#hashtag {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 16pt;
+    font-weight: bold;
+    bottom: 7px;
 }
 
 #startbutton {
