@@ -62,8 +62,18 @@
           height = width / (4/3);
         }
 
+        canvas.setAttribute('width', width);
         document.getElementById("video-wrapper").style.height = (height + 80) + "px";
         document.getElementById("video-wrapper").style.width = (width + 63) + "px";
+
+        var mc = document.getElementById("maincanvas");
+        var ctx = mc.getContext('2d');
+        polaroid(mc, ctx);
+        (function loop() {
+          ctx.drawImage(video, 29, 30, width, height);
+          setTimeout(loop, 1000 / 60);
+        })();
+
         streaming = true;
       }
     }, false);
@@ -116,6 +126,22 @@
   // format data URL. By drawing it on an offscreen canvas and then
   // drawing that to the screen, we can change its size and/or apply
   // other changes before drawing it.
+  
+  function polaroid(canvas, context) {
+    context.beginPath();
+    context.lineWidth = "3";
+    context.strokeStyle = "black";
+    context.rect(3, 3, width + 53, height + 82);
+    context.stroke();
+    context.beginPath();
+    context.lineWidth = "3";
+    context.strokeStyle = "black";
+    context.rect(28, 28, width + 2, height + 3);
+    context.stroke();
+    context.textAlign = "center";
+    context.font = "bold 14pt Helvetica";
+    context.fillText("#MyVoteMatters", canvas.width/2, canvas.height - 53);
+  }
 
   function takepicture() {
     clearPopupState();
@@ -126,8 +152,7 @@
       canvas.height = 404;
 
       // first draw polaroid
-      var image = document.getElementById("frame");
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      polaroid(canvas, context);
 
       // then draw picture (with proper offset)
       context.drawImage(video, 29, 30, width, height);
@@ -244,7 +269,7 @@
     var message = getMessage();
     context.font = "20px Coming Soon";
     context.textAlign = "center";
-    context.fillText(message, canvas.width/2, 385);
+    context.fillText(message, canvas.width/2, canvas.height - 30);
     var data = canvas.toDataURL('image/png');
     photo.setAttribute('src', data);
 

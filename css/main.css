@@ -42,12 +42,11 @@ p {
 .sidebar-content {
 }
 
-.camera {
+#camera {
     text-align: center;
 }
 
 #video-wrapper {
-    border: 3px solid black;
     width: 454px;
     height: 404px;
     position: relative;
@@ -55,20 +54,18 @@ p {
 }
 
 #video {
-    border: 3px solid black;
     width: 396px;
     position: absolute;
     top: 30px;
     left: 29px;
 }
 
-#hashtag {
-    position: absolute;
+#maincanvas {
+    top: 0px;
+    left: 0px;
     width: 100%;
-    text-align: center;
-    font-size: 16pt;
-    font-weight: bold;
-    bottom: 7px;
+    height: 100%;
+    position: absolute;
 }
 
 #startbutton {
