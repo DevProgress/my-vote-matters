@@ -130,7 +130,7 @@
 
   function postToTwitter() {
     // http://blog.devteaminc.co/posting-a-canvas-image-to-twitter-using-oauth/
-    var OAuthKey = "";
+    var OAuthKey = "WDBN6HtSl2OSBHDCMdhaT_tMBRE";
     OAuth.initialize(OAuthKey);
 
     // Convert Base64 image to binary
