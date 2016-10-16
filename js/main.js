@@ -77,14 +77,24 @@
     
     clearphoto();
 
+    // Event listeners
+
     $('.overlay').on('click', '.close-overlay', function(ev) {
       $(ev.delegateTarget).addClass('hidden');
     });
 
-    $('.overlay').on('click', '.twitter-share', function(ev) {
+    $('.overlay').on('click', '.twitter-share-button', function(ev) {
       postToTwitter();
     });
 
+    $('.overlay').on('click', '.fb-share-button', function(ev) {
+      postToFacebook();
+    });
+
+    // Initialize OAuth
+    // http://blog.devteaminc.co/posting-a-canvas-image-to-twitter-using-oauth/
+    var OAuthKey = "WDBN6HtSl2OSBHDCMdhaT_tMBRE";
+    OAuth.initialize(OAuthKey);
   }
 
   // Fill the photo with an indication that none has been
@@ -106,10 +116,7 @@
   // other changes before drawing it.
 
   function takepicture() {
-    // clear popup state
-    $(".input-message").val("");
-    $(".twitter-share").removeClass("no-display");
-    $("#result").addClass("no-display");
+    clearPopupState();
 
     var context = canvas.getContext('2d');
     if (width && height) {
@@ -122,7 +129,6 @@
 
       // then draw picture (with proper offset)
       context.drawImage(video, 29, 30, width, height);
-
       var data = canvas.toDataURL('image/png');
       photo.setAttribute('src', data);
 
@@ -133,43 +139,57 @@
     }
   }
 
-  function postToTwitter() {
-    // http://blog.devteaminc.co/posting-a-canvas-image-to-twitter-using-oauth/
-    var OAuthKey = "WDBN6HtSl2OSBHDCMdhaT_tMBRE";
-    OAuth.initialize(OAuthKey);
-
-    // Convert Base64 image to binary
+  function getImageData() {
     var canvas = document.getElementById('canvas');
     var data = canvas.toDataURL('image/png');
     var file = dataURItoBlob(data);
+    return file;
+  }
 
-    // Get message
+  function getMessage() {
     var message = $(".input-message").val();
+    return message + " #myvotematters";
+  }
 
-    // Open a tweet popup and autopopulate with data
+  function postToTwitter() {
+    var file = getImageData();
+    var message = getMessage();
     OAuth.popup("twitter").then(function(result) {
       var data = new FormData();
-      // Tweet text
-      data.append('status', message + " #myvotematters");
-      // Binary image
+      data.append('status', message);
       data.append('media[]', file, 'pic.png');
-      // Post to Twitter as an update with media
       return result.post('/1.1/statuses/update_with_media.json', {
         data: data,
         cache: false,
         processData: false,
         contentType: false
       });
-      // Success/Error Logging
     }).done(function(data){
       var url = data.entities.media[0].display_url;
-      $(".twitter-share").addClass("no-display");
-      $("#result").removeClass("no-display");
-      $("#result").html("Success! View your tweet here: <a href=\"http://" + url +"\">" + url +"</a>");
+      onShareSuccess("http://" + url);
     }).fail(function(e){
-      $(".twitter-share").addClass("no-display");
-      $("#result").removeClass("no-display");
-      $("#result").html("Sorry, something went wrong.");
+      onShareError();
+    });
+  }
+
+  function postToFacebook() {
+    var file = getImageData();
+    var message = getMessage();
+    OAuth.popup("facebook").then(function(result) {
+      var data = new FormData();
+      data.append('caption', message);
+      data.append('source', file);
+      return result.post('/me/photos', {
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false
+      });
+    }).done(function(data){
+      var url = "https://www.facebook.com/photo.php?fbid=" + data.id;
+      onShareSuccess(url);
+    }).fail(function(e){
+      onShareError();
     });
   }
 
@@ -188,6 +208,31 @@
       ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ia], {type:mimeString});
+  }
+
+  function clearPopupState() {
+    // Clear the message input field,
+    // show the share buttons,
+    // hide the result field
+    $(".input-message").val("");
+    $(".share-buttons").removeClass("no-display");
+    $(".result").addClass("no-display");
+  }
+
+  function onShareSuccess(url) {
+    // Hide the share buttons,
+    // show the result field
+    $(".share-buttons").addClass("no-display");
+    $(".result").removeClass("no-display");
+    $(".result").html("Success! View your post here: <a target=\"_blank\" href=\"" + url + "\">" + url +"</a>");
+  }
+
+  function onShareError() {
+    // Hide the share buttons,
+    // show the result field
+      $(".share-buttons").addClass("no-display");
+      $(".result").removeClass("no-display");
+      $(".result").html("Sorry, something went wrong.");
   }
 
   // Set up our event listener to run the startup process

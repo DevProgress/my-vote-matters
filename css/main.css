@@ -138,7 +138,7 @@ p {
     margin-top: 1em;
 }
 
-.twitter-share {
+.share-buttons {
     text-align: center;
     margin-top: 1em;
     cursor: pointer;
@@ -153,7 +153,7 @@ p {
     text-indent: 10px;
 }
 
-#result {
+.result {
     text-align: center;
     margin-top: 1em;
 }
