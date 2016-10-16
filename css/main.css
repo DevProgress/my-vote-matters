@@ -2,173 +2,73 @@
    ifihadaquarter.com
 */
 
-body {
-    background: #eee top no-repeat;
-    background-size: 100%;
-    font: 16px Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased!important;
-    min-height: 100vh;
-    overflow-x: hidden;
-    padding-top: 66.650390625%;
-    display: -webkit-box;
-    display: -moz-box;
-    display: box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    box-orient: vertical;
-    -webkit-box-direction: normal;
-    box-direction: normal;
-    -moz-flex-direction: column;
-    flex-direction: column;
-    -ms-flex-direction: column
-}
 
-@media screen and (min-width: 768px) {
-    body {
-        background-position: 350px;
-        background-size: cover;
-        padding-top: 0
-    }
+/* General */
+
+body {
+    font: 16px Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 p {
     margin-bottom: 1em
 }
 
-.body-main {
-    background: #fff;
-    padding-bottom: 40px;
-    -webkit-box-flex: 1;
-    box-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
-    flex: 1
+.no-display {
+    display: none;
 }
 
-@media screen and (min-width: 768px) {
-    .body-main {
-        box-sizing: border-box;
-        width: 350px
-    }
-}
+/* Sidebar */
 
-.body-main a:link,
-.body-main a:visited {
-    color: #fff;
-    font-weight: 700
-}
-
-.body-main a:active,
-.body-main a:focus,
-.body-main a:hover {
-    text-decoration: underline
-}
-
-.main-header {
+.sidebar-header {
     font-weight: 700;
     margin-bottom: 1em
 }
 
-.main-header img {
-    height: .67em;
-    vertical-align: baseline
+.sidebar-content {
 }
 
 .camera {
     text-align: center;
 }
 
-#startbutton {
-    margin-top: 1em;
+.video-wrapper {
+    background: url("/img/polaroid.png");
+    width: 454px;
+    height: 404px;
+    position: relative;
 }
 
-#video, #photo {
-  width: 320px;
-  height: 240px;
+#video {
+    width: 396px;
+    position: absolute;
+    top: 30px;
+    left: 29px;
+}
+
+#startbutton {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 #canvas {
-    display: none;
 }
 
-.form-header {
-    border: 0;
-    color: #fff;
-    font-weight: 700
+/* Main */
+
+.main {
+    margin-top: 20px;
 }
 
-.form-row {
-    display: -webkit-box;
-    display: -moz-box;
-    display: box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex
-}
+/* Footer */
 
-.form-row .form-group {
-    padding-right: .5em;
-    -webkit-box-flex: 1;
-    box-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
-    flex: 1
-}
-
-.form-row .form-group .form-control {
-    width: 100%
-}
-
-.form-message {
-    color: #000;
-    font-size: 14px;
-    margin: 0 0 1em;
-    padding: 10px
-}
-
-.btn-share,
-.btn-submit {
-    background: #03a9e0;
-    color: #fff;
-    font-weight: 700;
-    -webkit-transition: all .1s ease-in;
-    transition: all .1s ease-in
-
-}
-
-.btn-share:active,
-.btn-share:focus,
-.btn-share:hover,
-.btn-submit:active,
-.btn-submit:focus,
-.btn-submit:hover {
-    background: #1ac4fc;
-    color: #fff;
-    outline: none
-}
-
-.btn-share img {
-    height: 1em;
-    vertical-align: baseline;
-    position: relative;
-    top: .1em
-}
-
-.body-footer {
+.footer {
+    text-align: center;
     background-color: #ccc;
     font-size: 14px;
     padding: 15px;
-    width: 100%
 }
 
-@media screen and (min-width: 768px) {
-    .body-footer {
-        text-align: center
-    }
-}
+/* Popup */
 
 .confirmation-container {
     position: fixed;
@@ -191,7 +91,7 @@ p {
 .confirmation-body {
     background: #fff;
     box-sizing: border-box;
-    max-width: 360px;
+    max-width: 500px;
     padding: 20px;
     width: 100%;
     z-index: 2;
@@ -227,8 +127,4 @@ p {
 #result {
     text-align: center;
     margin-top: 1em;
-}
-
-.noDisplay {
-    display: none;
 }

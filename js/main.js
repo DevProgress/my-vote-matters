@@ -5,7 +5,7 @@
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
 
-  var width = 320;    // We will scale the photo width to this
+  var width = 396;    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
 
   // |streaming| indicates whether or not we're currently streaming
@@ -108,13 +108,20 @@
   function takepicture() {
     var context = canvas.getContext('2d');
     if (width && height) {
-      canvas.width = width;
-      canvas.height = height;
-      context.drawImage(video, 0, 0, width, height);
+      canvas.width = 454; // size of polaroid
+      canvas.height = 404;
+
+      // first draw polaroid
+      var image = document.getElementById("frame");
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      // then draw picture (with proper offset)
+      context.drawImage(video, 29, 30, width, height);
 
       var data = canvas.toDataURL('image/png');
       photo.setAttribute('src', data);
 
+      // show popup
       $('#photo-success').removeClass('hidden');
     } else {
       clearphoto();
