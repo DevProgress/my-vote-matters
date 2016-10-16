@@ -24,11 +24,6 @@ p {
     display: none;
 }
 
-.container-fluid {
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
 /* Sidebar */
 
 .sidebar {
@@ -52,6 +47,7 @@ p {
     width: 454px;
     height: 404px;
     position: relative;
+    margin: 0 auto;
 }
 
 #video {
@@ -66,7 +62,8 @@ p {
     margin-bottom: 1em;
 }
 
-#canvas {
+.font-load {
+    font-family: Coming Soon;
 }
 
 /* Main */
@@ -138,15 +135,19 @@ p {
     margin-top: 1em;
 }
 
-.share-buttons {
+.share-button-wrapper, .text-button-wrapper {
     text-align: center;
     margin-top: 1em;
     cursor: pointer;
 }
 
+.input-wrapper {
+    text-align: center;
+}
+
 .input-message {
     margin-top: 1em;
-    width: 454px;
+    width: 350px;
     border: 1px solid #ccc;
     border-radius: 2px;
     height: 35px;

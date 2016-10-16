@@ -83,6 +83,10 @@
       $(ev.delegateTarget).addClass('hidden');
     });
 
+    $('.overlay').on('click', '.text-button', function(ev) {
+      addTextToImage();
+    });
+
     $('.overlay').on('click', '.twitter-share-button', function(ev) {
       postToTwitter();
     });
@@ -129,10 +133,10 @@
 
       // then draw picture (with proper offset)
       context.drawImage(video, 29, 30, width, height);
-      var data = canvas.toDataURL('image/png');
-      photo.setAttribute('src', data);
 
       // show popup
+      var data = canvas.toDataURL('image/png');
+      photo.setAttribute('src', data);
       $('#photo-success').removeClass('hidden');
     } else {
       clearphoto();
@@ -148,12 +152,17 @@
 
   function getMessage() {
     var message = $(".input-message").val();
-    return message + " #myvotematters";
+    return message;
+  }
+
+  function getMessageWithHashtag() {
+    var message = getMessage();
+    return "#myvotematters because " + message;
   }
 
   function postToTwitter() {
     var file = getImageData();
-    var message = getMessage();
+    var message = getMessageWithHashtag();
     OAuth.popup("twitter").then(function(result) {
       var data = new FormData();
       data.append('status', message);
@@ -174,7 +183,7 @@
 
   function postToFacebook() {
     var file = getImageData();
-    var message = getMessage();
+    var message = getMessageWithHashtag();
     OAuth.popup("facebook").then(function(result) {
       var data = new FormData();
       data.append('caption', message);
@@ -211,18 +220,21 @@
   }
 
   function clearPopupState() {
-    // Clear the message input field,
-    // show the share buttons,
-    // hide the result field
+    // Clear the message input field
+    $(".input-message").removeClass("no-display");
     $(".input-message").val("");
-    $(".share-buttons").removeClass("no-display");
+    // Show the text button
+    $(".text-button-wrapper").removeClass("no-display");
+    // Hide the result
     $(".result").addClass("no-display");
+    // hide the share buttons
+    $(".share-button-wrapper").addClass("no-display");
   }
 
   function onShareSuccess(url) {
     // Hide the share buttons,
     // show the result field
-    $(".share-buttons").addClass("no-display");
+    $(".share-button-wrapper").addClass("no-display");
     $(".result").removeClass("no-display");
     $(".result").html("Success! View your post here: <a target=\"_blank\" href=\"" + url + "\">" + url +"</a>");
   }
@@ -230,9 +242,23 @@
   function onShareError() {
     // Hide the share buttons,
     // show the result field
-      $(".share-buttons").addClass("no-display");
-      $(".result").removeClass("no-display");
-      $(".result").html("Sorry, something went wrong.");
+    $(".share-button-wrapper").addClass("no-display");
+    $(".result").removeClass("no-display");
+    $(".result").html("Sorry, something went wrong.");
+  }
+
+  function addTextToImage() {
+    var context = canvas.getContext('2d');
+    var message = getMessage();
+    context.font = "24px Coming Soon";
+    context.textAlign = "center";
+    context.fillText(message, canvas.width/2, 388);
+    var data = canvas.toDataURL('image/png');
+    photo.setAttribute('src', data);
+
+    $(".input-message").addClass("no-display");
+    $(".text-button-wrapper").addClass("no-display");
+    $(".share-button-wrapper").removeClass("no-display");
   }
 
   // Set up our event listener to run the startup process
