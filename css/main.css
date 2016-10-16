@@ -141,6 +141,16 @@ p {
     cursor: pointer;
 }
 
+.share-button-wrapper img {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 200px;
+}
+
+.share-button-wrapper a:hover {
+    text-decoration: none;
+}
+
 .input-wrapper {
     text-align: center;
 }
