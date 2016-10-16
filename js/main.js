@@ -155,14 +155,9 @@
     return message;
   }
 
-  function getMessageWithHashtag() {
-    var message = getMessage();
-    return "#myvotematters because " + message;
-  }
-
   function postToTwitter() {
     var file = getImageData();
-    var message = getMessageWithHashtag();
+    var message = getMessage();
     OAuth.popup("twitter").then(function(result) {
       var data = new FormData();
       data.append('status', message);
@@ -183,7 +178,7 @@
 
   function postToFacebook() {
     var file = getImageData();
-    var message = getMessageWithHashtag();
+    var message = getMessage();
     OAuth.popup("facebook").then(function(result) {
       var data = new FormData();
       data.append('caption', message);
@@ -221,7 +216,6 @@
 
   function clearPopupState() {
     // Clear the message input field
-    $(".input-message").removeClass("no-display");
     $(".input-message").val("");
     // Show the text button
     $(".text-button-wrapper").removeClass("no-display");
@@ -250,13 +244,13 @@
   function addTextToImage() {
     var context = canvas.getContext('2d');
     var message = getMessage();
-    context.font = "24px Coming Soon";
+    context.font = "20px Coming Soon";
     context.textAlign = "center";
-    context.fillText(message, canvas.width/2, 388);
+    context.fillText(message, canvas.width/2, 385);
     var data = canvas.toDataURL('image/png');
     photo.setAttribute('src', data);
 
-    $(".input-message").addClass("no-display");
+    $(".input-message").val("#myvotematters because " + message);
     $(".text-button-wrapper").addClass("no-display");
     $(".share-button-wrapper").removeClass("no-display");
   }
