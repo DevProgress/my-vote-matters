@@ -5,7 +5,7 @@
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
 
-  var width = 396;    // We will scale the photo width to this
+  var width = Math.min(396, Math.round(screen.width * 0.6));    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
 
   // |streaming| indicates whether or not we're currently streaming
@@ -23,6 +23,7 @@
 
   function startup() {
     video = document.getElementById('video');
+    maincanvas = document.getElementById("maincanvas");
     canvas = document.getElementById('canvas');
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
@@ -62,13 +63,14 @@
           height = width / (4/3);
         }
 
-        canvas.setAttribute('width', width);
-        document.getElementById("video-wrapper").style.height = (height + 80) + "px";
-        document.getElementById("video-wrapper").style.width = (width + 63) + "px";
+        canvas.setAttribute('width', width + 63);
+        canvas.setAttribute('height', height + 103);
+        maincanvas.setAttribute('width', width + 63);
+        maincanvas.setAttribute('height', height + 103);
+        document.getElementById('video-wrapper').style.height = (height + 103) + "px";
 
-        var mc = document.getElementById("maincanvas");
-        var ctx = mc.getContext('2d');
-        polaroid(mc, ctx);
+        var ctx = maincanvas.getContext('2d');
+        polaroid(maincanvas, ctx);
         (function loop() {
           ctx.drawImage(video, 29, 30, width, height);
           setTimeout(loop, 1000 / 60);
@@ -148,9 +150,6 @@
 
     var context = canvas.getContext('2d');
     if (width && height) {
-      canvas.width = 454; // size of polaroid
-      canvas.height = 404;
-
       // first draw polaroid
       polaroid(canvas, context);
 
