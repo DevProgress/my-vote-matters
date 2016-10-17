@@ -142,7 +142,7 @@
     context.stroke();
     context.textAlign = "center";
     context.font = "bold 14pt Helvetica";
-    context.fillText("#MyVoteMatters", canvas.width/2, canvas.height - 53);
+    context.fillText("#MyVoteMatters because", canvas.width/2, canvas.height - 53);
   }
 
   function takepicture() {
