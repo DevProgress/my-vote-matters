@@ -55,9 +55,8 @@ p {
 }
 
 #maincanvas {
-    top: 0px;
-    left: 0px;
-    position: absolute;
+    position: relative;
+    margin: 0 auto;
 }
 
 #startbutton {

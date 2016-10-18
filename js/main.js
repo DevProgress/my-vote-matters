@@ -4,8 +4,16 @@
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
+  
+  const MIN_WIDTH = 396;
+  const MIN_WIDTH_RATIO = 0.6;
+  const MARGIN = 30;
+  const BORDER = 3;
+  const TEXT_HEIGHT = 40;
+  const HORIZ_INC = 2*MARGIN + BORDER;
+  const VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
 
-  var width = Math.min(396, Math.round(screen.width * 0.6));    // We will scale the photo width to this
+  var width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
 
   // |streaming| indicates whether or not we're currently streaming
@@ -63,16 +71,18 @@
           height = width / (4/3);
         }
 
-        canvas.setAttribute('width', width + 63);
-        canvas.setAttribute('height', height + 103);
-        maincanvas.setAttribute('width', width + 63);
-        maincanvas.setAttribute('height', height + 103);
-        document.getElementById('video-wrapper').style.height = (height + 103) + "px";
+        canvas.setAttribute('width', width + HORIZ_INC);
+        canvas.setAttribute('height', height + VERT_INC);
+        maincanvas.setAttribute('width', width + HORIZ_INC);
+        maincanvas.setAttribute('height', height + VERT_INC);
+        document.getElementById('video-wrapper').style.height = (height + VERT_INC) + "px";
 
         var ctx = maincanvas.getContext('2d');
         polaroid(maincanvas, ctx);
         (function loop() {
-          ctx.drawImage(video, 29, 30, width, height);
+          if (streaming) {
+            ctx.drawImage(video, MARGIN - 1, MARGIN, width, height);
+          }
           setTimeout(loop, 1000 / 60);
         })();
 
@@ -131,14 +141,14 @@
   
   function polaroid(canvas, context) {
     context.beginPath();
-    context.lineWidth = "3";
+    context.lineWidth = "" + BORDER;
     context.strokeStyle = "black";
-    context.rect(3, 3, width + 53, height + 82);
+    context.rect(BORDER, BORDER, width + TEXT_HEIGHT + BORDER*4, height + TEXT_HEIGHT*2 + BORDER - 1);
     context.stroke();
     context.beginPath();
-    context.lineWidth = "3";
-    context.strokeStyle = "black";
-    context.rect(28, 28, width + 2, height + 3);
+    context.lineWidth = "" + BORDER;
+    context.strokeStyle = "blue";
+    context.rect(MARGIN -  BORDER + 1, MARGIN - BORDER + 1, width + BORDER - 1, height + BORDER);
     context.stroke();
     context.textAlign = "center";
     context.font = "bold 14pt Helvetica";
