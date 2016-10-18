@@ -4,8 +4,16 @@
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
+  
+  const MIN_WIDTH = 396;
+  const MIN_WIDTH_RATIO = 0.6;
+  const MARGIN = 30;
+  const BORDER = 3;
+  const TEXT_HEIGHT = 40;
+  const HORIZ_INC = 2*MARGIN + BORDER;
+  const VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
 
-  var width = 396;    // We will scale the photo width to this
+  var width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
 
   // |streaming| indicates whether or not we're currently streaming
@@ -23,6 +31,7 @@
 
   function startup() {
     video = document.getElementById('video');
+    maincanvas = document.getElementById("maincanvas");
     canvas = document.getElementById('canvas');
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
@@ -62,10 +71,21 @@
           height = width / (4/3);
         }
 
-        video.setAttribute('width', width);
-        video.setAttribute('height', height);
-        canvas.setAttribute('width', width);
-        canvas.setAttribute('height', height);
+        canvas.setAttribute('width', width + HORIZ_INC);
+        canvas.setAttribute('height', height + VERT_INC);
+        maincanvas.setAttribute('width', width + HORIZ_INC);
+        maincanvas.setAttribute('height', height + VERT_INC);
+        document.getElementById('video-wrapper').style.height = (height + VERT_INC) + "px";
+
+        var ctx = maincanvas.getContext('2d');
+        polaroid(maincanvas, ctx);
+        (function loop() {
+          if (streaming) {
+            ctx.drawImage(video, MARGIN - 1, MARGIN, width, height);
+          }
+          setTimeout(loop, 1000 / 60);
+        })();
+
         streaming = true;
       }
     }, false);
@@ -118,18 +138,30 @@
   // format data URL. By drawing it on an offscreen canvas and then
   // drawing that to the screen, we can change its size and/or apply
   // other changes before drawing it.
+  
+  function polaroid(canvas, context) {
+    context.beginPath();
+    context.lineWidth = "" + BORDER;
+    context.strokeStyle = "black";
+    context.rect(BORDER, BORDER, width + TEXT_HEIGHT + BORDER*4, height + TEXT_HEIGHT*2 + BORDER - 1);
+    context.stroke();
+    context.beginPath();
+    context.lineWidth = "" + BORDER;
+    context.strokeStyle = "blue";
+    context.rect(MARGIN -  BORDER + 1, MARGIN - BORDER + 1, width + BORDER - 1, height + BORDER);
+    context.stroke();
+    context.textAlign = "center";
+    context.font = "bold 14pt Helvetica";
+    context.fillText("#MyVoteMatters because", canvas.width/2, canvas.height - 53);
+  }
 
   function takepicture() {
     clearPopupState();
 
     var context = canvas.getContext('2d');
     if (width && height) {
-      canvas.width = 454; // size of polaroid
-      canvas.height = 404;
-
       // first draw polaroid
-      var image = document.getElementById("frame");
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      polaroid(canvas, context);
 
       // then draw picture (with proper offset)
       context.drawImage(video, 29, 30, width, height);
@@ -246,7 +278,7 @@
     var message = getMessage();
     context.font = "20px Coming Soon";
     context.textAlign = "center";
-    context.fillText(message, canvas.width/2, 385);
+    context.fillText(message, canvas.width/2, canvas.height - 30);
     var data = canvas.toDataURL('image/png');
     photo.setAttribute('src', data);
 
