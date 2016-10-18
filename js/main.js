@@ -147,7 +147,7 @@
     context.stroke();
     context.beginPath();
     context.lineWidth = "" + BORDER;
-    context.strokeStyle = "blue";
+    context.strokeStyle = "black";
     context.rect(MARGIN -  BORDER + 1, MARGIN - BORDER + 1, width + BORDER - 1, height + BORDER);
     context.stroke();
     context.textAlign = "center";
