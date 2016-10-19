@@ -100,6 +100,8 @@
   }
 
   function resizeCanvas() {
+    streaming = false;
+
     width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));
     height = video.videoHeight / (video.videoWidth/width);
 
