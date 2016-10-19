@@ -13,7 +13,7 @@
   const HORIZ_INC = 2*MARGIN + BORDER;
   const VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
 
-  var width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));    // We will scale the photo width to this
+  var width = 0;    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
 
   // |streaming| indicates whether or not we're currently streaming
@@ -31,6 +31,7 @@
   function startup() {
     video = document.getElementById('video');
     canvas = document.getElementById("canvas");
+    context = canvas.getContext('2d');
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
 
@@ -59,32 +60,14 @@
     );
 
     video.addEventListener('canplay', function(ev){
-      if (!streaming) {
-        height = video.videoHeight / (video.videoWidth/width);
-
-        // Firefox currently has a bug where the height can't be read from
-        // the video, so we will make assumptions if this happens.
-
-        if (isNaN(height)) {
-          height = width / (4/3);
+      resizeCanvas();
+      (function loop() {
+        if (streaming) {
+          context.drawImage(video, MARGIN - 1, MARGIN, width, height);
         }
-
-        canvas.setAttribute('width', width + HORIZ_INC);
-        canvas.setAttribute('height', height + VERT_INC);
-        document.getElementById('video-wrapper').style.height = (height + VERT_INC) + "px";
-
-        var ctx = canvas.getContext('2d');
-        polaroid(canvas, ctx);
-        (function loop() {
-          if (streaming) {
-            ctx.drawImage(video, MARGIN - 1, MARGIN, width, height);
-          }
-          addTextToImage();
-          setTimeout(loop, 1000 / 60);
-        })();
-
-        streaming = true;
-      }
+        addTextToImage();
+        setTimeout(loop, 1000 / 60);
+      })();
     }, false);
 
     startbutton.addEventListener('click', function(ev){
@@ -106,10 +89,34 @@
       postToFacebook();
     });
 
+    $(window).on('orientationchange', function(ev) {
+      setTimeout(resizeCanvas, 300); // FIXME can this be lower?
+    });
+
     // Initialize OAuth
     // http://blog.devteaminc.co/posting-a-canvas-image-to-twitter-using-oauth/
     var OAuthKey = "WDBN6HtSl2OSBHDCMdhaT_tMBRE";
     OAuth.initialize(OAuthKey);
+  }
+
+  function resizeCanvas() {
+    width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));
+    height = video.videoHeight / (video.videoWidth/width);
+
+    // Firefox currently has a bug where the height can't be read from
+    // the video, so we will make assumptions if this happens.
+
+    if (isNaN(height)) {
+      height = width / (4/3);
+    }
+
+    canvas.setAttribute('width', width + HORIZ_INC);
+    canvas.setAttribute('height', height + VERT_INC);
+    document.getElementById('video-wrapper').style.height = (height + VERT_INC) + "px";
+
+    polaroid(canvas, context);
+
+    streaming = true;
   }
 
   // Capture a photo by fetching the current contents of the video
@@ -142,7 +149,6 @@
   }
 
   function untakepicture() {
-    canvas.getContext('2d').clearRect(BORDER*2, MARGIN + BORDER + height + BORDER + TEXT_HEIGHT/2, width + TEXT_HEIGHT + BORDER*2, TEXT_HEIGHT/2 + BORDER);
     streaming = true;
 
     $('#streaming').removeClass('no-display');
@@ -237,11 +243,10 @@
   }
 
   function addTextToImage() {
-    var context = canvas.getContext('2d');
     var message = getMessage();
     context.font = "20px Coming Soon";
     context.textAlign = "center";
-    canvas.getContext('2d').clearRect(BORDER*2, MARGIN + BORDER + height + BORDER + TEXT_HEIGHT/2, width + TEXT_HEIGHT + BORDER*2, TEXT_HEIGHT/2 + BORDER*2);
+    context.clearRect(BORDER*2, MARGIN + BORDER + height + BORDER + TEXT_HEIGHT/2, width + TEXT_HEIGHT + BORDER*2, TEXT_HEIGHT/2 + BORDER*2);
     context.fillText(message, canvas.width/2, canvas.height - 30);
   }
 
