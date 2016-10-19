@@ -5,13 +5,15 @@
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
   
-  const MIN_WIDTH = 396;
+  const MIN_WIDTH = 300;
   const MIN_WIDTH_RATIO = 0.6;
   const MARGIN = 30;
   const BORDER = 3;
   const TEXT_HEIGHT = 40;
   const HORIZ_INC = 2*MARGIN + BORDER;
   const VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
+  const RED = "#ff3333";
+  const BLUE = "#0066cc";
 
   var width = 0;    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
@@ -25,12 +27,16 @@
   // will be set by the startup() function.
 
   var video = null;
+  var wrapper = null;
+  var canvas = null;
+  var context = null;
   var photo = null;
   var startbutton = null;
 
   function startup() {
     video = document.getElementById('video');
-    canvas = document.getElementById("canvas");
+    wrapper = document.getElementById('video-wrapper');
+    canvas = document.getElementById('canvas');
     context = canvas.getContext('2d');
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
@@ -74,6 +80,10 @@
       takepicture();
       ev.preventDefault();
     }, false);
+
+    canvas.addEventListener('click', function(ev){
+      takepicture();
+    }, false);
     
     // Event listeners
 
@@ -114,7 +124,9 @@
 
     canvas.setAttribute('width', width + HORIZ_INC);
     canvas.setAttribute('height', height + VERT_INC);
-    document.getElementById('video-wrapper').style.height = (height + VERT_INC) + "px";
+    canvas.style.top = MARGIN + "px";
+    wrapper.style.width = (width + 4*MARGIN) + "px";
+    wrapper.style.height = (height + 5*MARGIN) + "px";
 
     polaroid(canvas, context);
 
@@ -131,16 +143,21 @@
     context.beginPath();
     context.lineWidth = "" + BORDER;
     context.strokeStyle = "black";
+    context.fillStyle = "white";
     context.rect(BORDER, BORDER, width + TEXT_HEIGHT + BORDER*4, height + TEXT_HEIGHT*2 + BORDER - 1);
+    context.fill();
     context.stroke();
+    context.fillStyle = "black";
     context.beginPath();
     context.lineWidth = "" + BORDER;
     context.strokeStyle = "black";
     context.rect(MARGIN - BORDER + 1, MARGIN - BORDER + 1, width + BORDER - 1, height + BORDER);
     context.stroke();
+    context.fillStyle = BLUE;
     context.textAlign = "center";
     context.font = "bold 14pt Helvetica";
     context.fillText("#MyVoteMatters because", canvas.width/2, canvas.height - 53);
+    context.fillStyle = "black";
   }
 
   function takepicture() {
@@ -186,7 +203,7 @@
       var url = data.entities.media[0].display_url;
       onShareSuccess("http://" + url);
     }).fail(function(e){
-      onShareError();
+      onShareError(e);
     });
   }
 
@@ -207,7 +224,7 @@
       var url = "https://www.facebook.com/photo.php?fbid=" + data.id;
       onShareSuccess(url);
     }).fail(function(e){
-      onShareError();
+      onShareError(e);
     });
   }
 
@@ -236,7 +253,8 @@
     $(".result").html("Success! View your post here: <a target=\"_blank\" href=\"" + url + "\">" + url +"</a>");
   }
 
-  function onShareError() {
+  function onShareError(err) {
+    console.log(err);
     // Hide the share buttons,
     // show the result field
     $("#share-photo").addClass("no-display");
@@ -248,7 +266,9 @@
     var message = getMessage();
     context.font = "20px Coming Soon";
     context.textAlign = "center";
-    context.clearRect(BORDER*2, MARGIN + BORDER + height + BORDER + TEXT_HEIGHT/2, width + TEXT_HEIGHT + BORDER*2, TEXT_HEIGHT/2 + BORDER*2);
+    context.fillStyle = "white";
+    context.fillRect(BORDER*2, MARGIN + BORDER + height + BORDER + TEXT_HEIGHT/2, width + TEXT_HEIGHT + BORDER*2, TEXT_HEIGHT/2 + BORDER*2);
+    context.fillStyle = "black";
     context.fillText(message, canvas.width/2, canvas.height - 30);
   }
 
