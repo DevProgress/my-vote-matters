@@ -40,14 +40,34 @@
                             <div id="camera">
                                 <div id="video-wrapper">
                                     <video id="video" class="no-display">Video stream not available.</video>
-                                    <canvas id="maincanvas"/>
+                                    <canvas id="canvas"/>
                                     <div id="hashtag">#MyVoteMatters</div>
                                 </div>
-                                <button type="button" class="btn btn-primary" id="startbutton">📷 &nbsp;&nbsp;Take photo</button>
+
+                                <span id="controls">
+                                    <div class="input-wrapper">
+                                        <input placeholder="#myvotematters because..." class="input-message" type="text" name="message">
+                                    </div>
+                                    <span id="streaming">
+                                        <button type="button" class="btn btn-primary" id="startbutton">📷 &nbsp;&nbsp;Take photo</button>
+                                    </span>
+                                    <span class="no-display" id="share-photo">
+                                        <div class="button-wrapper">
+                                            <a class="twitter-share-button">
+                                                <img src="/img/twitter.png">
+                                            </a>
+                                            <a class="fb-share-button">
+                                                <img src="/img/facebook.png">
+                                            </a>
+                                        </div>
+                                        <span class="button-wrapper">
+                                            <button type="button" class="btn btn-warning cancel-button">Cancel</button>
+                                        </span>
+                                    </span>
+                                    <div class="result" class="no-display"></div>
+                                </span>
                             </div>
                             <div class="font-load">&nbsp;</div>
-                            <canvas id="canvas" class="no-display">
-                            </canvas>
                         </div>
                     </div>
                     <div class="col-md-6 main">
@@ -69,31 +89,5 @@
             <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">AGPLv3</a>.
             <a href="http://iwillvote.com">Register to vote</a>.
         </footer>
-        <!-- Popup appears after photo is taken -->
-        <div class="overlay confirmation-container hidden" id="photo-success">
-            <div class="confirmation-overlay close-overlay"></div>
-            <div class="confirmation-body">
-                <div class="btn-close close-overlay">×</div>
-                <div class="output">
-                    <img id="photo" alt="The screen capture will appear in this box.">
-                </div>
-                <div class="input-wrapper">
-                    <input placeholder="#myvotematters because..." class="input-message" type="text" name="message">
-                </div>
-                <div class="text-button-wrapper">
-                    <button type="button" class="btn btn-primary text-button">Add Text</button>
-                </div>
-                <div class="share-button-wrapper no-display">
-                    <a class="twitter-share-button">
-                        <img src="img/twitter.png">
-                    </a>
-                    <a class="fb-share-button">
-                        <img src="img/facebook.png">
-                    </a>
-                </div>
-                <div class="result" class="no-display">
-                </div>
-            </div>
-        </div>
     </body>
 </html>
