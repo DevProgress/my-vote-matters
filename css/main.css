@@ -49,20 +49,18 @@ p {
 }
 
 #video-wrapper {
-    width: 80%;
     position: relative;
     margin: 0 auto;
 }
 
-#maincanvas {
+#canvas {
     position: relative;
     margin: 0 auto;
 }
 
 #startbutton {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    font-size: 20px;
+    margin: 1em auto;
+    font-size: 16pt;
 }
 
 .font-load {
@@ -163,19 +161,19 @@ footer a:hover {
     text-align: center;
 }
 
-.share-button-wrapper, .text-button-wrapper {
+.button-wrapper {
     text-align: center;
-    margin-top: 1em;
+    margin: 1em;
     cursor: pointer;
 }
 
-.share-button-wrapper img {
+.button-wrapper img {
     padding-left: 10px;
     padding-right: 10px;
     width: 200px;
 }
 
-.share-button-wrapper a:hover {
+.button-wrapper a:hover {
     text-decoration: none;
 }
 
@@ -185,8 +183,8 @@ footer a:hover {
 }
 
 .input-message {
-    margin-top: 1em;
-    width: 100%;
+    margin: 1em auto;
+    width: 80%;
     border: 1px solid #ccc;
     border-radius: 2px;
     height: 35px;
