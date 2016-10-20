@@ -6,22 +6,17 @@
   // calculated based on the aspect ratio of the input stream.
   
   const MIN_WIDTH = 300;
-  const MIN_WIDTH_RATIO = 0.6;
-  const MARGIN = 30;
+  const MIN_WIDTH_RATIO = 0.5;
+  var MARGIN = 30;
   const BORDER = 3;
-  const TEXT_HEIGHT = 40;
-  const HORIZ_INC = 2*MARGIN + BORDER;
-  const VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
+  var TEXT_HEIGHT = 40;
+  var HORIZ_INC = 2*MARGIN + BORDER;
+  var VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
   const RED = "#ff3333";
   const BLUE = "#0066cc";
 
   var width = 0;    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
-
-  // |streaming| indicates whether or not we're currently streaming
-  // video from the camera. Obviously, we start at false.
-
-  var streaming = false;
 
   // The various HTML elements we need to configure or control. These
   // will be set by the startup() function.
@@ -65,12 +60,9 @@
       }
     );
 
+    resizeCanvas();
     video.addEventListener('canplay', function(ev){
-      resizeCanvas();
       (function loop() {
-        if (streaming) {
-          context.drawImage(video, MARGIN - 1, MARGIN, width, height);
-        }
         addTextToImage();
         setTimeout(loop, 1000 / 60);
       })();
@@ -103,6 +95,10 @@
       setTimeout(resizeCanvas, 300); // FIXME can this be lower?
     });
 
+    $(window).on('resize', function(ev) {
+      resizeCanvas();
+    });
+
     // Initialize OAuth
     // http://blog.devteaminc.co/posting-a-canvas-image-to-twitter-using-oauth/
     var OAuthKey = "WDBN6HtSl2OSBHDCMdhaT_tMBRE";
@@ -110,9 +106,11 @@
   }
 
   function resizeCanvas() {
-    streaming = false;
-
     width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));
+    MARGIN = width / 10;
+    TEXT_HEIGHT = 4/3 * MARGIN;
+    HORIZ_INC = 2*MARGIN + BORDER;
+    VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
     height = video.videoHeight / (video.videoWidth/width);
 
     // Firefox currently has a bug where the height can't be read from
@@ -128,9 +126,18 @@
     wrapper.style.width = (width + 4*MARGIN) + "px";
     wrapper.style.height = (height + 5*MARGIN) + "px";
 
-    polaroid(canvas, context);
 
-    streaming = true;
+    // adjust carousel font size
+    $('#carousel').carousel(0);
+    var longest = document.getElementById('longest');
+    while (longest.scrollHeight <= longest.clientHeight) {
+      $('#carousel').css('font-size', (parseInt($('#carousel').css('font-size')) + 1) + "px");
+    }
+    while (longest.scrollHeight > longest.clientHeight) {
+      $('#carousel').css('font-size', (parseInt($('#carousel').css('font-size')) - 1) + "px");
+    }
+    $('.carousel-control').css('font-size', document.getElementById('carousel').clientHeight/1.5 + "px");
+    $('#header').css('font-size', document.getElementById('header').clientHeight/5 + "px");
   }
 
   // Capture a photo by fetching the current contents of the video
@@ -151,24 +158,24 @@
     context.beginPath();
     context.lineWidth = "" + BORDER;
     context.strokeStyle = "black";
-    context.rect(MARGIN - BORDER + 1, MARGIN - BORDER + 1, width + BORDER - 1, height + BORDER);
+    context.rect(MARGIN + 1, MARGIN + 1, width + BORDER - 1, height + BORDER);
     context.stroke();
     context.fillStyle = BLUE;
     context.textAlign = "center";
-    context.font = "bold 14pt Helvetica";
-    context.fillText("#MyVoteMatters because", canvas.width/2, canvas.height - 53);
+    context.font = (TEXT_HEIGHT/2) + "px Montserrat";
+    context.fillText("#MyVoteMatters because", canvas.width/2, canvas.height - MARGIN - TEXT_HEIGHT/2 + 1);
     context.fillStyle = "black";
   }
 
   function takepicture() {
-    streaming = false;
+    video.pause();
 
     $('#streaming').addClass('no-display');
     $('#share-photo').removeClass('no-display');
   }
 
   function untakepicture() {
-    streaming = true;
+    video.play();
 
     $('#streaming').removeClass('no-display');
     $('#share-photo').addClass('no-display');
@@ -263,13 +270,13 @@
   }
 
   function addTextToImage() {
+    polaroid(canvas, context);
+    context.drawImage(video, BORDER + MARGIN - 1, BORDER + MARGIN, width, height);
+
     var message = getMessage();
-    context.font = "20px Coming Soon";
+    context.font = (TEXT_HEIGHT/2) + "px Coming Soon";
     context.textAlign = "center";
-    context.fillStyle = "white";
-    context.fillRect(BORDER*2, MARGIN + BORDER + height + BORDER + TEXT_HEIGHT/2, width + TEXT_HEIGHT + BORDER*2, TEXT_HEIGHT/2 + BORDER*2);
-    context.fillStyle = "black";
-    context.fillText(message, canvas.width/2, canvas.height - 30);
+    context.fillText(message, canvas.width/2, canvas.height - MARGIN + BORDER/2);
   }
 
   // Set up our event listener to run the startup process

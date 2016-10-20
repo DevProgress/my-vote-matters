@@ -70,22 +70,34 @@ p {
 
 /* Header */
 
-.header {
-    position: fixed;
+#header {
+    position: absolute;
     width: 100%;
-    font-size: 30pt;
+    height: 15%;
+    line-height: 2em;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
-.header h1, h3, h4 {
+#header table {
+    height: 100%;
+}
+
+#header h1, h3, h4 {
     display: inline;
 }
 
-.header h1 {
-    font-weight: bold;
+#header h1 { font-size: 160%; }
+#header h3 { font-size: 120%; }
+#header h4 { font-size: 80%; }
+
+#header img {
+    height: 1em;
 }
 
-.header img {
-    height: 1.5em;
+#header #link {
+    float: right;
 }
 
 .align-left {
@@ -102,15 +114,13 @@ p {
 
 /* Main */
 
-.main {
-    padding-top: 4em;
-}
-
-.example-wrapper {
-    text-align: center;
-    margin-top: 2em;
-    margin-bottom: 2em;
+#main {
+    position: absolute;
+    top: 15%;
     width: 100%;
+    height: 70%;
+    margin: 0.5em auto 0 auto;
+    overflow: scroll;
 }
 
 /* Footer */
@@ -118,21 +128,44 @@ p {
 .footer {
     position: fixed;
     bottom: 0;
+    height: 15%;
     width: 100%;
     text-align: center;
-    font-size: 12pt;
-    padding-top: 1em;
+    font-size: 20px;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
-#carousel .item {
-    height: 6em;
-    width: 75%;
+#carousel {
+    height: 100%;
+}
+
+.carousel-inner {
+    height: 100%;
+    width: 80%;
     margin: 0 auto;
 }
 
+#carousel .item {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding-left: 2em;
+    padding-right: 2em;
+    text-align: center;
+}
+
+#carousel .item table {
+    height: 100%;
+}
+
 .carousel-control {
-    height: 50%;
-    margin: auto 0;
+    font-size: 30pt;
+}
+
+.carousel-control table {
+    height: 100%;
+    width: 100%;
 }
 
 .output {
@@ -158,7 +191,6 @@ p {
 
 .input-wrapper {
     text-align: center;
-    width: 50%;
     margin: 0 auto;
     font-size: 14pt;
 }

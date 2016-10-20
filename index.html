@@ -16,81 +16,82 @@
     </head>
 
     <body>
-        <!-- Template adapted from https://github.com/DevProgress/swear-jar,
-             ifihadaquarter.com
-           -->
-        <div class="container-fluid">
-            <div class="row header bgblue fgwhite">
-                <div class="col-md-4 align-left">
-                    <h1>My Vote Matters.</h1>
-                </div>
-                <div class="col-md-6 align-left">
-                    <h3>Help Make History.</h3>
-                </div>
-                <div class="col-md-2 align-right">
-                    <h4>Learn More</h4>
-                    <img src="img/h.png"/>
-                </div>
-            </div>
-            <div class="row main">
-                <div class="col-md-12 align-center">
-                    <div id="camera">
-                        <div id="video-wrapper" class="bgblue">
-                            <video id="video" class="no-display">Video stream not available.</video>
-                            <canvas id="canvas"/>
-                        </div>
+        <div class="bgblue fgwhite" id="header">
+            <h1>My Vote Matters.</h1>
+            <br/>
+            <h3>Help Make History.</h3>
+            <span id="link">
+                <h4>Learn More</h4>
+                <a href="https://hillaryclinton.com"><img src="img/h.png"/></a>
+            </span>
+        </div>
+        <div id="main">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 align-center">
+                <div id="camera">
+                    <div id="video-wrapper" class="bgblue">
+                        <video id="video" class="no-display">Video stream not available.</video>
+                        <canvas id="canvas"/>
+                    </div>
 
-                        <span id="controls">
-                            <div class="input-wrapper">
-                                <input placeholder="#myvotematters because..." class="input-message" type="text" name="message">
-                            </div>
-                            <span id="streaming">
-                                <button type="button" class="btn bgred fgwhite" id="startbutton"><span class="emoji">📷</span><span class="text">Take photo</span></button>
-                            </span>
-                            <span class="no-display" id="share-photo">
-                                <div class="button-wrapper">
-                                    <a class="twitter-share-button">
-                                        <img src="/img/twitter.png">
-                                    </a>
-                                    <button type="button" class="btn btn-warning cancel-button">Cancel</button>
-                                    <a class="fb-share-button">
-                                        <img src="/img/facebook.png">
-                                    </a>
-                                </div>
-                            </span>
-                            <div class="result" class="no-display"></div>
+                    <span id="controls">
+                        <div class="input-wrapper">
+                            <input placeholder="#myvotematters because..." class="input-message" type="text" name="message">
+                        </div>
+                        <span id="streaming">
+                            <button type="button" class="btn bgred fgwhite" id="startbutton"><span class="emoji">📷</span><span class="text">Take photo</span></button>
                         </span>
+                        <span class="no-display" id="share-photo">
+                            <div class="button-wrapper">
+                                <a class="twitter-share-button">
+                                    <img src="/img/twitter.png">
+                                </a>
+                            </div>
+                            <div class="button-wrapper">
+                                <a class="fb-share-button">
+                                    <img src="/img/facebook.png">
+                                </a>
+                            </div>
+                            <div class="button-wrapper">
+                                <button type="button" class="btn btn-warning cancel-button">Cancel</button>
+                            </div>
+                        </span>
+                        <div class="result" class="no-display"></div>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="footer bgblue fgwhite">
+            <div class="carousel slide" data-ride="carousel" data-interval="5000" id="carousel">
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active" id="longest">
+                        <table><tr valign="middle"><td>
+                        Nearly 100 years after women gained the right to vote, we have the ability to elect the first female to the White House.
+                        </td></tr></table>
+                    </div>
+                    <div class="item">
+                        <table><tr valign="middle"><td>
+                        This comes with enormous gains for women and society as a whole.
+                        </td></tr></table>
+                    </div>
+                    <div class="item">
+                        <table><tr valign="middle"><td>
+                        Frame this moment in history and share why <b>#myvotematters</b> with your friends &amp; family.
+                        </td></tr></table>
                     </div>
                 </div>
             </div>
-            <div class="row footer bgblue fgwhite">
-                <div class="carousel slide" data-ride="carousel" data-interval="3000" id="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel" data-slide-to="1"></li>
-                        <li data-target="#carousel" data-slide-to="2"></li>
-                    </ol>
-
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            Nearly 100 years after women gained the right to vote, we have the ability to elect the first female to the White House.
-                        </div>
-                        <div class="item">
-                            This comes with enormous gains for women and society as a whole.
-                        </div>
-                        <div class="item">
-                            Frame this moment in history and share why <b>#myvotematters</b> with your friends &amp; family.
-                        </div>
-
-                        <a class="carousel-control left" href="#carousel" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                        </a>
-                        <a class="carousel-control right" href="#carousel" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <a class="carousel-control left" href="#carousel" data-slide="prev">
+                <table><tr valign="middle"><td>
+                <span>&lsaquo;</span>
+                </td></tr></table>
+            </a>
+            <a class="carousel-control right" href="#carousel" data-slide="next">
+                <table><tr valign="middle"><td>
+                <span>&rsaquo;</span>
+                </td></tr></table>
+            </a>
         </div>
         <!--
         <footer class="footer">
