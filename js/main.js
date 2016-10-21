@@ -8,10 +8,10 @@
   const MIN_WIDTH = 300;
   const MIN_WIDTH_RATIO = 0.5;
   var MARGIN = 30;
-  const BORDER = 3;
   var TEXT_HEIGHT = 40;
-  var HORIZ_INC = 2*MARGIN + BORDER;
-  var VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
+  var TEXT_PADDING = 10;
+  var HORIZ_INC = 2*MARGIN;
+  var VERT_INC = 2*MARGIN + TEXT_HEIGHT;
   const RED = "#ff3333";
   const BLUE = "#0066cc";
 
@@ -109,10 +109,11 @@
 
   function resizeCanvas() {
     width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));
-    MARGIN = width / 10;
-    TEXT_HEIGHT = 4/3 * MARGIN;
-    HORIZ_INC = 2*MARGIN + BORDER;
-    VERT_INC = 2*MARGIN + TEXT_HEIGHT + BORDER;
+    MARGIN = width / 15;
+    INSIDE_MARGIN = width / 20;
+    TEXT_HEIGHT = 2 * MARGIN;
+    HORIZ_INC = 1.5*MARGIN;
+    VERT_INC = 1.5*MARGIN + TEXT_HEIGHT + 2*TEXT_PADDING;
     height = video.videoHeight / (video.videoWidth/width);
 
     // Firefox currently has a bug where the height can't be read from
@@ -126,7 +127,8 @@
     canvas.setAttribute('height', height + VERT_INC);
     canvas.style.top = MARGIN + "px";
     wrapper.style.width = (width + 4*MARGIN) + "px";
-    wrapper.style.height = (height + 5*MARGIN) + "px";
+    wrapper.style.height = (height + 4*MARGIN + TEXT_HEIGHT + 2*TEXT_PADDING) + "px";
+    $("input").css("width", width + 4*MARGIN);
 
     // adjust carousel font size
     $('#carousel').carousel(0);
@@ -149,22 +151,14 @@
   
   function polaroid(canvas, context) {
     context.beginPath();
-    context.lineWidth = "" + BORDER;
-    context.strokeStyle = "black";
     context.fillStyle = "white";
-    context.rect(BORDER, BORDER, width + TEXT_HEIGHT + BORDER*4, height + TEXT_HEIGHT*2 + BORDER - 1);
+    context.rect(0, 0, width + 2*INSIDE_MARGIN, height + 2*INSIDE_MARGIN + 20*TEXT_HEIGHT + 2*TEXT_PADDING);
     context.fill();
-    context.stroke();
-    context.fillStyle = "black";
-    context.beginPath();
-    context.lineWidth = "" + BORDER;
-    context.strokeStyle = "black";
-    context.rect(MARGIN + 1, MARGIN + 1, width + BORDER - 1, height + BORDER);
-    context.stroke();
+
     context.fillStyle = BLUE;
     context.textAlign = "center";
     context.font = (TEXT_HEIGHT/2) + "px Montserrat";
-    context.fillText("#MyVoteMatters because", canvas.width/2, canvas.height - MARGIN - TEXT_HEIGHT/2 + 1);
+    context.fillText("#MyVoteMatters because", canvas.width/2, canvas.height - INSIDE_MARGIN - TEXT_HEIGHT + TEXT_PADDING);
     context.fillStyle = "black";
   }
 
@@ -272,12 +266,12 @@
 
   function addTextToImage() {
     polaroid(canvas, context);
-    context.drawImage(video, BORDER + MARGIN - 1, BORDER + MARGIN, width, height);
+    context.drawImage(video, INSIDE_MARGIN, INSIDE_MARGIN, width, height);
 
     var message = getMessage();
-    context.font = (TEXT_HEIGHT/2) + "px Coming Soon";
+    context.font = (TEXT_HEIGHT/2) + "px Montserrat";
     context.textAlign = "center";
-    context.fillText(message, canvas.width/2, canvas.height - MARGIN + BORDER/2);
+    context.fillText(message, canvas.width/2, canvas.height - TEXT_PADDING*1.5);
   }
 
   // Set up our event listener to run the startup process
