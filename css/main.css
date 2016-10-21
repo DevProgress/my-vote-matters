@@ -116,7 +116,7 @@ p {
     position: absolute;
     width: 100%;
     height: 15%;
-    padding: 0.7em;
+    padding: 0.4em;
 }
 
 #header table {
@@ -136,7 +136,9 @@ p {
 }
 
 #header #link {
-    float: right;
+    position: absolute;
+    bottom: 0.4em;
+    right: 0.4em;
 }
 
 /* Carousel  */
