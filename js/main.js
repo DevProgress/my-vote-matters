@@ -128,20 +128,6 @@
     wrapper.style.width = (width + 4*MARGIN) + "px";
     wrapper.style.height = (height + 5*MARGIN) + "px";
 
-    // tile background
-    var background = document.getElementById('background');
-    if (screen.width > screen.height) {
-      $('#background img').css('width', '23%');
-      $('#background img').css('height', '');
-    } else {
-      $('#background img').css('width', '');
-      $('#background img').css('height', '23%');
-    }
-    var img = background.getElementsByTagName("img")[0];
-    for (var i = 1; i < Math.ceil(background.clientWidth/img.clientWidth) * Math.ceil(background.clientHeight/img.clientHeight); i++) {
-      background.appendChild(img.cloneNode(true));
-    }
-
     // adjust carousel font size
     $('#carousel').carousel(0);
     var longest = document.getElementById('longest');
