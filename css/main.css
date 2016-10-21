@@ -194,8 +194,8 @@ p {
     height: 5%;
     width: 100%;
     font-size: 20px;
-    padding-left: 0.3em;
-    padding-right: 0.3em;
+    padding: 0.3em;
+    overflow: scroll;
 }
 
 #devprogress-footer table {
