@@ -129,16 +129,18 @@ p {
 
 #header h1 { font-size: 160%; }
 #header h3 { font-size: 120%; }
-#header h4 { font-size: 80%; }
+#header h4 { font-size: 75%; }
 
 #header img {
-    height: 1em;
+    height: 2em;
+    border-radius: 20%;
 }
 
 #header #link {
     position: absolute;
     bottom: 0.4em;
     right: 0.4em;
+    text-align: right;
 }
 
 /* Carousel  */
