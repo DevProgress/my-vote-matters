@@ -133,15 +133,25 @@
 
     // adjust carousel font size
     $('#carousel').carousel(0);
-    var longest = document.getElementById('longest');
-    while (longest.scrollHeight <= longest.clientHeight) {
-      $('#carousel').css('font-size', (parseInt($('#carousel').css('font-size')) + 1) + "px");
-    }
-    while (longest.scrollHeight > longest.clientHeight) {
-      $('#carousel').css('font-size', (parseInt($('#carousel').css('font-size')) - 1) + "px");
-    }
+    font_size('longest', '#carousel');
     $('.carousel-control').css('font-size', document.getElementById('carousel').clientHeight/1.5 + "px");
     $('#header').css('font-size', document.getElementById('header').clientHeight/5 + "px");
+    font_size('devprogress-footer', '#devprogress-footer');
+  }
+
+  function font_size(id, sel) {
+    var elem = document.getElementById(id);
+    sel = $(sel);
+    var size = sel.css('font-size');
+    while (elem.scrollHeight <= elem.clientHeight) {
+      size = parseInt(sel.css('font-size')) + 1;
+      sel.css('font-size', size + "px");
+    }
+    while (elem.scrollHeight > elem.clientHeight) {
+      size = parseInt(sel.css('font-size')) - 1;
+      sel.css('font-size', size + "px");
+    }
+    return size;
   }
 
   // Capture a photo by fetching the current contents of the video
