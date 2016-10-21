@@ -172,15 +172,15 @@
   function takepicture() {
     video.pause();
 
-    $('#streaming').addClass('no-display');
-    $('#share-photo').removeClass('no-display');
+    el('#streaming').classList.add('no-display');
+    el('#share-photo').classList.remove('no-display');
   }
 
   function untakepicture() {
     video.play();
 
-    $('#streaming').removeClass('no-display');
-    $('#share-photo').addClass('no-display');
+    el('#streaming').classList.remove('no-display');
+    el('#share-photo').classList.add('no-display');
   }
 
   function getImageData() {
@@ -191,7 +191,7 @@
   }
 
   function getMessage() {
-    var message = $(".input-message").val();
+    var message = el(".input-message").value;
     return message;
   }
 
@@ -257,18 +257,18 @@
   function onShareSuccess(url) {
     // Hide the share buttons,
     // show the result field
-    $("#share-photo").classList.add("no-display");
-    $(".result").classList.remove("no-display");
-    $(".result").innerHTML = "Success! View your post here: <a target=\"_blank\" href=\"" + url + "\">" + url +"</a>";
+    el("#share-photo").classList.add("no-display");
+    el(".result").classList.remove("no-display");
+    el(".result").innerHTML = "Success! View your post here: <a target=\"_blank\" href=\"" + url + "\">" + url +"</a>";
   }
 
   function onShareError(err) {
     console.log(err);
     // Hide the share buttons,
     // show the result field
-    $("#share-photo").classList.add("no-display");
-    $(".result").classList.remove("no-display");
-    $(".result").innerHTML = "Sorry, something went wrong.";
+    el("#share-photo").classList.add("no-display");
+    el(".result").classList.remove("no-display");
+    el(".result").innerHTML = "Sorry, something went wrong.";
   }
 
   function addTextToImage() {
