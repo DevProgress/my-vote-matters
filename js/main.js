@@ -112,6 +112,7 @@
     MARGIN = width / 15;
     INSIDE_MARGIN = width / 20;
     TEXT_HEIGHT = 2 * MARGIN;
+    TEXT_PADDING = TEXT_HEIGHT / 4;
     HORIZ_INC = 1.5*MARGIN;
     VERT_INC = 1.5*MARGIN + TEXT_HEIGHT + 2*TEXT_PADDING;
     height = video.videoHeight / (video.videoWidth/width);
