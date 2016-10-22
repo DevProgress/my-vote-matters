@@ -109,12 +109,12 @@
 
   function resizeCanvas() {
     width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));
-    MARGIN = width / 15;
-    INSIDE_MARGIN = width / 20;
+    MARGIN = width / 15; // of blue wraper
+    INSIDE_MARGIN = width / 20; // of white polaroid
     TEXT_HEIGHT = 2 * MARGIN;
     TEXT_PADDING = TEXT_HEIGHT / 4;
-    HORIZ_INC = 1.5*MARGIN;
-    VERT_INC = 1.5*MARGIN + TEXT_HEIGHT + 2*TEXT_PADDING;
+    HORIZ_INC = 2*INSIDE_MARGIN;
+    VERT_INC = 2*INSIDE_MARGIN + TEXT_HEIGHT + 2*TEXT_PADDING;
     height = video.videoHeight / (video.videoWidth/width);
 
     // Firefox currently has a bug where the height can't be read from
@@ -127,9 +127,9 @@
     canvas.setAttribute('width', width + HORIZ_INC);
     canvas.setAttribute('height', height + VERT_INC);
     canvas.style.top = MARGIN + "px";
-    wrapper.style.width = (width + 4*MARGIN) + "px";
-    wrapper.style.height = (height + 4*MARGIN + TEXT_HEIGHT + 2*TEXT_PADDING) + "px";
-    $("input").css("width", width + 4*MARGIN);
+    wrapper.style.width = (width + HORIZ_INC + 2*MARGIN) + "px";
+    wrapper.style.height = (height + VERT_INC + 2*MARGIN) + "px";
+    $("input").css("width", width + HORIZ_INC + 2*MARGIN);
 
     // adjust carousel font size
     $('#carousel').carousel(0);

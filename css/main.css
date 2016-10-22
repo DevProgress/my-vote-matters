@@ -107,7 +107,6 @@ p {
 
 .result {
     text-align: center;
-    margin-top: 1em;
 }
 
 /* Header */
@@ -214,7 +213,7 @@ p {
 .button-wrapper img {
     padding-left: 10px;
     padding-right: 10px;
-    width: 200px;
+    width: 65px;
 }
 
 .button-wrapper a:hover {
