@@ -4,7 +4,7 @@
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
-  
+
   const MIN_WIDTH = 300;
   const MIN_WIDTH_RATIO = 0.5;
   var MARGIN = 30;
@@ -78,28 +78,24 @@
     canvas.addEventListener('click', function(ev){
       takepicture();
     }, false);
-    
+
     // Event listeners
 
-    $('#controls').on('click', '.cancel-button', function(ev) {
-      untakepicture();
-    });
+    function addClickEventListener(selector, callback) {
+      document.querySelector(selector).addEventListener('click', callback);
+    }
 
-    $('#controls').on('click', '.twitter-share-button', function(ev) {
-      postToTwitter();
-    });
+    addClickEventListener('.cancel-button', untakepicture);
 
-    $('#controls').on('click', '.fb-share-button', function(ev) {
-      postToFacebook();
-    });
+    addClickEventListener('.twitter-share-button', postToTwitter);
 
-    $(window).on('orientationchange', function(ev) {
+    addClickEventListener('.fb-share-button', postToFacebook);
+
+    window.addEventListener('orientationchange', function(ev) {
       setTimeout(resizeCanvas, 300); // FIXME can this be lower?
     });
 
-    $(window).on('resize', function(ev) {
-      resizeCanvas();
-    });
+    window.addEventListener('resize', resizeCanvas);
 
     // Initialize OAuth
     // http://blog.devteaminc.co/posting-a-canvas-image-to-twitter-using-oauth/
@@ -159,7 +155,7 @@
   // format data URL. By drawing it on an offscreen canvas and then
   // drawing that to the screen, we can change its size and/or apply
   // other changes before drawing it.
-  
+
   function polaroid(canvas, context) {
     context.beginPath();
     context.fillStyle = "white";
@@ -176,15 +172,15 @@
   function takepicture() {
     video.pause();
 
-    $('#streaming').addClass('no-display');
-    $('#share-photo').removeClass('no-display');
+    el('#streaming').classList.add('no-display');
+    el('#share-photo').classList.remove('no-display');
   }
 
   function untakepicture() {
     video.play();
 
-    $('#streaming').removeClass('no-display');
-    $('#share-photo').addClass('no-display');
+    el('#streaming').classList.remove('no-display');
+    el('#share-photo').classList.add('no-display');
   }
 
   function getImageData() {
@@ -195,7 +191,7 @@
   }
 
   function getMessage() {
-    var message = $(".input-message").val();
+    var message = el(".input-message").value;
     return message;
   }
 
@@ -261,18 +257,18 @@
   function onShareSuccess(url) {
     // Hide the share buttons,
     // show the result field
-    $("#share-photo").addClass("no-display");
-    $(".result").removeClass("no-display");
-    $(".result").html("Success! View your post here: <a target=\"_blank\" href=\"" + url + "\">" + url +"</a>");
+    el("#share-photo").classList.add("no-display");
+    el(".result").classList.remove("no-display");
+    el(".result").innerHTML = "Success! View your post here: <a target=\"_blank\" href=\"" + url + "\">" + url +"</a>";
   }
 
   function onShareError(err) {
     console.log(err);
     // Hide the share buttons,
     // show the result field
-    $("#share-photo").addClass("no-display");
-    $(".result").removeClass("no-display");
-    $(".result").html("Sorry, something went wrong.");
+    el("#share-photo").classList.add("no-display");
+    el(".result").classList.remove("no-display");
+    el(".result").innerHTML = "Sorry, something went wrong.";
   }
 
   function addTextToImage() {
@@ -283,6 +279,10 @@
     context.font = (TEXT_HEIGHT/2) + "px Montserrat";
     context.textAlign = "center";
     context.fillText(message, canvas.width/2, canvas.height - TEXT_PADDING*1.5);
+  }
+
+  function el(selector) {
+    return document.querySelector(selector);
   }
 
   // Set up our event listener to run the startup process
