@@ -191,10 +191,12 @@
   }
 
   function untakepicture() {
+    clearMessage();
     video.play();
 
     $('#streaming').removeClass('no-display');
     $('#share-photo').addClass('no-display');
+    $('.result').addClass('no-display');
   }
 
   function getImageData() {
@@ -207,6 +209,10 @@
   function getMessage() {
     var message = $(".input-message").val();
     return message;
+  }
+
+  function clearMessage() {
+    $(".input-message").val("");
   }
 
   function postToTwitter() {
@@ -273,7 +279,7 @@
     // show the result field
     $("#share-photo").addClass("no-display");
     $(".result").removeClass("no-display");
-    $(".result").html("Success! View your post here: <a target=\"_blank\" href=\"" + url + "\">" + url +"</a>");
+    $(".result-text").html("Success! View your post <a target=\"_blank\" href=\"" + url + "\">here.</a>");
   }
 
   function onShareError(err) {
@@ -282,7 +288,7 @@
     // show the result field
     $("#share-photo").addClass("no-display");
     $(".result").removeClass("no-display");
-    $(".result").html("Sorry, something went wrong.");
+    $(".result-text").html("Sorry, something went wrong.");
   }
 
   function addTextToImage() {

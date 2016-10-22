@@ -109,6 +109,10 @@ p {
     text-align: center;
 }
 
+.result .cancel-button {
+    color: #c9302c;
+}
+
 /* Header */
 
 #header {
