@@ -137,10 +137,7 @@ p {
 }
 
 #header #link {
-    position: absolute;
-    bottom: 0.4em;
-    right: 0.4em;
-    text-align: right;
+    float: right;
 }
 
 /* Carousel  */
