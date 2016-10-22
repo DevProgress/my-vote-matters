@@ -41,6 +41,12 @@
                            navigator.mozGetUserMedia ||
                            navigator.msGetUserMedia);
 
+    if (navigator.getMedia === undefined) {
+      $("#camera").css("display", "none");
+      $('#modal').modal();
+      return;
+    }
+
     navigator.getMedia(
       {
         video: true,
