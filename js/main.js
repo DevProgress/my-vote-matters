@@ -82,20 +82,24 @@
     }, false);
 
     canvas.addEventListener('click', function(ev){
+      // ga('send', 'event', 'camera', 'click');
       takepicture();
     }, false);
     
     // Event listeners
 
     $('#controls').on('click', '.cancel-button', function(ev) {
+      // ga('send', 'event', 'cancel', 'click');
       untakepicture();
     });
 
     $('#controls').on('click', '.twitter-share-button', function(ev) {
+      // ga('send', 'event', 'share', 'click', 'twitter');
       postToTwitter();
     });
 
     $('#controls').on('click', '.fb-share-button', function(ev) {
+      // ga('send', 'event', 'share', 'click', 'facebook');
       postToFacebook();
     });
 
