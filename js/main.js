@@ -5,6 +5,7 @@
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
   
+  const MESSAGE_PREFIX = "#MyVoteMatters because";
   const MIN_WIDTH = 300;
   const MIN_WIDTH_RATIO = 0.5;
   var MARGIN = 30;
@@ -179,7 +180,7 @@
     context.fillStyle = BLUE;
     context.textAlign = "center";
     context.font = (TEXT_HEIGHT/2) + "px Montserrat";
-    context.fillText("#MyVoteMatters because", canvas.width/2, canvas.height - INSIDE_MARGIN - TEXT_HEIGHT + TEXT_PADDING);
+    context.fillText(MESSAGE_PREFIX, canvas.width/2, canvas.height - INSIDE_MARGIN - TEXT_HEIGHT + TEXT_PADDING);
     context.fillStyle = "black";
   }
 
@@ -217,7 +218,7 @@
 
   function postToTwitter() {
     var file = getImageData();
-    var message = getMessage();
+    var message = MESSAGE_PREFIX + " " + getMessage();
     OAuth.popup("twitter").then(function(result) {
       var data = new FormData();
       data.append('status', message);
@@ -238,7 +239,7 @@
 
   function postToFacebook() {
     var file = getImageData();
-    var message = getMessage();
+    var message = MESSAGE_PREFIX + " " + getMessage();
     OAuth.popup("facebook").then(function(result) {
       var data = new FormData();
       data.append('caption', message);
