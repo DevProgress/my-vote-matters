@@ -79,6 +79,95 @@ p {
     overflow: scroll;
 }
 
+.timeline-block {
+    padding: 2em 0;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.timeline-block p {
+    line-height: 1.45em;
+}
+.timeline-block h2, 
+.timeline-block h3 {
+    font-weight: 700;
+}
+.timeline-block h2 {
+    display: inline-block;
+    padding: 0.5em;
+    margin-top: -1em;
+    color: #ffffff;
+    background-color: #ff3333;
+}
+.timeline-block h3 {
+    color: #ff3333;
+    font-size: 20px;
+}
+
+ul.timeline {
+    /*display: flex;*/
+    white-space: nowrap;
+    overflow-x: auto;
+    position: relative;
+    padding: 10px 0 80px 0;
+    margin: 0;
+    font-size: 14px;
+}
+ul.timeline li {
+    display: inline-block;
+    position: relative;
+    width: 120px;
+    padding: 80px 0 16px 0;
+    white-space: normal;
+    vertical-align: bottom;
+}
+ul.timeline li:after {
+    content:'';
+    display:block;
+    background: #ffffff;
+    width: 1em;
+    height: 1em;
+    border-radius: 2em;
+    position:absolute;
+    left:50%;
+    bottom: 0;
+    margin-left: -0.5em;
+}
+ul.timeline li strong {
+    display: block;
+    position: absolute;
+    text-align: center;
+    left: 0; right: 0;
+    bottom: -20px;
+}
+ul.timeline li .headline {
+    display: block;
+    transform: rotate(-25deg);
+    transform-origin: top left;
+    position: relative;
+    left: 50%;
+    font-size: 0.75em;
+    width: 220px;
+}
+ul.timeline li .details {
+    display: block;
+    position: absolute;
+    padding:12px;
+    background-color: #444444;
+    color: #ffffff;
+    border-radius: 8px;
+    transition: opacity .5s ease-in-out;
+    -webkit-transition: opacity .5s ease-in-out;
+    opacity: 0;
+    left: -25px;
+    right: -25px;
+    bottom: 8px;
+}
+ul.timeline li:hover .details,
+ul.timeline li:active .details {
+    opacity: 1;
+}
+
 /* Camera */
 
 #camera {
