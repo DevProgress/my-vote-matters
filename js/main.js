@@ -4,7 +4,6 @@
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
-  
   const MESSAGE_PREFIX = "#MyVoteMatters because";
   const MIN_WIDTH = 300;
   const MIN_WIDTH_RATIO = 0.5;
@@ -30,6 +29,7 @@
   var startbutton = null;
 
   function startup() {
+    var hasCamera = false;
     video = document.getElementById('video');
     wrapper = document.getElementById('video-wrapper');
     canvas = document.getElementById('canvas');
@@ -60,12 +60,19 @@
           var vendorURL = window.URL || window.webkitURL;
           video.src = vendorURL.createObjectURL(stream);
         }
+        hasCamera = true;
         video.play();
       },
       function(err) {
+        hasCamera = false;
         console.log("An error occured! " + err);
       }
     );
+
+    if (!hasCamera) {
+      createNoCameraUI();
+      return;
+    }
 
     resizeCanvas();
     video.addEventListener('canplay', function(ev){
@@ -86,7 +93,7 @@
       ga('send', 'event', 'camera', 'click');
       takepicture();
     }, false);
-    
+
     // Event listeners
 
     $('#controls').on('click', '.cancel-button', function(ev) {
@@ -165,12 +172,20 @@
     return size;
   }
 
+  function createNoCameraUI() {
+    document.querySelector('#controls').textContent = '';
+    wrapper.textContent = '';
+    wrapper.classList.add('camera-failure')
+    wrapper.classList.add('fgwhite');
+    wrapper.appendChild(document.createTextNode('Your computer either does not have a camera or does not support using that camera by this site.'));
+  }
+
   // Capture a photo by fetching the current contents of the video
   // and drawing it into a canvas, then converting that to a PNG
   // format data URL. By drawing it on an offscreen canvas and then
   // drawing that to the screen, we can change its size and/or apply
   // other changes before drawing it.
-  
+
   function polaroid(canvas, context) {
     context.beginPath();
     context.fillStyle = "white";
