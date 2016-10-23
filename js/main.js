@@ -15,6 +15,8 @@
   const RED = "#ff3333";
   const BLUE = "#0066cc";
 
+  var CAMERA_STARTED = false;
+
   var width = 0;    // We will scale the photo width to this
   var height = 0;     // This will be computed based on the input stream
 
@@ -27,6 +29,24 @@
   var context = null;
   var photo = null;
   var startbutton = null;
+  var camerabutton = null;
+
+  function startCamera() {
+    $("#controls").removeClass("no-display");
+    $("#camerabutton").addClass("no-display");
+
+    connectCamera().then(function() {
+      video.addEventListener('canplay', function(ev){
+        (function loop() {
+          addTextToImage();
+          setTimeout(loop, 1000 / 60);
+        })();
+        resizeCanvas();
+        video.play();
+      }, false);
+      video.play();
+    }, createNoCameraUI);
+  }
 
   function connectCamera() {
     // FIXME: Replace with MediaDevices.getUserMedia.
@@ -41,6 +61,7 @@
         return;
       }
 
+      CAMERA_STARTED = true;
       getUserMedia = getUserMedia.bind(navigator);
 
       getUserMedia({ video: true, audio: false },
@@ -64,32 +85,33 @@
     context = canvas.getContext('2d');
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
+    camerabutton = document.getElementById('camerabutton');
 
-    connectCamera().then(function() {
-      video.addEventListener('canplay', function(ev){
-        (function loop() {
-          addTextToImage();
-          setTimeout(loop, 1000 / 60);
-        })();
-        resizeCanvas();
-        video.play();
-      }, false);
-      video.play();
-    }, createNoCameraUI);
+    // wait for Montserrat to be loaded
+    document.fonts.ready.then(function () {
+      // hide video wrapper at first to prevent weird flashing on page load
+      $("#video-wrapper").removeClass("no-display");
+      resizeCanvas();
+    });
 
-    resizeCanvas();
+    // Event listeners
+
+    camerabutton.addEventListener('click', function(ev){
+      ga('send', 'event', 'camera', 'click');
+      startCamera();
+      ev.preventDefault();
+    }, false);
 
     startbutton.addEventListener('click', function(ev){
+      ga('send', 'event', 'start', 'click');
       takepicture();
       ev.preventDefault();
     }, false);
 
     canvas.addEventListener('click', function(ev){
-      ga('send', 'event', 'camera', 'click');
+      ga('send', 'event', 'start', 'click');
       takepicture();
     }, false);
-
-    // Event listeners
 
     $('#controls').on('click', '.cancel-button', function(ev) {
       ga('send', 'event', 'cancel', 'click');
@@ -120,9 +142,27 @@
     OAuth.initialize(OAuthKey);
   }
 
+  function drawPlaceholder() {
+    context.beginPath();
+    context.fillStyle = "white";
+    context.rect(0, 0, width + 2*INSIDE_MARGIN, height + 2*INSIDE_MARGIN + 20*TEXT_HEIGHT + 2*TEXT_PADDING);
+    context.fill();
+
+    context.fillStyle = BLUE;
+    context.textAlign = "center";
+    context.font = (TEXT_HEIGHT/2) + "px Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif";
+    context.fillText("Share why YOUR vote matters", canvas.width/2, canvas.height - INSIDE_MARGIN - TEXT_HEIGHT + TEXT_PADDING*2);
+    context.fillStyle = "black";
+
+    context.beginPath();
+    context.fillStyle = RED;
+    context.rect(INSIDE_MARGIN, INSIDE_MARGIN, width, height);
+    context.fill();
+  }
+
   function resizeCanvas() {
     width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));
-    MARGIN = width / 15; // of blue wraper
+    MARGIN = width / 15; // of blue wrapper
     INSIDE_MARGIN = width / 20; // of white polaroid
     TEXT_HEIGHT = 2 * MARGIN;
     TEXT_PADDING = TEXT_HEIGHT / 4;
@@ -143,6 +183,10 @@
     wrapper.style.width = (width + HORIZ_INC + 2*MARGIN) + "px";
     wrapper.style.height = (height + VERT_INC + 2*MARGIN) + "px";
     $("input").css("width", width + HORIZ_INC + 2*MARGIN);
+
+    if (!CAMERA_STARTED) {
+      drawPlaceholder();
+    }
   }
 
   function createNoCameraUI() {
