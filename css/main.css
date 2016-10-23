@@ -183,6 +183,17 @@ ul.timeline li:active .details {
     border-radius: 10px;
 }
 
+#video-wrapper.camera-failure {
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    padding: 20px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
 #canvas {
     position: relative;
     margin: 0 auto;
