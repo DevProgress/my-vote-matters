@@ -88,11 +88,19 @@
     camerabutton = document.getElementById('camerabutton');
 
     // wait for Montserrat to be loaded
-    document.fonts.ready.then(function () {
-      // hide video wrapper at first to prevent weird flashing on page load
-      $("#video-wrapper").removeClass("no-display");
-      resizeCanvas();
-    });
+    // only works on Firefox and Chrome
+    if (document.fonts) {
+      document.fonts.ready.then(function () {
+        // hide video wrapper at first to prevent weird flashing on page load
+        $("#video-wrapper").removeClass("no-display");
+        resizeCanvas();
+      });
+    } else {
+      setTimeout(function() {
+        $("#video-wrapper").removeClass("no-display");
+        resizeCanvas();
+      }, 100);
+    }
 
     // Event listeners
 
