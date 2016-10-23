@@ -55,7 +55,6 @@
                         navigator.mozGetUserMedia ||
                         navigator.msGetUserMedia);
 
-    console.log(navigator.getUserMedia);
     return new Promise(function(resolve, reject) {
       if (!getUserMedia) {
         reject();
