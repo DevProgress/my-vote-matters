@@ -190,6 +190,7 @@
   }
 
   function createNoCameraUI() {
+    ga('send', 'event', 'no-camera', 'error');
     document.querySelector('#controls').textContent = '';
     wrapper.textContent = '';
     wrapper.classList.add('camera-failure');
@@ -264,8 +265,10 @@
       });
     }).done(function(data){
       var url = data.entities.media[0].display_url;
+      ga('send', 'event', 'share', 'success', 'twitter');
       onShareSuccess("http://" + url);
     }).fail(function(e){
+      ga('send', 'event', 'share', 'error', 'twitter');
       onShareError(e);
     });
   }
@@ -285,8 +288,10 @@
       });
     }).done(function(data){
       var url = "https://www.facebook.com/photo.php?fbid=" + data.id;
+      ga('send', 'event', 'share', 'success', 'facebook');
       onShareSuccess(url);
     }).fail(function(e){
+      ga('send', 'event', 'share', 'error', 'facebook');
       onShareError(e);
     });
   }
