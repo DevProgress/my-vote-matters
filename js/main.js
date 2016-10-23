@@ -146,8 +146,11 @@
     $('#carousel').carousel(0);
     font_size('longest', '#carousel');
     $('.carousel-control').css('font-size', document.getElementById('carousel').clientHeight/1.5 + "px");
+<<<<<<< HEAD
     $('#header').css('font-size', document.getElementById('header').clientHeight/5 + "px");
     font_size('devprogress-footer', '#devprogress-footer');
+=======
+>>>>>>> c51b7b4c1186856793b8aa28a57a71ff6f763ed7
   }
 
   function font_size(id, sel) {

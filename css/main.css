@@ -235,6 +235,10 @@ ul.timeline li:active .details {
     width: 100%;
     height: 15%;
     padding: 0.4em;
+<<<<<<< HEAD
+=======
+    font-size: 3vh;
+>>>>>>> c51b7b4c1186856793b8aa28a57a71ff6f763ed7
 }
 
 #header table {
@@ -268,7 +272,10 @@ ul.timeline li:active .details {
     margin-right: 6px;
     font-size: 16px;
     font-weight: 300;
+<<<<<<< HEAD
     
+=======
+>>>>>>> c51b7b4c1186856793b8aa28a57a71ff6f763ed7
 }
 
 /* Carousel  */
@@ -324,9 +331,14 @@ ul.timeline li:active .details {
     bottom: 0;
     height: 5%;
     width: 100%;
+<<<<<<< HEAD
     font-size: 20px;
     padding: 0.3em;
     overflow: scroll;
+=======
+    font-size: 2.5vh;
+    padding: 0.3em;
+>>>>>>> c51b7b4c1186856793b8aa28a57a71ff6f763ed7
 }
 
 #devprogress-footer table {
