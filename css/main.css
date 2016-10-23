@@ -235,6 +235,7 @@ ul.timeline li:active .details {
     width: 100%;
     height: 15%;
     padding: 0.4em;
+    font-size: 3vh;
 }
 
 #header table {
@@ -323,9 +324,8 @@ ul.timeline li:active .details {
     bottom: 0;
     height: 5%;
     width: 100%;
-    font-size: 20px;
+    font-size: 2.5vh;
     padding: 0.3em;
-    overflow: scroll;
 }
 
 #devprogress-footer table {
