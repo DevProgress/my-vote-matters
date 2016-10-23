@@ -159,7 +159,6 @@ ul.timeline li .details {
     transition: opacity .5s ease-in-out;
     -webkit-transition: opacity .5s ease-in-out;
     opacity: 0;
-    left: -25px;
     right: -25px;
     bottom: 8px;
 }
