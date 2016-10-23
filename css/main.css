@@ -264,7 +264,8 @@ ul.timeline li:active .details {
 #header img {
     height: 1.5em;
     border-radius: 20%;
-    vertical-align: bottom;
+    vertical-align: middle;
+    margin-left: 5px;
 }
 
 #header a:link,
@@ -276,10 +277,20 @@ ul.timeline li:active .details {
 #header #link {
     float: right;
 }
+
 #header #link a {
     margin-right: 6px;
     font-size: 16px;
     font-weight: 300;
+}
+
+
+/* Re-align link on small screens */
+@media (max-width: 767px) {
+    #header #link {
+        float: none;
+        display: block;
+    }
 }
 
 /* Carousel  */
@@ -290,7 +301,7 @@ ul.timeline li:active .details {
     height: 12%;
     width: 100%;
     text-align: center;
-    font-size: 2vh;
+    font-size: 2.2vh;
     padding: 0.7em 0em;
 }
 
