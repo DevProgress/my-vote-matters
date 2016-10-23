@@ -325,7 +325,7 @@ ul.timeline li:active .details {
     width: 100%;
     font-size: 20px;
     padding: 0.3em;
-    overflow: scroll;
+    overflow: none;
 }
 
 #devprogress-footer table {
