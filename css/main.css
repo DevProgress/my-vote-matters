@@ -79,6 +79,8 @@ p {
     overflow: scroll;
 }
 
+/* Timeline */
+
 .timeline-block {
     padding: 20vh 0 2em 0;
     font-size: 16px;
@@ -88,10 +90,12 @@ p {
 .timeline-block p {
     line-height: 1.45em;
 }
+
 .timeline-block h2, 
 .timeline-block h3 {
     font-weight: 700;
 }
+
 .timeline-block h2 {
     display: inline-block;
     padding: 0.5em;
@@ -99,6 +103,7 @@ p {
     color: #ffffff;
     background-color: #ff3333;
 }
+
 .timeline-block h3 {
     color: #ff3333;
     font-size: 20px;
@@ -113,6 +118,7 @@ ul.timeline {
     margin: 0;
     font-size: 14px;
 }
+
 ul.timeline li {
     display: inline-block;
     position: relative;
@@ -121,6 +127,7 @@ ul.timeline li {
     white-space: normal;
     vertical-align: bottom;
 }
+
 ul.timeline li:after {
     content:'';
     display:block;
@@ -133,6 +140,7 @@ ul.timeline li:after {
     bottom: 0;
     margin-left: -0.5em;
 }
+
 ul.timeline li strong {
     display: block;
     position: absolute;
@@ -140,6 +148,7 @@ ul.timeline li strong {
     left: 0; right: 0;
     bottom: -20px;
 }
+
 ul.timeline li .headline {
     display: block;
     transform: rotate(-25deg);
@@ -150,6 +159,7 @@ ul.timeline li .headline {
     width: 220px;
     padding: 0.2em;
 }
+
 ul.timeline li .details {
     display: block;
     position: absolute;
@@ -163,6 +173,7 @@ ul.timeline li .details {
     right: -25px;
     bottom: 8px;
 }
+
 ul.timeline li:hover .details,
 ul.timeline li:active .details {
     opacity: 1;
@@ -198,6 +209,8 @@ ul.timeline li:active .details {
     position: relative;
     margin: 0 auto;
 }
+
+/* Camera Buttons / Input */
 
 #camerabutton-wrapper {
     position: absolute;
@@ -291,18 +304,10 @@ ul.timeline li:active .details {
 
 #header #link a {
     margin-right: 6px;
-    font-size: 16px;
+    font-size: 2.5vh;
     font-weight: 300;
 }
 
-
-/* Re-align link on small screens */
-@media (max-width: 767px) {
-    #header #link {
-        float: right;
-        display: block;
-    }
-}
 
 /* Carousel  */
 
