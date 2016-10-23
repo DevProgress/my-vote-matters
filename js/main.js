@@ -28,8 +28,34 @@
   var photo = null;
   var startbutton = null;
 
+  function connectCamera() {
+    // FIXME: Replace with MediaDevices.getUserMedia.
+    var getUserMedia =  (navigator.getUserMedia ||
+                        navigator.webkitGetUserMedia ||
+                        navigator.mozGetUserMedia ||
+                        navigator.msGetUserMedia).bind(navigator);
+
+    return new Promise(function(resolve, reject) {
+      if (!getUserMedia) {
+        reject();
+        return;
+      }
+
+      getUserMedia({ video: true, audio: false },
+        function(stream) {
+          if (navigator.mozGetUserMedia) {
+            video.mozSrcObject = stream;
+          } else {
+            var vendorURL = window.URL || window.webkitURL;
+            video.src = vendorURL.createObjectURL(stream);
+          }
+          resolve();
+        }, reject
+      );
+    });
+  }
+
   function startup() {
-    var hasCamera = false;
     video = document.getElementById('video');
     wrapper = document.getElementById('video-wrapper');
     canvas = document.getElementById('canvas');
@@ -37,52 +63,21 @@
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
 
-    navigator.getMedia = ( navigator.getUserMedia ||
-                           navigator.webkitGetUserMedia ||
-                           navigator.mozGetUserMedia ||
-                           navigator.msGetUserMedia);
-
-    if (navigator.getMedia === undefined) {
-      $("#camera").css("display", "none");
-      $('#modal').modal();
-      return;
-    }
-
-    navigator.getMedia(
-      {
-        video: true,
-        audio: false
-      },
-      function(stream) {
-        if (navigator.mozGetUserMedia) {
-          video.mozSrcObject = stream;
-        } else {
-          var vendorURL = window.URL || window.webkitURL;
-          video.src = vendorURL.createObjectURL(stream);
-        }
-        hasCamera = true;
+    connectCamera().then(function() {
+      video.addEventListener('canplay', function(ev){
+        (function loop() {
+          addTextToImage();
+          setTimeout(loop, 1000 / 60);
+        })();
+        resizeCanvas();
         video.play();
-      },
-      function(err) {
-        hasCamera = false;
-        console.log("An error occured! " + err);
-      }
-    );
-
-    if (!hasCamera) {
+      }, false);
+      video.play();
+    }, function() {
       createNoCameraUI();
-      return;
-    }
+    });
 
     resizeCanvas();
-    video.addEventListener('canplay', function(ev){
-      (function loop() {
-        addTextToImage();
-        setTimeout(loop, 1000 / 60);
-      })();
-      resizeCanvas();
-      video.play();
-    }, false);
 
     startbutton.addEventListener('click', function(ev){
       takepicture();
@@ -319,5 +314,5 @@
 
   // Set up our event listener to run the startup process
   // once loading is complete.
-  window.addEventListener('load', startup, false);
+  window.addEventListener('DOMContentLoaded', startup, false);
 })();
