@@ -4,7 +4,6 @@
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
-  
   const MESSAGE_PREFIX = "#MyVoteMatters because";
   const MIN_WIDTH = 300;
   const MIN_WIDTH_RATIO = 0.5;
@@ -29,6 +28,35 @@
   var photo = null;
   var startbutton = null;
 
+  function connectCamera() {
+    // FIXME: Replace with MediaDevices.getUserMedia.
+    var getUserMedia =  (navigator.getUserMedia ||
+                        navigator.webkitGetUserMedia ||
+                        navigator.mozGetUserMedia ||
+                        navigator.msGetUserMedia);
+
+    return new Promise(function(resolve, reject) {
+      if (!getUserMedia) {
+        reject();
+        return;
+      }
+
+      getUserMedia = getUserMedia.bind(navigator);
+
+      getUserMedia({ video: true, audio: false },
+        function(stream) {
+          if (navigator.mozGetUserMedia) {
+            video.mozSrcObject = stream;
+          } else {
+            var vendorURL = window.URL || window.webkitURL;
+            video.src = vendorURL.createObjectURL(stream);
+          }
+          resolve();
+        }, reject
+      );
+    });
+  }
+
   function startup() {
     video = document.getElementById('video');
     wrapper = document.getElementById('video-wrapper');
@@ -37,45 +65,19 @@
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
 
-    navigator.getMedia = ( navigator.getUserMedia ||
-                           navigator.webkitGetUserMedia ||
-                           navigator.mozGetUserMedia ||
-                           navigator.msGetUserMedia);
-
-    if (navigator.getMedia === undefined) {
-      $("#camera").css("display", "none");
-      $('#modal').modal();
-      return;
-    }
-
-    navigator.getMedia(
-      {
-        video: true,
-        audio: false
-      },
-      function(stream) {
-        if (navigator.mozGetUserMedia) {
-          video.mozSrcObject = stream;
-        } else {
-          var vendorURL = window.URL || window.webkitURL;
-          video.src = vendorURL.createObjectURL(stream);
-        }
+    connectCamera().then(function() {
+      video.addEventListener('canplay', function(ev){
+        (function loop() {
+          addTextToImage();
+          setTimeout(loop, 1000 / 60);
+        })();
+        resizeCanvas();
         video.play();
-      },
-      function(err) {
-        console.log("An error occured! " + err);
-      }
-    );
+      }, false);
+      video.play();
+    }, createNoCameraUI);
 
     resizeCanvas();
-    video.addEventListener('canplay', function(ev){
-      (function loop() {
-        addTextToImage();
-        setTimeout(loop, 1000 / 60);
-      })();
-      resizeCanvas();
-      video.play();
-    }, false);
 
     startbutton.addEventListener('click', function(ev){
       takepicture();
@@ -86,7 +88,7 @@
       ga('send', 'event', 'camera', 'click');
       takepicture();
     }, false);
-    
+
     // Event listeners
 
     $('#controls').on('click', '.cancel-button', function(ev) {
@@ -143,12 +145,21 @@
     $("input").css("width", width + HORIZ_INC + 2*MARGIN);
   }
 
+  function createNoCameraUI() {
+    document.querySelector('#controls').textContent = '';
+    wrapper.textContent = '';
+    wrapper.classList.add('camera-failure');
+    wrapper.classList.add('fgwhite');
+    wrapper.appendChild(document.createTextNode(
+      'Sorry! It looks like your computer doesn\'t have a camera, or your browser won\'t allow us to access it.'));
+  }
+
   // Capture a photo by fetching the current contents of the video
   // and drawing it into a canvas, then converting that to a PNG
   // format data URL. By drawing it on an offscreen canvas and then
   // drawing that to the screen, we can change its size and/or apply
   // other changes before drawing it.
-  
+
   function polaroid(canvas, context) {
     context.beginPath();
     context.fillStyle = "white";
@@ -282,5 +293,5 @@
 
   // Set up our event listener to run the startup process
   // once loading is complete.
-  window.addEventListener('load', startup, false);
+  window.addEventListener('DOMContentLoaded', startup, false);
 })();
