@@ -73,9 +73,7 @@
         video.play();
       }, false);
       video.play();
-    }, function() {
-      createNoCameraUI();
-    });
+    }, createNoCameraUI);
 
     resizeCanvas();
 
