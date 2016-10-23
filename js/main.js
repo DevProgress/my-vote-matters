@@ -199,12 +199,31 @@
 
   function createNoCameraUI() {
     ga('send', 'event', 'no-camera', 'error');
-    document.querySelector('#controls').textContent = '';
-    wrapper.textContent = '';
-    wrapper.classList.add('camera-failure');
-    wrapper.classList.add('fgwhite');
-    wrapper.appendChild(document.createTextNode(
-      'Sorry! It looks like your computer doesn\'t have a camera, or your browser won\'t allow us to access it.'));
+    var controls = document.querySelector('#controls');
+    var upload = document.createElement('input');
+    upload.type ='file';
+    upload.style.display = 'none';
+    upload.setAttribute('capture', 'camera');
+    upload.setAttribute('accept', 'image/*');
+    document.querySelector('#streaming .text').textContent = 'Upload photo';
+    // FIXME: This is a dirty hack, making an Image quack like a <video> element.
+    video = document.createElement('img');
+    video.play = function() {};
+    video.pause = function() {
+      upload.click();
+    };
+
+    upload.addEventListener('change', function(event) {
+      video.src = URL.createObjectURL(event.target.files[0]);
+      (function loop() {
+        addTextToImage();
+        setTimeout(loop, 1000 / 60);
+      })();
+      resizeCanvas();
+    });
+
+
+    controls.appendChild(upload);
   }
 
   // Capture a photo by fetching the current contents of the video
