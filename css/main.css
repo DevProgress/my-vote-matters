@@ -148,6 +148,7 @@ ul.timeline li .headline {
     left: 50%;
     font-size: 0.75em;
     width: 220px;
+    padding: 0.2em;
 }
 ul.timeline li .details {
     display: block;
