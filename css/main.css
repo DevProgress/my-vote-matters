@@ -46,7 +46,6 @@ html {
 body {
     font: 20px Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
     background-size:100%;
-    margin-bottom: 50px;
 }
 
 p {
@@ -82,9 +81,20 @@ p {
 /* Timeline */
 
 .timeline-block {
-    padding: 20vh 0 2em 0;
     font-size: 16px;
     color: #ffffff;
+}
+
+.timeline-block.top-row {
+    padding: 20vh 0 2em 0;
+}
+
+.timeline-block.bottom-row {
+    padding: 5vh 0 2em 0;
+}
+
+.timeline-article {
+    padding-bottom: 1em;
 }
 
 .timeline-block p {
@@ -358,7 +368,7 @@ ul.timeline li:active .details {
 
 #devprogress-footer {
     background-color: #ccc;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     height: 5%;
     width: 100%;
