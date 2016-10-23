@@ -141,26 +141,6 @@
     wrapper.style.width = (width + HORIZ_INC + 2*MARGIN) + "px";
     wrapper.style.height = (height + VERT_INC + 2*MARGIN) + "px";
     $("input").css("width", width + HORIZ_INC + 2*MARGIN);
-
-    // adjust carousel font size
-    $('#carousel').carousel(0);
-    font_size('longest', '#carousel');
-    $('.carousel-control').css('font-size', document.getElementById('carousel').clientHeight/1.5 + "px");
-  }
-
-  function font_size(id, sel) {
-    var elem = document.getElementById(id);
-    sel = $(sel);
-    var size = sel.css('font-size');
-    while (elem.scrollHeight <= elem.clientHeight) {
-      size = parseInt(sel.css('font-size')) + 1;
-      sel.css('font-size', size + "px");
-    }
-    while (elem.scrollHeight > elem.clientHeight) {
-      size = parseInt(sel.css('font-size')) - 1;
-      sel.css('font-size', size + "px");
-    }
-    return size;
   }
 
   // Capture a photo by fetching the current contents of the video

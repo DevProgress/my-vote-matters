@@ -279,7 +279,7 @@ ul.timeline li:active .details {
     height: 12%;
     width: 100%;
     text-align: center;
-    font-size: 20px;
+    font-size: 2vh;
     padding: 0.7em 0em;
 }
 
@@ -308,7 +308,7 @@ ul.timeline li:active .details {
 }
 
 .carousel-control {
-    font-size: 30pt;
+    font-size: 8vh;
 }
 
 .carousel-control table {
