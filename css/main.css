@@ -199,6 +199,13 @@ ul.timeline li:active .details {
     margin: 0 auto;
 }
 
+#camerabutton {
+    position: absolute;
+    top: 35%;
+    left: 33%;
+    font-size: 16px;
+}
+
 #startbutton {
     margin: 0 auto;
     height: 2em;
