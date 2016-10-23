@@ -288,7 +288,7 @@ ul.timeline li:active .details {
 /* Re-align link on small screens */
 @media (max-width: 767px) {
     #header #link {
-        float: none;
+        float: right;
         display: block;
     }
 }
