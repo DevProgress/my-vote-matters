@@ -33,13 +33,15 @@
     var getUserMedia =  (navigator.getUserMedia ||
                         navigator.webkitGetUserMedia ||
                         navigator.mozGetUserMedia ||
-                        navigator.msGetUserMedia).bind(navigator);
+                        navigator.msGetUserMedia);
 
     return new Promise(function(resolve, reject) {
       if (!getUserMedia) {
         reject();
         return;
       }
+
+      getUserMedia = getUserMedia.bind(navigator);
 
       getUserMedia({ video: true, audio: false },
         function(stream) {
@@ -168,9 +170,10 @@
   function createNoCameraUI() {
     document.querySelector('#controls').textContent = '';
     wrapper.textContent = '';
-    wrapper.classList.add('camera-failure')
+    wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
-    wrapper.appendChild(document.createTextNode('Your computer either does not have a camera or does not support using that camera by this site.'));
+    wrapper.appendChild(document.createTextNode(
+      'Sorry! It looks like your computer doesn\'t have a camera, or your browser won\'t allow us to access it.'));
   }
 
   // Capture a photo by fetching the current contents of the video
