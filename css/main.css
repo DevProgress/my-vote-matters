@@ -208,11 +208,12 @@ ul.timeline li:active .details {
     width: 300px;
     height: 300px;
     margin: auto;
-    padding: 20px;
     vertical-align: middle;
     display: flex;
+    padding: 1.5vh;
     align-items: center;
     box-sizing: border-box;
+    font-size: 3.5vh;
 }
 
 #canvas {

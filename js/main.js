@@ -205,7 +205,7 @@
     $("#canvas").addClass("no-display");
     wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
-    var textNode = document.createTextNode('Oops! It looks like your camera won\t work here, but you can upload a photo instead by pressing the button below.');
+    var textNode = document.createTextNode('Oops! It looks like your camera won\'t work here, but you can upload a photo instead by pressing the button below.');
     wrapper.appendChild(textNode);
 
     var controls = document.querySelector('#controls');
