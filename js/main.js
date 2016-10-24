@@ -89,19 +89,12 @@
     camerabutton = document.getElementById('camerabutton');
 
     // wait for Montserrat to be loaded
-    // only works on Firefox and Chrome
-    if (document.fonts) {
-      document.fonts.ready.then(function () {
-        // hide video wrapper at first to prevent weird flashing on page load
-        $("#video-wrapper").removeClass("no-display");
-        resizeCanvas();
-      });
-    } else {
-      setTimeout(function() {
-        $("#video-wrapper").removeClass("no-display");
-        resizeCanvas();
-      }, 100);
-    }
+    // video wrapper is hidden at first to prevent weird flashing on page load
+    // in theory document.fonts.ready works in FF and Chrome, but it doesn't, so use a hacky timeout instead
+    setTimeout(function() {
+      $("#video-wrapper").removeClass("no-display");
+      resizeCanvas();
+    }, 100);
 
     // Event listeners
 
