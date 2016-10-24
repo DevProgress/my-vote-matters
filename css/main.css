@@ -46,7 +46,6 @@ html {
 body {
     font: 20px Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
     background-size:100%;
-    margin-bottom: 50px;
 }
 
 p {
@@ -69,6 +68,34 @@ p {
     text-align: center;
 }
 
+#photos {
+    position: absolute;
+    top: 15%;
+    width: 100vw;
+    height: 68%;
+    overflow: hidden;
+}
+
+#photos>div {
+    position: absolute;
+    width: calc((245px + 15px * 2) * 4); /* use #photos img width here */
+    height: calc((236px + 15px * 2) * 2); /* use #photos img height here */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#photos canvas {
+    box-sizing: content-box;
+    padding: 15px;
+    border: none;
+    display: block;
+    width: 245px;
+    height: 236px;
+}
+
 #main {
     position: absolute;
     top: 15%;
@@ -79,19 +106,34 @@ p {
     overflow: scroll;
 }
 
+/* Timeline */
+
 .timeline-block {
-    padding: 2em 0;
     font-size: 16px;
     color: #ffffff;
+}
+
+.timeline-block.top-row {
+    padding: 20vh 0 2em 0;
+}
+
+.timeline-block.bottom-row {
+    padding: 5vh 0 2em 0;
+}
+
+.timeline-article {
+    padding-bottom: 1em;
 }
 
 .timeline-block p {
     line-height: 1.45em;
 }
-.timeline-block h2, 
+
+.timeline-block h2,
 .timeline-block h3 {
     font-weight: 700;
 }
+
 .timeline-block h2 {
     display: inline-block;
     padding: 0.5em;
@@ -99,6 +141,7 @@ p {
     color: #ffffff;
     background-color: #ff3333;
 }
+
 .timeline-block h3 {
     color: #ff3333;
     font-size: 20px;
@@ -113,6 +156,7 @@ ul.timeline {
     margin: 0;
     font-size: 14px;
 }
+
 ul.timeline li {
     display: inline-block;
     position: relative;
@@ -121,6 +165,7 @@ ul.timeline li {
     white-space: normal;
     vertical-align: bottom;
 }
+
 ul.timeline li:after {
     content:'';
     display:block;
@@ -133,6 +178,7 @@ ul.timeline li:after {
     bottom: 0;
     margin-left: -0.5em;
 }
+
 ul.timeline li strong {
     display: block;
     position: absolute;
@@ -140,6 +186,7 @@ ul.timeline li strong {
     left: 0; right: 0;
     bottom: -20px;
 }
+
 ul.timeline li .headline {
     display: block;
     transform: rotate(-25deg);
@@ -150,6 +197,7 @@ ul.timeline li .headline {
     width: 220px;
     padding: 0.2em;
 }
+
 ul.timeline li .details {
     display: block;
     position: absolute;
@@ -163,6 +211,7 @@ ul.timeline li .details {
     right: -25px;
     bottom: 8px;
 }
+
 ul.timeline li:hover .details,
 ul.timeline li:active .details {
     opacity: 1;
@@ -183,13 +232,41 @@ ul.timeline li:active .details {
     border-radius: 10px;
 }
 
+#video-wrapper.camera-failure {
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    vertical-align: middle;
+    display: flex;
+    padding: 1.5vh;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: 3.5vh;
+}
+
 #canvas {
     position: relative;
     margin: 0 auto;
 }
 
-#startbutton {
+/* Camera Buttons / Input */
+
+#camerabutton-wrapper {
+    position: absolute;
+    top: 35%;
+    width: 100%;
+}
+
+#camerabutton {
     margin: 0 auto;
+    font-size: 16px;
+}
+
+#streaming {
+    margin: 1em auto;
+}
+
+#startbutton {
     height: 2em;
     font-size: 16pt;
 }
@@ -208,12 +285,11 @@ ul.timeline li:active .details {
 
 .input-wrapper {
     text-align: center;
-    margin: 0 auto;
+    margin: 1em auto;
     font-size: 14pt;
 }
 
 .input-message {
-    margin: 1em auto;
     border: 2px solid #eee;
     border-radius: 5px;
     height: 35px;
@@ -235,10 +311,7 @@ ul.timeline li:active .details {
     width: 100%;
     height: 15%;
     padding: 0.4em;
-<<<<<<< HEAD
-=======
     font-size: 3vh;
->>>>>>> c51b7b4c1186856793b8aa28a57a71ff6f763ed7
 }
 
 #header table {
@@ -256,7 +329,8 @@ ul.timeline li:active .details {
 #header img {
     height: 1.5em;
     border-radius: 20%;
-    vertical-align: bottom;
+    vertical-align: middle;
+    margin-left: 5px;
 }
 
 #header a:link,
@@ -268,15 +342,13 @@ ul.timeline li:active .details {
 #header #link {
     float: right;
 }
+
 #header #link a {
     margin-right: 6px;
-    font-size: 16px;
+    font-size: 2.5vh;
     font-weight: 300;
-<<<<<<< HEAD
-    
-=======
->>>>>>> c51b7b4c1186856793b8aa28a57a71ff6f763ed7
 }
+
 
 /* Carousel  */
 
@@ -286,7 +358,7 @@ ul.timeline li:active .details {
     height: 12%;
     width: 100%;
     text-align: center;
-    font-size: 20px;
+    font-size: 2.2vh;
     padding: 0.7em 0em;
 }
 
@@ -315,7 +387,7 @@ ul.timeline li:active .details {
 }
 
 .carousel-control {
-    font-size: 30pt;
+    font-size: 8vh;
 }
 
 .carousel-control table {
@@ -327,18 +399,12 @@ ul.timeline li:active .details {
 
 #devprogress-footer {
     background-color: #ccc;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     height: 5%;
     width: 100%;
-<<<<<<< HEAD
-    font-size: 20px;
+    font-size: 2.2vh;
     padding: 0.3em;
-    overflow: scroll;
-=======
-    font-size: 2.5vh;
-    padding: 0.3em;
->>>>>>> c51b7b4c1186856793b8aa28a57a71ff6f763ed7
 }
 
 #devprogress-footer table {
