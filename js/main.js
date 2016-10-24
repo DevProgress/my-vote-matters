@@ -32,8 +32,8 @@
   var camerabutton = null;
 
   function startCamera() {
-    $("#controls").removeClass("no-display");
     $("#camerabutton").addClass("no-display");
+    $("#streaming").removeClass("no-display");
 
     connectCamera().then(function() {
       video.addEventListener('canplay', function(ev){
@@ -199,12 +199,51 @@
 
   function createNoCameraUI() {
     ga('send', 'event', 'no-camera', 'error');
-    document.querySelector('#controls').textContent = '';
-    wrapper.textContent = '';
+
+    // Show an error message explaining that you
+    // need to upload a photo instead
+    $("#canvas").addClass("no-display");
     wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
-    wrapper.appendChild(document.createTextNode(
-      'Sorry! It looks like your computer doesn\'t have a camera, or your browser won\'t allow us to access it.'));
+    var textNode = document.createTextNode('Oops! It looks like your camera won\t work here, but you can upload a photo instead by pressing the button below.');
+    wrapper.appendChild(textNode);
+
+    var controls = document.querySelector('#controls');
+    var upload = document.createElement('input');
+    upload.type ='file';
+    upload.style.display = 'none';
+    upload.setAttribute('capture', 'camera');
+    upload.setAttribute('accept', 'image/*');
+    document.querySelector('#streaming .text').textContent = 'Upload photo';
+    // FIXME: This is a dirty hack, making an Image quack like a <video> element.
+    // Namely, the takepicture() function calls video.pause(),
+    // which calls upload.click()
+    video = document.createElement('img');
+    video.play = function() {};
+    video.pause = function() {
+      upload.click();
+    };
+
+    upload.addEventListener('change', function(event) {
+      // on upload click we should ...
+      // 1) get rid of the error message
+      // 2) Show the canvas again
+      wrapper.classList.remove('camera-failure');
+      try { // might have already removed this node
+        wrapper.removeChild(textNode);
+      } catch (err) {
+      }
+      $("#canvas").removeClass("no-display");
+
+      video.src = URL.createObjectURL(event.target.files[0]);
+      (function loop() {
+        addTextToImage();
+        setTimeout(loop, 1000 / 60);
+      })();
+      resizeCanvas();
+    });
+
+    controls.appendChild(upload);
   }
 
   // Capture a photo by fetching the current contents of the video
@@ -228,8 +267,8 @@
 
   function takepicture() {
     video.pause();
-
     $('#streaming').addClass('no-display');
+    $(".input-wrapper").removeClass("no-display");
     $('#share-photo').removeClass('no-display');
   }
 
