@@ -88,14 +88,13 @@
     startbutton = document.getElementById('startbutton');
     camerabutton = document.getElementById('camerabutton');
 
-    createBackgroundSelfies();
-
     // wait for Montserrat to be loaded
     // video wrapper is hidden at first to prevent weird flashing on page load
     // in theory document.fonts.ready works in FF and Chrome, but it doesn't, so use a hacky timeout instead
     setTimeout(function() {
       $("#video-wrapper").removeClass("no-display");
       resizeCanvas();
+      createBackgroundSelfies();
     }, 100);
 
     // Event listeners
