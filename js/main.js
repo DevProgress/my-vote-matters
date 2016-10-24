@@ -88,6 +88,8 @@
     startbutton = document.getElementById('startbutton');
     camerabutton = document.getElementById('camerabutton');
 
+    createBackgroundSelfies();
+
     // wait for Montserrat to be loaded
     // only works on Firefox and Chrome
     if (document.fonts) {
@@ -397,6 +399,37 @@
     }
     context.textAlign = "center";
     context.fillText(message, canvas.width/2, canvas.height - TEXT_PADDING*1.5);
+  }
+
+  function createBackgroundSelfies() {
+    const SELFIE_COUNT = 14;
+    const SELFIE_COL_COUNT = 4;
+    const SELFIE_ROW_COUNT = 2;
+
+    photoIndices = createArrayFromKnuthShuffle();
+    var root = document.querySelector('#photos>div');
+    photoIndices.slice(0, SELFIE_ROW_COUNT * SELFIE_COL_COUNT).forEach(function(index) {
+      var img = document.createElement('img');
+      img.src = 'img/photo-' + index + '.png';
+      root.appendChild(img);
+    });
+
+    function createArrayFromKnuthShuffle() {
+      var array = Array.apply(null, Array(SELFIE_COUNT));
+      array = array.map(function(_, i) { return i + 1; })
+      var currentIndex = SELFIE_COUNT;
+      var temp;
+      var randomIndex;
+      while (currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temp = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temp;
+      }
+      return array;
+    }
+
   }
 
   // Set up our event listener to run the startup process
