@@ -5,6 +5,7 @@
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
   const MESSAGE_PREFIX = "#MyVoteMatters because";
+  const MESSAGE_SUFFIX = "(share yours at myvotematters.today)";
   const MIN_WIDTH = 300;
   const MIN_WIDTH_RATIO = 0.5;
   var MARGIN = 30;
@@ -249,8 +250,11 @@
     return file;
   }
 
-  function getMessage() {
+  function getMessage(fix) {
     var message = $(".input-message").val();
+    if (fix) {
+      message = MESSAGE_PREFIX + " " + message + " " + MESSAGE_SUFFIX;
+    }
     return message;
   }
 
@@ -260,7 +264,7 @@
 
   function postToTwitter() {
     var file = getImageData();
-    var message = MESSAGE_PREFIX + " " + getMessage();
+    var message = getMessage(true);
     OAuth.popup("twitter").then(function(result) {
       var data = new FormData();
       data.append('status', message);
@@ -283,7 +287,7 @@
 
   function postToFacebook() {
     var file = getImageData();
-    var message = MESSAGE_PREFIX + " " + getMessage();
+    var message = getMessage(true);
     OAuth.popup("facebook").then(function(result) {
       var data = new FormData();
       data.append('caption', message);
