@@ -233,8 +233,11 @@ ul.timeline li:active .details {
     font-size: 16px;
 }
 
+#streaming {
+    margin: 1em auto;
+}
+
 #startbutton {
-    margin: 0 auto;
     height: 2em;
     font-size: 16pt;
 }
@@ -253,12 +256,11 @@ ul.timeline li:active .details {
 
 .input-wrapper {
     text-align: center;
-    margin: 0 auto;
+    margin: 1em auto;
     font-size: 14pt;
 }
 
 .input-message {
-    margin: 1em auto;
     border: 2px solid #eee;
     border-radius: 5px;
     height: 35px;
