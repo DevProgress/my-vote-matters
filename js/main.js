@@ -347,7 +347,15 @@
     context.drawImage(video, INSIDE_MARGIN, INSIDE_MARGIN, width, height);
 
     var message = getMessage();
+    var len = MESSAGE_PREFIX.length + MESSAGE_SUFFIX.length + 2;
+    message = message.substr(0, len);
     context.font = (TEXT_HEIGHT/2) + "px Montserrat";
+    if (context.measureText(message).width > width) {
+      context.font = (TEXT_HEIGHT/4) + "px Montserrat";
+      while (context.measureText(message).width > width) {
+        message = message.substr(0, message.length - 1);
+      }
+    }
     context.textAlign = "center";
     context.fillText(message, canvas.width/2, canvas.height - TEXT_PADDING*1.5);
   }
