@@ -379,17 +379,60 @@
     context.drawImage(video, INSIDE_MARGIN, INSIDE_MARGIN, width, height);
 
     var message = getMessage();
+
+    // limit to the length that will fit in a tweet
     var len = MESSAGE_PREFIX.length + MESSAGE_SUFFIX.length + 2;
     message = message.substr(0, len);
-    context.font = (TEXT_HEIGHT/2) + "px Montserrat";
-    if (context.measureText(message).width > width) {
-      context.font = (TEXT_HEIGHT/4) + "px Montserrat";
-      while (context.measureText(message).width > width) {
-        message = message.substr(0, message.length - 1);
+
+    // autosize font while word-wrapping
+    context.textAlign = "center";
+    var div = 2;
+    context.font = (TEXT_HEIGHT/div) + "px Montserrat";
+    var lines = getLines(context, message, width);
+    while (!textFits(context, lines, div - 1, width)) {
+      div++;
+      context.font = (TEXT_HEIGHT/div) + "px Montserrat";
+      lines = getLines(context, message, width);
+    }
+
+    for (var i = 0; i < lines.length; i++) {
+      var ypos = canvas.height - TEXT_PADDING*1.5;
+      if (lines.length > 1) {
+        ypos += (i - lines.length/2) * (TEXT_HEIGHT/(lines.length * div) + TEXT_PADDING/(div/2));
+      }
+      context.fillText(lines[i], canvas.width/2, ypos);
+    }
+  }
+
+  function textFits(ctx, lines, maxLines, maxWidth) {
+    if (lines.length > maxLines) return false;
+    
+    for (var i = 0; i < lines.length; i++) {
+      if (ctx.measureText(lines[i]) > maxWidth) {
+        return false;
       }
     }
-    context.textAlign = "center";
-    context.fillText(message, canvas.width/2, canvas.height - TEXT_PADDING*1.5);
+
+    return true;
+  }
+
+  function getLines(ctx, text, maxWidth) {
+    var words = text.split(" ");
+    var lines = [];
+    var currentLine = words[0];
+
+    for (var i = 1; i < words.length; i++) {
+        var word = words[i];
+        var width = ctx.measureText(currentLine + " " + word).width;
+        if (width < maxWidth) {
+            currentLine += " " + word;
+        } else {
+            lines.push(currentLine);
+            currentLine = word;
+        }
+    }
+    lines.push(currentLine);
+    return lines;
   }
 
   // Set up our event listener to run the startup process
