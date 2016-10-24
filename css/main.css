@@ -68,6 +68,34 @@ p {
     text-align: center;
 }
 
+#photos {
+    position: absolute;
+    top: 15%;
+    width: 100vw;
+    height: 68%;
+    overflow: hidden;
+}
+
+#photos>div {
+    position: absolute;
+    width: calc((491px + 15px * 2) * 4); /* use #photos img width here */
+    height: calc((473px + 15px * 2) * 2); /* use #photos img height here */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#photos img {
+    box-sizing: content-box;
+    padding: 15px;
+    border: none;
+    display: block;
+    width: 491px;
+    height: 473px;
+}
+
 #main {
     position: absolute;
     top: 15%;
@@ -101,7 +129,7 @@ p {
     line-height: 1.45em;
 }
 
-.timeline-block h2, 
+.timeline-block h2,
 .timeline-block h3 {
     font-weight: 700;
 }
