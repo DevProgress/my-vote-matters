@@ -78,8 +78,8 @@ p {
 
 #photos>div {
     position: absolute;
-    width: calc((491px + 15px * 2) * 4); /* use #photos img width here */
-    height: calc((473px + 15px * 2) * 2); /* use #photos img height here */
+    width: calc((245px + 15px * 2) * 4); /* use #photos img width here */
+    height: calc((236px + 15px * 2) * 2); /* use #photos img height here */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -87,13 +87,13 @@ p {
     flex-wrap: wrap;
 }
 
-#photos img {
+#photos canvas {
     box-sizing: content-box;
     padding: 15px;
     border: none;
     display: block;
-    width: 491px;
-    height: 473px;
+    width: 245px;
+    height: 236px;
 }
 
 #main {
