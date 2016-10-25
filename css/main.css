@@ -298,6 +298,10 @@ ul.timeline li:active .details {
 
 .result {
     text-align: center;
+    background-color: white;
+    padding: 0.3em;
+    width: 50%;
+    margin: 0 auto;
 }
 
 .result .cancel-button {
