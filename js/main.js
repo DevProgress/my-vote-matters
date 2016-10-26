@@ -311,7 +311,7 @@
     }).done(function(data){
       var url = data.entities.media[0].display_url;
       ga('send', 'event', 'share', 'success', 'twitter');
-      onShareSuccess("http://" + url);
+      onShareSuccess('twitter', "http://" + url);
     }).fail(function(e){
       ga('send', 'event', 'share', 'error', 'twitter');
       onShareError('twitter', e);
@@ -334,7 +334,7 @@
     }).done(function(data){
       var url = "https://www.facebook.com/photo.php?fbid=" + data.id;
       ga('send', 'event', 'share', 'success', 'facebook');
-      onShareSuccess(url);
+      onShareSuccess('facebook', url);
     }).fail(function(e){
       ga('send', 'event', 'share', 'error', 'facebook');
       onShareError('facebook', e);
@@ -358,9 +358,10 @@
     return new Blob([ia], {type:mimeString});
   }
 
-  function onShareSuccess(url) {
+  function onShareSuccess(service, url) {
     // Hide the share buttons,
     // show the result field
+    ga('send', 'exception', {'exDescription': 'successful ' + service + ' share', 'exFatal': false});
     $("#share-photo").addClass("no-display");
     $(".result").removeClass("no-display");
     $(".result-text").html("Success! View your post <a target=\"_blank\" href=\"" + url + "\">here.</a>");
@@ -368,7 +369,7 @@
 
   function onShareError(service, err) {
     console.log(err);
-    ga('send', 'exception', {'exDescription': '[' + service + ']' + err.message, 'exFatal': false});
+    ga('send', 'exception', {'exDescription': '[' + service + '] ' + err, 'exFatal': false});
     // Hide the share buttons,
     // show the result field
     $("#share-photo").addClass("no-display");
