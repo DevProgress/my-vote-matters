@@ -314,7 +314,7 @@
       onShareSuccess("http://" + url);
     }).fail(function(e){
       ga('send', 'event', 'share', 'error', 'twitter');
-      onShareError(e);
+      onShareError('twitter', e);
     });
   }
 
@@ -337,7 +337,7 @@
       onShareSuccess(url);
     }).fail(function(e){
       ga('send', 'event', 'share', 'error', 'facebook');
-      onShareError(e);
+      onShareError('facebook', e);
     });
   }
 
@@ -366,8 +366,9 @@
     $(".result-text").html("Success! View your post <a target=\"_blank\" href=\"" + url + "\">here.</a>");
   }
 
-  function onShareError(err) {
+  function onShareError(service, err) {
     console.log(err);
+    ga('send', 'exception', {'exDescription': '[' + service + ']' + err.message, 'exFatal': false});
     // Hide the share buttons,
     // show the result field
     $("#share-photo").addClass("no-display");
