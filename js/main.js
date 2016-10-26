@@ -223,6 +223,7 @@
       // on upload click we should ...
       // 1) get rid of the error message
       // 2) Show the canvas again
+      event.preventDefault();
       wrapper.classList.remove('camera-failure');
       try { // might have already removed this node
         wrapper.removeChild(textNode);
@@ -230,15 +231,63 @@
       }
       $("#canvas").removeClass("no-display");
 
-      video.src = URL.createObjectURL(event.target.files[0]);
-      (function loop() {
-        addTextToImage();
-        setTimeout(loop, 1000 / 60);
-      })();
-      resizeCanvas();
+      var imageFile = event.target.files[0];
+      var image = document.createElement('img');
+      image.addEventListener('load', function() {
+        computeRotation(image).then(function(degrees) {
+          video = rotateImage(image, degrees);
+          video.play = function() {};
+          video.pause = function() {
+            upload.click();
+          };
+          video.videoWidth = video.width;
+          video.videoHeight = video.height;
+          (function loop() {
+            addTextToImage();
+            setTimeout(loop, 1000 / 60);
+          })();
+          resizeCanvas();
+        });
+      });
+      image.src = URL.createObjectURL(imageFile);
     });
 
     controls.appendChild(upload);
+
+    function rotateImage(rotationImage, degrees) {
+      var rotationCanvas = document.createElement('canvas');
+      var rotationContext = rotationCanvas.getContext('2d');
+      var sideways = Math.abs(degrees) == 90;
+      var finalWidth = sideways ? rotationImage.naturalHeight : rotationImage.naturalWidth;
+      var finalHeight = sideways ? rotationImage.naturalWidth : rotationImage.naturalHeight;
+      rotationCanvas.width = finalWidth;
+      rotationCanvas.height = finalHeight;
+      rotationContext.save();
+      rotationContext.translate(finalWidth / 2, finalHeight / 2);
+      rotationContext.rotate(degrees * Math.PI / 180);
+      rotationContext.drawImage(rotationImage, - (rotationImage.naturalWidth / 2), - (rotationImage.naturalHeight / 2));
+      rotationContext.restore();
+      return rotationCanvas;
+    }
+
+    function computeRotation(image) {
+      return new Promise(function(resolve) {
+        EXIF.getData(image, function() {
+          var degrees = 0;
+          switch(EXIF.getTag(this, 'Orientation')) {
+          case 8:
+            degrees = -90;
+            break;
+          case 3:
+            degrees = 180;
+            break;
+          case 6:
+            degrees = 90;
+          }
+          resolve(degrees);
+        });
+      });
+    }
   }
 
   // Capture a photo by fetching the current contents of the video
@@ -411,7 +460,7 @@
 
   function textFits(ctx, lines, maxLines, maxWidth) {
     if (lines.length > maxLines) return false;
-    
+
     for (var i = 0; i < lines.length; i++) {
       if (ctx.measureText(lines[i]) > maxWidth) {
         return false;
