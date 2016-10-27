@@ -131,6 +131,11 @@
       postToFacebook();
     });
 
+    $('#controls').on('click', '.download-button', function(ev) {
+      ga('send', 'event', 'share', 'click', 'download');
+      downloadImage(this);
+    });
+
     $(window).on('orientationchange', function(ev) {
       setTimeout(resizeCanvas, 300); // FIXME can this be lower?
     });
@@ -341,6 +346,12 @@
     });
   }
 
+  function downloadImage(link) {
+    var file = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+    link.href=file;
+    link.download = "my_vote_matters.png";
+  }
+
   function dataURItoBlob(dataURI) {
     // convert base64/URLEncoded data component to raw binary data held in a string
     var byteString;
@@ -413,7 +424,7 @@
 
   function textFits(ctx, lines, maxLines, maxWidth) {
     if (lines.length > maxLines) return false;
-    
+
     for (var i = 0; i < lines.length; i++) {
       if (ctx.measureText(lines[i]) > maxWidth) {
         return false;
