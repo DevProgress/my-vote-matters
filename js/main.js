@@ -139,6 +139,16 @@
       resizeCanvas();
     });
 
+    if (window.OAuth) {
+      initOAuth();
+      return;
+    }
+
+    document.querySelector('#oauth').addEventListener('load', initOAuth);
+
+  }
+
+  function initOAuth() {
     // Initialize OAuth
     // http://blog.devteaminc.co/posting-a-canvas-image-to-twitter-using-oauth/
     var OAuthKey = "WDBN6HtSl2OSBHDCMdhaT_tMBRE";
