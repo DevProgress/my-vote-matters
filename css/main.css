@@ -357,9 +357,9 @@ ul.timeline li:active .details {
 /* Carousel  */
 
 .carousel-footer {
-    position: fixed;
+    position: absolute;
     bottom: 5%;
-    height: 12%;
+    height: 14%;
     width: 100%;
     text-align: center;
     font-size: 2.2vh;
