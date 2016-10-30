@@ -343,6 +343,11 @@
   function getImageData() {
     var canvas = document.getElementById('canvas');
     var data = canvas.toDataURL('image/png');
+    return data;
+  }
+
+  function getImageBlob() {
+    var data = getImageData();
     var file = dataURItoBlob(data);
     return file;
   }
@@ -360,7 +365,7 @@
   }
 
   function postToTwitter() {
-    var file = getImageData();
+    var file = getImageBlob();
     var message = getMessage(true);
     OAuth.popup("twitter").then(function(result) {
       var data = new FormData();
@@ -383,25 +388,36 @@
   }
 
   function postToFacebook() {
-    var file = getImageData();
-    var message = getMessage(true);
-    OAuth.popup("facebook").then(function(result) {
+    // first post to Imgur to get a link
+    var base64 = getImageData();
+    base64 = base64.split(',')[1];
+    OAuth.popup('imgur').then(function(result) {
       var data = new FormData();
-      data.append('caption', message);
-      data.append('source', file);
-      return result.post('/me/photos', {
+      data.append("image", base64);
+      return result.post('/3/image', {
         data: data,
         cache: false,
         processData: false,
         contentType: false
       });
     }).done(function(data){
-      var url = "https://www.facebook.com/photo.php?fbid=" + data.id;
-      ga('send', 'event', 'share', 'success', 'facebook');
-      onShareSuccess('facebook', url);
+      // now post to Facebook
+      var message = getMessage(true);
+      FB.ui({
+        method: 'feed',
+        picture: data.data.link
+      }, function(response){
+        if (response.post_id) {
+          var url = "https://facebook.com/" + response.post_id;
+          onShareSuccess('facebook', url);
+        } else {
+          ga('send', 'event', 'share', 'error', 'facebook');
+          onShareError('facebook', e);
+        }
+      });
     }).fail(function(e){
-      ga('send', 'event', 'share', 'error', 'facebook');
-      onShareError('facebook', e);
+      ga('send', 'event', 'share', 'error', 'imgur');
+      onShareError('imgur', e);
     });
   }
 
@@ -538,7 +554,6 @@
     var root = document.querySelector('#photos>div');
     photoIndices.slice(0, SELFIE_ROW_COUNT * SELFIE_COL_COUNT).forEach(function(index) {
       var img = document.createElement('img');
-      console.log(index);
       img.src = 'img/samples/' + images[index].filename;
       $(img).on('load', (function (img, text) { return function() {
         var cv = document.createElement('canvas');
