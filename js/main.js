@@ -402,7 +402,6 @@
       });
     }).done(function(data){
       // now post to Facebook
-      var message = getMessage(true);
       FB.ui({
         method: 'feed',
         picture: data.data.link
