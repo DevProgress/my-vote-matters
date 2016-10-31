@@ -343,11 +343,6 @@
   function getImageData() {
     var canvas = document.getElementById('canvas');
     var data = canvas.toDataURL('image/png');
-    return data;
-  }
-
-  function getImageBlob() {
-    var data = getImageData();
     var file = dataURItoBlob(data);
     return file;
   }
@@ -365,7 +360,7 @@
   }
 
   function postToTwitter() {
-    var file = getImageBlob();
+    var file = getImageData();
     var message = getMessage(true);
     OAuth.popup("twitter").then(function(result) {
       var data = new FormData();
@@ -388,33 +383,25 @@
   }
 
   function postToFacebook() {
-    // first post to Imgur to get a link
-    var base64 = getImageData();
-    base64 = base64.split(',')[1];
-    $.ajax({
-      url: "https://api.imgur.com/3/image",
-      method: "POST",
-      data: {"image": base64},
-      beforeSend: function (xhr){
-        xhr.setRequestHeader('Authorization', "Client-ID " + "527ddbd115eea70");
-      }
-    }).done(function(data) {
-      // now post to Facebook
-      FB.ui({
-        method: 'feed',
-        picture: data.data.link
-      }, function(response){
-        if (response && response.post_id) {
-          var url = "https://facebook.com/" + response.post_id;
-          onShareSuccess('facebook', url);
-        } else {
-          ga('send', 'event', 'share', 'error', 'facebook');
-          onShareError('facebook', e);
-        }
+    var file = getImageData();
+    var message = getMessage(true);
+    OAuth.popup("facebook").then(function(result) {
+      var data = new FormData();
+      data.append('caption', message);
+      data.append('source', file);
+      return result.post('/me/photos', {
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false
       });
+    }).done(function(data){
+      var url = "https://www.facebook.com/photo.php?fbid=" + data.id;
+      ga('send', 'event', 'share', 'success', 'facebook');
+      onShareSuccess('facebook', url);
     }).fail(function(e){
-      ga('send', 'event', 'share', 'error', 'imgur');
-      onShareError('imgur', e);
+      ga('send', 'event', 'share', 'error', 'facebook');
+      onShareError('facebook', e);
     });
   }
 
@@ -546,10 +533,12 @@
     var SELFIE_COUNT = images.length-1;
     const SELFIE_COL_COUNT = 4;
     const SELFIE_ROW_COUNT = 2;
+
     photoIndices = createArrayFromKnuthShuffle();
     var root = document.querySelector('#photos>div');
     photoIndices.slice(0, SELFIE_ROW_COUNT * SELFIE_COL_COUNT).forEach(function(index) {
       var img = document.createElement('img');
+      console.log(index);
       img.src = 'img/samples/' + images[index].filename;
       $(img).on('load', (function (img, text) { return function() {
         var cv = document.createElement('canvas');
