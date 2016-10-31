@@ -3603,17 +3603,19 @@ p {
   text-align: center;
   margin: 1em auto;
   font-size: 14pt;
+  text-decoration-color: black;
 }
 
-/* line 178, ../sass/enhancements.sass */
+/* line 179, ../sass/enhancements.sass */
 .input-message {
   border: 2px solid #eee;
   border-radius: 5px;
   height: 35px;
   text-indent: 10px;
+  color: black;
 }
 
-/* line 183, ../sass/enhancements.sass */
+/* line 185, ../sass/enhancements.sass */
 .result {
   text-align: center;
   background-color: white;
@@ -3621,86 +3623,86 @@ p {
   width: 50%;
   margin: 0 auto;
 }
-/* line 189, ../sass/enhancements.sass */
+/* line 191, ../sass/enhancements.sass */
 .result .cancel-button {
   color: #c9302c;
 }
 
 /* Sharing */
-/* line 192, ../sass/enhancements.sass */
+/* line 194, ../sass/enhancements.sass */
 .button-wrapper {
   text-align: center;
   margin: 0em 1em 1em 1em;
   cursor: pointer;
 }
-/* line 196, ../sass/enhancements.sass */
+/* line 198, ../sass/enhancements.sass */
 .button-wrapper img {
   padding-left: 10px;
   padding-right: 10px;
   width: 65px;
 }
-/* line 200, ../sass/enhancements.sass */
+/* line 202, ../sass/enhancements.sass */
 .button-wrapper a:hover {
   text-decoration: none;
 }
 
-/* line 217, ../sass/enhancements.sass */
+/* line 219, ../sass/enhancements.sass */
 .carousel-control {
   font-size: xx-large;
 }
-/* line 218, ../sass/enhancements.sass */
+/* line 220, ../sass/enhancements.sass */
 .carousel-control.left, .carousel-control.right {
   opacity: 0;
 }
-/* line 221, ../sass/enhancements.sass */
+/* line 223, ../sass/enhancements.sass */
 .carousel-control table {
   height: 100%;
   width: 100%;
 }
 
 /* Footer */
-/* line 225, ../sass/enhancements.sass */
+/* line 227, ../sass/enhancements.sass */
 #devprogress-footer {
   background-color: #ccc;
   position: absolute;
   bottom: 0;
   width: 100%;
 }
-/* line 230, ../sass/enhancements.sass */
+/* line 232, ../sass/enhancements.sass */
 #devprogress-footer table {
   height: 100%;
   margin: 0 auto;
 }
 
 /* Timeline */
-/* line 234, ../sass/enhancements.sass */
+/* line 236, ../sass/enhancements.sass */
 .timeline-block {
   font-size: 16px;
   color: #ffffff;
 }
-/* line 237, ../sass/enhancements.sass */
+/* line 239, ../sass/enhancements.sass */
 .timeline-block.top-row {
   padding: 20vh 0 2em 0;
 }
-/* line 239, ../sass/enhancements.sass */
+/* line 241, ../sass/enhancements.sass */
 .timeline-block.bottom-row {
   padding: 5vh 0 2em 0;
 }
 
-/* line 241, ../sass/enhancements.sass */
+/* line 243, ../sass/enhancements.sass */
 .timeline-article {
   padding-bottom: 1em;
 }
 
-/* line 244, ../sass/enhancements.sass */
+/* line 246, ../sass/enhancements.sass */
 .timeline-block p {
   line-height: 1.45em;
 }
-/* line 246, ../sass/enhancements.sass */
+/* line 248, ../sass/enhancements.sass */
 .timeline-block h2, .timeline-block h3 {
   font-weight: 700;
 }
-/* line 248, ../sass/enhancements.sass */
+/* line 250, ../sass/enhancements.sass */
 .timeline-block h2 {
   display: inline-block;
   padding: 0.5em;
@@ -3708,13 +3710,13 @@ p {
   color: #ffffff;
   background-color: #ff3333;
 }
-/* line 254, ../sass/enhancements.sass */
+/* line 256, ../sass/enhancements.sass */
 .timeline-block h3 {
   color: #ff3333;
   font-size: 20px;
 }
 
-/* line 257, ../sass/enhancements.sass */
+/* line 259, ../sass/enhancements.sass */
 ul.timeline {
   /*display: flex; */
   white-space: nowrap;
@@ -3724,7 +3726,7 @@ ul.timeline {
   margin: 0;
   font-size: 14px;
 }
-/* line 265, ../sass/enhancements.sass */
+/* line 267, ../sass/enhancements.sass */
 ul.timeline li {
   display: inline-block;
   position: relative;
@@ -3733,7 +3735,7 @@ ul.timeline li {
   white-space: normal;
   vertical-align: bottom;
 }
-/* line 272, ../sass/enhancements.sass */
+/* line 274, ../sass/enhancements.sass */
 ul.timeline li:after {
   content: "";
   display: block;
@@ -3746,7 +3748,7 @@ ul.timeline li:after {
   bottom: 0;
   margin-left: -0.5em;
 }
-/* line 283, ../sass/enhancements.sass */
+/* line 285, ../sass/enhancements.sass */
 ul.timeline li strong {
   display: block;
   position: absolute;
@@ -3755,7 +3757,7 @@ ul.timeline li strong {
   right: 0;
   bottom: -20px;
 }
-/* line 290, ../sass/enhancements.sass */
+/* line 292, ../sass/enhancements.sass */
 ul.timeline li .headline {
   display: block;
   transform: rotate(-25deg);
@@ -3766,7 +3768,7 @@ ul.timeline li .headline {
   width: 220px;
   padding: 0.2em;
 }
-/* line 299, ../sass/enhancements.sass */
+/* line 301, ../sass/enhancements.sass */
 ul.timeline li .details {
   display: block;
   position: absolute;
@@ -3780,7 +3782,7 @@ ul.timeline li .details {
   right: -25px;
   bottom: 8px;
 }
-/* line 311, ../sass/enhancements.sass */
+/* line 313, ../sass/enhancements.sass */
 ul.timeline li:hover .details, ul.timeline li:active .details {
   opacity: 1;
 }
