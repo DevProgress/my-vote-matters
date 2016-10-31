@@ -1,0 +1,371 @@
+/* Styles adapted from https://github.com/DevProgress/swear-jar,
+ * ifihadaquarter.com
+
+/* FONTS
+ * Supplementing Montserrat Google webfront from Light and Thin variations.
+ * Courtesy of FontSquirrel, licensed under the SIL Open Font License.
+ * Permitted for use as a @font-face webfont.
+@font-face
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 300
+  src: local("Montserrat-Light"), url(Montserrat-Light.otf) format("opentype")
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000
+
+
+@font-face
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 200
+  src: local("Montserrat-ExtraLight"), url(Montserrat-ExtraLight.otf) format("opentype")
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000
+
+
+@font-face
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 100
+  src: local("Montserrat-Thin"), url(Montserrat-Thin.otf) format("opentype")
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000
+
+
+/* COLORS
+
+.fgblue
+  color: #0066cc
+
+.fgred
+  color: #ff3333
+
+.fgwhite
+  color: #ffffff
+
+.bgblue
+  background-color: #0066cc
+
+.bgred
+  background-color: #ff3333
+
+.bgwhite
+  background-color: #ffffff
+
+/* General
+
+html
+  position: relative
+  min-height: 100%
+
+body
+  font: 20px Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif
+  background-size: 100%
+
+p
+  margin-bottom: 1em
+
+.no-display
+  display: none
+
+.align-left
+  text-align: left
+
+.align-right
+  text-align: right
+
+.align-center
+  text-align: center
+
+#photos
+  position: absolute
+  top: 15%
+  width: 100vw
+  height: 68%
+  overflow: hidden
+  > div
+    position: absolute
+    width: calc((245px + 5px * 2) * 4)
+    /* use #photos img width here
+    height: calc((236px + 5px * 2) * 2)
+    /* use #photos img height here
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    display: flex
+    flex-wrap: wrap
+  canvas
+    box-sizing: content-box
+    padding: 5px
+    border: none
+    display: block
+    width: 245px
+    height: 236px
+
+#main
+  position: absolute
+  top: 15%
+  width: 100%
+  height: 70%
+  margin: 0 auto
+  padding: 0.7em
+  overflow: scroll
+
+/* Timeline
+
+.timeline-block
+  font-size: 16px
+  color: #ffffff
+  &.top-row
+    padding: 20vh 0 2em 0
+  &.bottom-row
+    padding: 5vh 0 2em 0
+
+.timeline-article
+  padding-bottom: 1em
+
+.timeline-block
+  p
+    line-height: 1.45em
+  h2, h3
+    font-weight: 700
+  h2
+    display: inline-block
+    padding: 0.5em
+    margin-top: -1em
+    color: #ffffff
+    background-color: #ff3333
+  h3
+    color: #ff3333
+    font-size: 20px
+
+ul.timeline
+  /*display: flex;
+  white-space: nowrap
+  overflow-x: auto
+  position: relative
+  padding: 10px 0 80px 0
+  margin: 0
+  font-size: 14px
+  li
+    display: inline-block
+    position: relative
+    width: 120px
+    padding: 80px 0 16px 0
+    white-space: normal
+    vertical-align: bottom
+    &:after
+      content: ''
+      display: block
+      background: #ffffff
+      width: 1em
+      height: 1em
+      border-radius: 2em
+      position: absolute
+      left: 50%
+      bottom: 0
+      margin-left: -0.5em
+    strong
+      display: block
+      position: absolute
+      text-align: center
+      left: 0
+      right: 0
+      bottom: -20px
+    .headline
+      display: block
+      transform: rotate(-25deg)
+      transform-origin: top left
+      position: relative
+      left: 50%
+      font-size: 0.75em
+      width: 220px
+      padding: 0.2em
+    .details
+      display: block
+      position: absolute
+      padding: 12px
+      background-color: #444444
+      color: #ffffff
+      border-radius: 8px
+      transition: opacity .5s ease-in-out
+      -webkit-transition: opacity .5s ease-in-out
+      opacity: 0
+      right: -25px
+      bottom: 8px
+    &:hover .details, &:active .details
+      opacity: 1
+
+/* Camera
+
+#camera
+  text-align: center
+  width: 100%
+  height: 50%
+
+#video-wrapper
+  position: relative
+  text-align: center
+  margin: 0 auto
+  border-radius: 10px
+  &.camera-failure
+    width: 300px
+    height: 300px
+    margin: auto
+    vertical-align: middle
+    display: flex
+    padding: 1.5vh
+    align-items: center
+    box-sizing: border-box
+    font-size: 3.5vh
+
+#canvas
+  position: relative
+  margin: 0 auto
+
+/* Camera Buttons / Input
+
+#camerabutton-wrapper
+  position: absolute
+  top: 35%
+  width: 100%
+
+#camerabutton
+  margin: 0 auto
+  font-size: 16px
+
+#streaming
+  margin: 1em auto
+
+#startbutton
+  height: 2em
+  font-size: 16pt
+  .text
+    position: relative
+    top: -.55em
+  .emoji
+    position: relative
+    top: -0.2em
+    font-size: 24pt
+    margin-right: 0.25em
+
+.input-wrapper
+  text-align: center
+  margin: 1em auto
+  font-size: 14pt
+
+.input-message
+  border: 2px solid #eee
+  border-radius: 5px
+  height: 35px
+  text-indent: 10px
+
+.result
+  text-align: center
+  background-color: white
+  padding: 0.3em
+  width: 50%
+  margin: 0 auto
+  .cancel-button
+    color: #c9302c
+
+/* Header
+
+#header
+  position: absolute
+  width: 100%
+  height: 15%
+  padding: 0.4em
+  font-size: 3vh
+  table
+    height: 100%
+  h1
+    display: inline
+
+h3, h4
+  display: inline
+
+#header
+  h1
+    font-size: 160%
+    font-weight: bold
+  h3
+    font-size: 120%
+    font-weight: 100
+  h4
+    font-size: 75%
+  img
+    height: 1.5em
+    border-radius: 20%
+    vertical-align: middle
+    margin-left: 5px
+  a
+    &:link, &:visited
+      color: #ffffff
+      text-decoration: none
+  #link
+    float: right
+    a
+      margin-right: 6px
+      font-size: 2.5vh
+      font-weight: 300
+
+/* Carousel
+
+.carousel-footer
+  position: absolute
+  bottom: 5%
+  height: 14%
+  width: 100%
+  text-align: center
+  font-size: 2.2vh
+  padding: 0.7em 0em
+
+#carousel
+  height: 100%
+
+.carousel-inner
+  height: 100%
+  width: 80%
+  margin: 0 auto
+
+#carousel .item
+  height: 100%
+  width: 100%
+  margin: 0 auto
+  padding-left: 2em
+  padding-right: 2em
+  text-align: center
+  table
+    height: 100%
+    margin: 0 auto
+
+.carousel-control
+  font-size: 8vh
+  table
+    height: 100%
+    width: 100%
+
+/* Footer
+
+#devprogress-footer
+  background-color: #ccc
+  position: absolute
+  bottom: 0
+  height: 5%
+  width: 100%
+  font-size: 2.2vh
+  padding: 0.3em
+  table
+    height: 100%
+    margin: 0 auto
+
+/* Sharing
+
+.button-wrapper
+  text-align: center
+  margin: 0em 1em 1em 1em
+  cursor: pointer
+  img
+    padding-left: 10px
+    padding-right: 10px
+    width: 65px
+  a:hover
+    text-decoration: none

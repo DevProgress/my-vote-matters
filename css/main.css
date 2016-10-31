@@ -1,435 +1,493 @@
 /* Styles adapted from https://github.com/DevProgress/swear-jar,
-   ifihadaquarter.com
-*/
-
+ * ifihadaquarter.com */
 /* FONTS
-   Supplementing Montserrat Google webfront from Light and Thin variations.
-   Courtesy of FontSquirrel, licensed under the SIL Open Font License.
-   Permitted for use as a @font-face webfont. */
+ * Supplementing Montserrat Google webfront from Light and Thin variations.
+ * Courtesy of FontSquirrel, licensed under the SIL Open Font License.
+ * Permitted for use as a @font-face webfont. */
 @font-face {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 300;
-  src: local('Montserrat-Light'), url(Montserrat-Light.otf) format('opentype');
+  src: local("Montserrat-Light"), url(Montserrat-Light.otf) format("opentype");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 @font-face {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 200;
-  src: local('Montserrat-ExtraLight'), url(Montserrat-ExtraLight.otf) format('opentype');
+  src: local("Montserrat-ExtraLight"), url(Montserrat-ExtraLight.otf) format("opentype");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 @font-face {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 100;
-  src: local('Montserrat-Thin'), url(Montserrat-Thin.otf) format('opentype');
+  src: local("Montserrat-Thin"), url(Montserrat-Thin.otf) format("opentype");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
-
 /* COLORS */
-.fgblue  { color: #0066cc; }
-.fgred   { color: #ff3333; }
-.fgwhite { color: #ffffff; }
-.bgblue  { background-color: #0066cc; }
-.bgred   { background-color: #ff3333; }
-.bgwhite { background-color: #ffffff; }
+/* line 34, ../sass/main.sass */
+.fgblue {
+  color: #0066cc;
+}
+
+/* line 37, ../sass/main.sass */
+.fgred {
+  color: #ff3333;
+}
+
+/* line 40, ../sass/main.sass */
+.fgwhite {
+  color: #ffffff;
+}
+
+/* line 43, ../sass/main.sass */
+.bgblue {
+  background-color: #0066cc;
+}
+
+/* line 46, ../sass/main.sass */
+.bgred {
+  background-color: #ff3333;
+}
+
+/* line 49, ../sass/main.sass */
+.bgwhite {
+  background-color: #ffffff;
+}
 
 /* General */
-
+/* line 54, ../sass/main.sass */
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
+/* line 58, ../sass/main.sass */
 body {
-    font: 20px Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
-    background-size:100%;
+  font: 20px Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
+  background-size: 100%;
 }
 
+/* line 62, ../sass/main.sass */
 p {
-    margin-bottom: 1em
+  margin-bottom: 1em;
 }
 
+/* line 65, ../sass/main.sass */
 .no-display {
-    display: none;
+  display: none;
 }
 
+/* line 68, ../sass/main.sass */
 .align-left {
-    text-align: left;
+  text-align: left;
 }
 
+/* line 71, ../sass/main.sass */
 .align-right {
-    text-align: right;
+  text-align: right;
 }
 
+/* line 74, ../sass/main.sass */
 .align-center {
-    text-align: center;
+  text-align: center;
 }
 
+/* line 77, ../sass/main.sass */
 #photos {
-    position: absolute;
-    top: 15%;
-    width: 100vw;
-    height: 68%;
-    overflow: hidden;
+  position: absolute;
+  top: 15%;
+  width: 100vw;
+  height: 68%;
+  overflow: hidden;
 }
-
-#photos>div {
-    position: absolute;
-    width: calc((245px + 5px * 2) * 4); /* use #photos img width here */
-    height: calc((236px + 5px * 2) * 2); /* use #photos img height here */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-wrap: wrap;
+/* line 83, ../sass/main.sass */
+#photos > div {
+  position: absolute;
+  width: calc((245px + 5px * 2) * 4);
+  /* use #photos img width here */
+  height: calc((236px + 5px * 2) * 2);
+  /* use #photos img height here */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
 }
-
+/* line 94, ../sass/main.sass */
 #photos canvas {
-    box-sizing: content-box;
-    padding: 5px;
-    border: none;
-    display: block;
-    width: 245px;
-    height: 236px;
+  box-sizing: content-box;
+  padding: 5px;
+  border: none;
+  display: block;
+  width: 245px;
+  height: 236px;
 }
 
+/* line 102, ../sass/main.sass */
 #main {
-    position: absolute;
-    top: 15%;
-    width: 100%;
-    height: 70%;
-    margin: 0 auto;
-    padding: 0.7em;
-    overflow: scroll;
+  position: absolute;
+  top: 15%;
+  width: 100%;
+  height: 70%;
+  margin: 0 auto;
+  padding: 0.7em;
+  overflow: scroll;
 }
 
 /* Timeline */
-
+/* line 113, ../sass/main.sass */
 .timeline-block {
-    font-size: 16px;
-    color: #ffffff;
+  font-size: 16px;
+  color: #ffffff;
 }
-
+/* line 116, ../sass/main.sass */
 .timeline-block.top-row {
-    padding: 20vh 0 2em 0;
+  padding: 20vh 0 2em 0;
 }
-
+/* line 118, ../sass/main.sass */
 .timeline-block.bottom-row {
-    padding: 5vh 0 2em 0;
+  padding: 5vh 0 2em 0;
 }
 
+/* line 121, ../sass/main.sass */
 .timeline-article {
-    padding-bottom: 1em;
+  padding-bottom: 1em;
 }
 
+/* line 125, ../sass/main.sass */
 .timeline-block p {
-    line-height: 1.45em;
+  line-height: 1.45em;
 }
-
-.timeline-block h2,
-.timeline-block h3 {
-    font-weight: 700;
+/* line 127, ../sass/main.sass */
+.timeline-block h2, .timeline-block h3 {
+  font-weight: 700;
 }
-
+/* line 129, ../sass/main.sass */
 .timeline-block h2 {
-    display: inline-block;
-    padding: 0.5em;
-    margin-top: -1em;
-    color: #ffffff;
-    background-color: #ff3333;
+  display: inline-block;
+  padding: 0.5em;
+  margin-top: -1em;
+  color: #ffffff;
+  background-color: #ff3333;
 }
-
+/* line 135, ../sass/main.sass */
 .timeline-block h3 {
-    color: #ff3333;
-    font-size: 20px;
+  color: #ff3333;
+  font-size: 20px;
 }
 
+/* line 139, ../sass/main.sass */
 ul.timeline {
-    /*display: flex;*/
-    white-space: nowrap;
-    overflow-x: auto;
-    position: relative;
-    padding: 10px 0 80px 0;
-    margin: 0;
-    font-size: 14px;
+  /*display: flex; */
+  white-space: nowrap;
+  overflow-x: auto;
+  position: relative;
+  padding: 10px 0 80px 0;
+  margin: 0;
+  font-size: 14px;
 }
-
+/* line 147, ../sass/main.sass */
 ul.timeline li {
-    display: inline-block;
-    position: relative;
-    width: 120px;
-    padding: 80px 0 16px 0;
-    white-space: normal;
-    vertical-align: bottom;
+  display: inline-block;
+  position: relative;
+  width: 120px;
+  padding: 80px 0 16px 0;
+  white-space: normal;
+  vertical-align: bottom;
 }
-
+/* line 154, ../sass/main.sass */
 ul.timeline li:after {
-    content:'';
-    display:block;
-    background: #ffffff;
-    width: 1em;
-    height: 1em;
-    border-radius: 2em;
-    position:absolute;
-    left:50%;
-    bottom: 0;
-    margin-left: -0.5em;
+  content: "";
+  display: block;
+  background: #ffffff;
+  width: 1em;
+  height: 1em;
+  border-radius: 2em;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  margin-left: -0.5em;
 }
-
+/* line 165, ../sass/main.sass */
 ul.timeline li strong {
-    display: block;
-    position: absolute;
-    text-align: center;
-    left: 0; right: 0;
-    bottom: -20px;
+  display: block;
+  position: absolute;
+  text-align: center;
+  left: 0;
+  right: 0;
+  bottom: -20px;
 }
-
+/* line 172, ../sass/main.sass */
 ul.timeline li .headline {
-    display: block;
-    transform: rotate(-25deg);
-    transform-origin: top left;
-    position: relative;
-    left: 50%;
-    font-size: 0.75em;
-    width: 220px;
-    padding: 0.2em;
+  display: block;
+  transform: rotate(-25deg);
+  transform-origin: top left;
+  position: relative;
+  left: 50%;
+  font-size: 0.75em;
+  width: 220px;
+  padding: 0.2em;
 }
-
+/* line 181, ../sass/main.sass */
 ul.timeline li .details {
-    display: block;
-    position: absolute;
-    padding:12px;
-    background-color: #444444;
-    color: #ffffff;
-    border-radius: 8px;
-    transition: opacity .5s ease-in-out;
-    -webkit-transition: opacity .5s ease-in-out;
-    opacity: 0;
-    right: -25px;
-    bottom: 8px;
+  display: block;
+  position: absolute;
+  padding: 12px;
+  background-color: #444444;
+  color: #ffffff;
+  border-radius: 8px;
+  transition: opacity 0.5s ease-in-out;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+  right: -25px;
+  bottom: 8px;
 }
-
-ul.timeline li:hover .details,
-ul.timeline li:active .details {
-    opacity: 1;
+/* line 193, ../sass/main.sass */
+ul.timeline li:hover .details, ul.timeline li:active .details {
+  opacity: 1;
 }
 
 /* Camera */
-
+/* line 198, ../sass/main.sass */
 #camera {
-    text-align: center;
-    width: 100%;
-    height: 50%;
+  text-align: center;
+  width: 100%;
+  height: 50%;
 }
 
+/* line 203, ../sass/main.sass */
 #video-wrapper {
-    position: relative;
-    text-align: center;
-    margin: 0 auto;
-    border-radius: 10px;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 10px;
 }
-
+/* line 208, ../sass/main.sass */
 #video-wrapper.camera-failure {
-    width: 300px;
-    height: 300px;
-    margin: auto;
-    vertical-align: middle;
-    display: flex;
-    padding: 1.5vh;
-    align-items: center;
-    box-sizing: border-box;
-    font-size: 3.5vh;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  vertical-align: middle;
+  display: flex;
+  padding: 1.5vh;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 3.5vh;
 }
 
+/* line 219, ../sass/main.sass */
 #canvas {
-    position: relative;
-    margin: 0 auto;
+  position: relative;
+  margin: 0 auto;
 }
 
 /* Camera Buttons / Input */
-
+/* line 225, ../sass/main.sass */
 #camerabutton-wrapper {
-    position: absolute;
-    top: 35%;
-    width: 100%;
+  position: absolute;
+  top: 35%;
+  width: 100%;
 }
 
+/* line 230, ../sass/main.sass */
 #camerabutton {
-    margin: 0 auto;
-    font-size: 16px;
+  margin: 0 auto;
+  font-size: 16px;
 }
 
+/* line 234, ../sass/main.sass */
 #streaming {
-    margin: 1em auto;
+  margin: 1em auto;
 }
 
+/* line 237, ../sass/main.sass */
 #startbutton {
-    height: 2em;
-    font-size: 16pt;
+  height: 2em;
+  font-size: 16pt;
 }
-
+/* line 240, ../sass/main.sass */
 #startbutton .text {
-    position: relative;
-    top: -.55em;
+  position: relative;
+  top: -0.55em;
 }
-
+/* line 243, ../sass/main.sass */
 #startbutton .emoji {
-    position: relative;
-    top: -0.2em;
-    font-size: 24pt;
-    margin-right: 0.25em;
+  position: relative;
+  top: -0.2em;
+  font-size: 24pt;
+  margin-right: 0.25em;
 }
 
+/* line 249, ../sass/main.sass */
 .input-wrapper {
-    text-align: center;
-    margin: 1em auto;
-    font-size: 14pt;
+  text-align: center;
+  margin: 1em auto;
+  font-size: 14pt;
 }
 
+/* line 254, ../sass/main.sass */
 .input-message {
-    border: 2px solid #eee;
-    border-radius: 5px;
-    height: 35px;
-    text-indent: 10px;
+  border: 2px solid #eee;
+  border-radius: 5px;
+  height: 35px;
+  text-indent: 10px;
 }
 
+/* line 260, ../sass/main.sass */
 .result {
-    text-align: center;
-    background-color: white;
-    padding: 0.3em;
-    width: 50%;
-    margin: 0 auto;
+  text-align: center;
+  background-color: white;
+  padding: 0.3em;
+  width: 50%;
+  margin: 0 auto;
 }
-
+/* line 266, ../sass/main.sass */
 .result .cancel-button {
-    color: #c9302c;
+  color: #c9302c;
 }
 
 /* Header */
-
+/* line 271, ../sass/main.sass */
 #header {
-    position: absolute;
-    width: 100%;
-    height: 15%;
-    padding: 0.4em;
-    font-size: 3vh;
+  position: absolute;
+  width: 100%;
+  height: 15%;
+  padding: 0.4em;
+  font-size: 3vh;
 }
-
+/* line 277, ../sass/main.sass */
 #header table {
-    height: 100%;
+  height: 100%;
+}
+/* line 279, ../sass/main.sass */
+#header h1 {
+  display: inline;
 }
 
-#header h1, h3, h4 {
-    display: inline;
+/* line 282, ../sass/main.sass */
+h3, h4 {
+  display: inline;
 }
 
-#header h1 { font-size: 160%; font-weight: bold; }
-#header h3 { font-size: 120%; font-weight: 100; }
-#header h4 { font-size: 75%; }
-
+/* line 286, ../sass/main.sass */
+#header h1 {
+  font-size: 160%;
+  font-weight: bold;
+}
+/* line 289, ../sass/main.sass */
+#header h3 {
+  font-size: 120%;
+  font-weight: 100;
+}
+/* line 292, ../sass/main.sass */
+#header h4 {
+  font-size: 75%;
+}
+/* line 294, ../sass/main.sass */
 #header img {
-    height: 1.5em;
-    border-radius: 20%;
-    vertical-align: middle;
-    margin-left: 5px;
+  height: 1.5em;
+  border-radius: 20%;
+  vertical-align: middle;
+  margin-left: 5px;
 }
-
-#header a:link,
-#header a:visited {
-    color: #ffffff;
-    text-decoration: none;
+/* line 300, ../sass/main.sass */
+#header a:link, #header a:visited {
+  color: #ffffff;
+  text-decoration: none;
 }
-
+/* line 303, ../sass/main.sass */
 #header #link {
-    float: right;
+  float: right;
 }
-
+/* line 305, ../sass/main.sass */
 #header #link a {
-    margin-right: 6px;
-    font-size: 2.5vh;
-    font-weight: 300;
+  margin-right: 6px;
+  font-size: 2.5vh;
+  font-weight: 300;
 }
 
-
-/* Carousel  */
-
+/* Carousel */
+/* line 312, ../sass/main.sass */
 .carousel-footer {
-    position: absolute;
-    bottom: 5%;
-    height: 14%;
-    width: 100%;
-    text-align: center;
-    font-size: 2.2vh;
-    padding: 0.7em 0em;
+  position: absolute;
+  bottom: 5%;
+  height: 14%;
+  width: 100%;
+  text-align: center;
+  font-size: 2.2vh;
+  padding: 0.7em 0em;
 }
 
+/* line 321, ../sass/main.sass */
 #carousel {
-    height: 100%;
+  height: 100%;
 }
 
+/* line 324, ../sass/main.sass */
 .carousel-inner {
-    height: 100%;
-    width: 80%;
-    margin: 0 auto;
+  height: 100%;
+  width: 80%;
+  margin: 0 auto;
 }
 
+/* line 329, ../sass/main.sass */
 #carousel .item {
-    height: 100%;
-    width: 100%;
-    margin: 0 auto;
-    padding-left: 2em;
-    padding-right: 2em;
-    text-align: center;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 2em;
+  padding-right: 2em;
+  text-align: center;
 }
-
+/* line 336, ../sass/main.sass */
 #carousel .item table {
-    height: 100%;
-    margin: 0 auto;
+  height: 100%;
+  margin: 0 auto;
 }
 
+/* line 340, ../sass/main.sass */
 .carousel-control {
-    font-size: 8vh;
+  font-size: 8vh;
 }
-
+/* line 342, ../sass/main.sass */
 .carousel-control table {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 /* Footer */
-
+/* line 348, ../sass/main.sass */
 #devprogress-footer {
-    background-color: #ccc;
-    position: absolute;
-    bottom: 0;
-    height: 5%;
-    width: 100%;
-    font-size: 2.2vh;
-    padding: 0.3em;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 0;
+  height: 5%;
+  width: 100%;
+  font-size: 2.2vh;
+  padding: 0.3em;
 }
-
+/* line 356, ../sass/main.sass */
 #devprogress-footer table {
-    height: 100%;
-    margin: 0 auto;
+  height: 100%;
+  margin: 0 auto;
 }
 
 /* Sharing */
-
+/* line 362, ../sass/main.sass */
 .button-wrapper {
-    text-align: center;
-    margin: 0em 1em 1em 1em;
-    cursor: pointer;
+  text-align: center;
+  margin: 0em 1em 1em 1em;
+  cursor: pointer;
 }
-
+/* line 366, ../sass/main.sass */
 .button-wrapper img {
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 65px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 65px;
 }
-
+/* line 370, ../sass/main.sass */
 .button-wrapper a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
