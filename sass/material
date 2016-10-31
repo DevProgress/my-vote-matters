@@ -1,0 +1,186 @@
+component reference shadows
+
+A dp is equal to one physical pixel on a screen with a density of 160. To calculate dp:
+
+dp = (width in pixels * 160) / screen density
+
+When writing CSS, use px wherever dp or sp is stated. Dp only needs to be used in developing for Android.
+
+
+App bar
+
+4dp
+
+Metrics
+
+Default heights:
+
+Mobile Landscape: 48dp
+Mobile Portrait: 56dp
+Tablet/Desktop: 64dp
+
+For extended app bars, the height is equal to the default height plus content increment(s).
+
+he app bar with significantly increased height for prominence
+
+App bar height: 128dp
+
+Raised button
+Resting state: 2dp
+Pressed state: 8dp
+
+For desktop only, raised buttons can have an elevation of:
+Resting state: 0dp
+Pressed state: 2dp
+
+See raised buttons for more information
+
+Card
+
+Resting state: 2dp
+
+Raised state: 8dp
+
+For Desktop only, see Content blocks.
+
+Menus and sub menus
+
+Menus: 8dp
+
+Sub menus: 9dp (+1 dp for each sub menu)
+
+Dialogs
+
+24dp
+
+Nav Drawer & Right drawer
+
+16dp
+
+
+font sizes
+
+Display 4 3 2 1 
+light 112sp
+regular 56sp
+regular 45sp
+34sp
+
+Headline 
+regular 24sp
+title
+medium 20p
+subheading 
+Regular 16 sp
+
+button ALL CAPS 14 SP
+
+line height
+
+Display 2 
+Type 45sp Leading 48sp
+1 
+Type 34sp Leading 32dp
+Headline
+Type 24 sp leading 32 sp
+subheading 2, 1
+Type 15 and 16sp leading 28dp
+Type 15 and 16sp leading 24dp
+Body 2,1 
+13 14 leading 24
+leading 20
+
+Content guidelines
+
+Padding around content area: 24dp
+Padding between title and body text: 20dp
+Padding around buttons: 8dp
+Button height: 36dp
+Action area height: 52dp
+Dialog elevation: 24dp
+
+Dialog content bottom padding: 24dp
+Button height: 36dp
+Button margin: 8dp
+
+Button width and padding
+
+Button height: 36dp
+Minimum button width: 64dp
+Internal button padding: 8dp
+Padding between buttons: 8dp
+
+Button height: 36dp
+Button area height: 52dp
+Left button padding: 24dp
+Right button padding: 8dp
+Padding between buttons: 8dp
+
+Simple dialog keylines
+
+Vertical keyline at 24dp from the left and right edges. Content associated with an icon or avatar aligns 80dp from the left edge.
+
+App bar height with a single line of text: 56dp
+App bar height with two lines of text: 80dp
+Title text keyline: 72dp
+Title text: 20sp
+Title text top and bottom padding: 20dp
+Dismissive action padding from left edge: 16dp
+Affirmative action text: 14sp
+Affirmative action text padding on the left and right: 16dp
+
+bottom navbar 
+Height: 56dp
+use icons
+Icon: 24 x 24dp
+
+
+Width minimum and maximum (these values include padding):
+
+Maximum: 168dp
+Minimum: 80dp
+Height:
+56dp
+
+Icon: 
+24 x 24dp
+
+Content alignment: 
+Text and icon are centered horizontally within the view.
+
+Padding:
+
+6dp above icon (active view), 8dp above icon (inactive view)
+10dp under text
+12dp left and right of text
+Text label:
+
+Roboto Regular 14sp (active view)
+Roboto Regular 12sp (inactive view)
+
+Screen resolution
+dpi
+Pixel ratio
+Image size (pixels)
+xxxhdpi
+640
+4.0
+400 x 400
+xxhdpi
+480
+3.0
+300 x 300
+xhdpi
+320
+2.0
+200 x 200
+hdpi
+240
+1.5
+150 x 150
+mdpi
+160
+1.0
+100 x 100
+
+
