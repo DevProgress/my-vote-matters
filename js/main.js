@@ -391,22 +391,20 @@
     // first post to Imgur to get a link
     var base64 = getImageData();
     base64 = base64.split(',')[1];
-    OAuth.popup('imgur').then(function(result) {
-      var data = new FormData();
-      data.append("image", base64);
-      return result.post('/3/image', {
-        data: data,
-        cache: false,
-        processData: false,
-        contentType: false
-      });
-    }).done(function(data){
+    $.ajax({
+      url: "https://api.imgur.com/3/image",
+      method: "POST",
+      data: {"image": base64},
+      beforeSend: function (xhr){
+        xhr.setRequestHeader('Authorization', "Client-ID " + "527ddbd115eea70");
+      }
+    }).done(function(data) {
       // now post to Facebook
       FB.ui({
         method: 'feed',
         picture: data.data.link
       }, function(response){
-        if (response.post_id) {
+        if (response && response.post_id) {
           var url = "https://facebook.com/" + response.post_id;
           onShareSuccess('facebook', url);
         } else {
@@ -548,7 +546,6 @@
     var SELFIE_COUNT = images.length-1;
     const SELFIE_COL_COUNT = 4;
     const SELFIE_ROW_COUNT = 2;
-
     photoIndices = createArrayFromKnuthShuffle();
     var root = document.querySelector('#photos>div');
     photoIndices.slice(0, SELFIE_ROW_COUNT * SELFIE_COL_COUNT).forEach(function(index) {
