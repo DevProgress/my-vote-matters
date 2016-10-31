@@ -126,10 +126,10 @@
       postToTwitter();
     });
 
-    // $('#controls').on('click', '.fb-share-button', function(ev) {
-    //   ga('send', 'event', 'share', 'click', 'facebook');
-    //   postToFacebook();
-    // });
+    $('#controls').on('click', '.fb-share-button', function(ev) {
+      ga('send', 'event', 'share', 'click', 'facebook');
+      postToFacebook();
+    });
 
     $('#controls').on('click', '.download-button', function(ev) {
       ga('send', 'event', 'share', 'click', 'download');
