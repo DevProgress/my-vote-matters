@@ -326,9 +326,20 @@
 
   function takepicture() {
     video.pause();
+
     $('#streaming').addClass('no-display');
     $(".input-wrapper").removeClass("no-display");
-    $('#share-photo').removeClass('no-display');
+
+    uploadToImgur().then(function(response) {
+      // Show this only after the upload to imgur is successful.
+      $('#share-photo').removeClass('no-display');
+
+      linkToShare = response.data.link;
+      console.log(linkToShare);
+    }).catch(function(e){
+      ga('send', 'event', 'share', 'error', 'imgur');
+      onShareError('imgur', e);
+    });
   }
 
   function untakepicture() {
@@ -387,34 +398,33 @@
     });
   }
 
+  function uploadToImgur() {
+    var base64 = getImageData().split(',')[1];
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+        url: 'https://api.imgur.com/3/image',
+        method: 'POST',
+        data: {'image': base64},
+        beforeSend: function (xhr){
+          xhr.setRequestHeader('Authorization', 'Client-ID 527ddbd115eea70');
+        }
+      }).done(resolve).fail(reject);
+    });
+  }
+
   function postToFacebook() {
     // first post to Imgur to get a link
-    var base64 = getImageData();
-    base64 = base64.split(',')[1];
-    $.ajax({
-      url: "https://api.imgur.com/3/image",
-      method: "POST",
-      data: {"image": base64},
-      beforeSend: function (xhr){
-        xhr.setRequestHeader('Authorization', "Client-ID " + "527ddbd115eea70");
+    FB.ui({
+      method: 'feed',
+      picture: data.data.link
+    }, function(response){
+      if (response && response.post_id) {
+        var url = "https://facebook.com/" + response.post_id;
+        onShareSuccess('facebook', url);
+      } else {
+        ga('send', 'event', 'share', 'error', 'facebook');
+        onShareError('facebook', e);
       }
-    }).done(function(data) {
-      // now post to Facebook
-      FB.ui({
-        method: 'feed',
-        picture: data.data.link
-      }, function(response){
-        if (response && response.post_id) {
-          var url = "https://facebook.com/" + response.post_id;
-          onShareSuccess('facebook', url);
-        } else {
-          ga('send', 'event', 'share', 'error', 'facebook');
-          onShareError('facebook', e);
-        }
-      });
-    }).fail(function(e){
-      ga('send', 'event', 'share', 'error', 'imgur');
-      onShareError('imgur', e);
     });
   }
 
