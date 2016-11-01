@@ -36,9 +36,28 @@
   var startbutton = null;
   var camerabutton = null;
 
+  // FIXME: Replace with MediaDevices.getUserMedia.
+  var getUserMedia =  (navigator.getUserMedia ||
+                      navigator.webkitGetUserMedia ||
+                      navigator.mozGetUserMedia ||
+                      navigator.msGetUserMedia);
+
+
+  var ui = {
+    hide: function(element) {
+      element.classList.add('no-display');
+    },
+    show: function(element) {
+      element.classList.remove('no-display');
+    },
+    toCameraStarted: function() {
+      this.hide(document.querySelector('#camerabutton'));
+      this.show(document.querySelector('#streaming'));
+    }
+  }
+
   function startCamera() {
-    $("#camerabutton").addClass("no-display");
-    $("#streaming").removeClass("no-display");
+    ui.toCameraStarted();
 
     connectCamera().then(function() {
       video.addEventListener('canplay', function(ev){
@@ -54,12 +73,6 @@
   }
 
   function connectCamera() {
-    // FIXME: Replace with MediaDevices.getUserMedia.
-    var getUserMedia =  (navigator.getUserMedia ||
-                        navigator.webkitGetUserMedia ||
-                        navigator.mozGetUserMedia ||
-                        navigator.msGetUserMedia);
-
     return new Promise(function(resolve, reject) {
       if (!getUserMedia) {
         reject();
@@ -93,6 +106,8 @@
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
     camerabutton = document.getElementById('camerabutton');
+    var $controls = $('#controls');
+    var $window = $(window);
 
     // wait for Montserrat to be loaded
     // video wrapper is hidden at first to prevent weird flashing on page load
@@ -117,36 +132,36 @@
       ev.preventDefault();
     }, false);
 
-    canvas.addEventListener('click', function(ev){
+    canvas.addEventListener('click', function(){
       ga('send', 'event', 'start', 'click');
       takepicture();
     }, false);
 
-    $('#controls').on('click', '.cancel-button', function(ev) {
+    $controls.on('click', '.cancel-button', function() {
       ga('send', 'event', 'cancel', 'click');
       untakepicture();
     });
 
-    $('#controls').on('click', '.twitter-share-button', function(ev) {
+    $controls.on('click', '.twitter-share-button', function() {
       ga('send', 'event', 'share', 'click', 'twitter');
       postToTwitter();
     });
 
-    $('#controls').on('click', '.fb-share-button', function(ev) {
+    $controls.on('click', '.fb-share-button', function() {
       ga('send', 'event', 'share', 'click', 'facebook');
       postToFacebook();
     });
 
-    $('#controls').on('click', '.download-button', function(ev) {
+    $controls.on('click', '.download-button', function() {
       ga('send', 'event', 'share', 'click', 'download');
       downloadImage(this);
     });
 
-    $(window).on('orientationchange', function(ev) {
+    $window.on('orientationchange', function() {
       setTimeout(resizeCanvas, 300); // FIXME can this be lower?
     });
 
-    $(window).on('resize', function(ev) {
+    $window.on('resize', function() {
       resizeCanvas();
     });
 
@@ -157,6 +172,22 @@
 
     document.querySelector('#oauth').addEventListener('load', initOAuth);
 
+    if (!getUserMedia) {
+      ui.toCameraStarted();
+      createNoCameraUI();
+    } else {
+      navigator.mediaDevices.enumerateDevices().then(function(devices) {
+        if (devices.some(isVideoInput))
+          return;
+
+        ui.toCameraStarted();
+        createNoCameraUI();
+
+        function isVideoInput(device) {
+          return device.kind == 'videoinput';
+        }
+      });
+    }
   }
 
   function initOAuth() {
@@ -169,6 +200,7 @@
   function drawPlaceholder() {
     context.beginPath();
     context.fillStyle = "white";
+    var INSIDE_MARGIN = width / 20; // of white polaroid
     context.rect(0, 0, width + 2*INSIDE_MARGIN, height + 2*INSIDE_MARGIN + 20*TEXT_HEIGHT + 2*TEXT_PADDING);
     context.fill();
 
@@ -187,7 +219,7 @@
   function resizeCanvas() {
     width = Math.min(MIN_WIDTH, Math.round(screen.width * MIN_WIDTH_RATIO));
     MARGIN = width / 15; // of blue wrapper
-    INSIDE_MARGIN = width / 20; // of white polaroid
+    var INSIDE_MARGIN = width / 20; // of white polaroid
     TEXT_HEIGHT = 2 * MARGIN;
     TEXT_PADDING = TEXT_HEIGHT / 4;
     HORIZ_INC = 2*INSIDE_MARGIN;
@@ -237,6 +269,7 @@
   function polaroid(canvas, context, width, height, fs) {
     context.beginPath();
     context.fillStyle = "white";
+    var INSIDE_MARGIN = width / 20; // of white polaroid
     context.rect(0, 0, width + 2*INSIDE_MARGIN, height + 2*INSIDE_MARGIN + 20*TEXT_HEIGHT + 2*TEXT_PADDING);
     context.fill();
 
@@ -392,6 +425,7 @@
   }
 
   function addTextToImage() {
+    var INSIDE_MARGIN = width / 20;
     polaroid(canvas, context, width, height, TEXT_HEIGHT/2);
     context.drawImage(shareTarget.image, INSIDE_MARGIN, INSIDE_MARGIN, width, height);
 
@@ -477,6 +511,7 @@
     var SELFIE_COUNT = images.length-1;
     const SELFIE_COL_COUNT = 4;
     const SELFIE_ROW_COUNT = 2;
+    var INSIDE_MARGIN = width / 20;
     photoIndices = createArrayFromKnuthShuffle();
     var root = document.querySelector('#photos>div');
     photoIndices.slice(0, SELFIE_ROW_COUNT * SELFIE_COL_COUNT).forEach(function(index) {
