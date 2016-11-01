@@ -25,6 +25,7 @@
   // will be set by the startup() function.
 
   var video = null;
+  var localstream = null;
   var wrapper = null;
   var canvas = null;
   var context = null;
@@ -47,24 +48,22 @@
       element.classList.remove('no-display');
     },
     toCameraStarted: function() {
-      this.hide(document.querySelector('#camerabutton'));
-      this.show(document.querySelector('#streaming'));
+      $('#camerabutton').addClass('no-display');
+      $('#streaming').removeClass('no-display');
     }
-  }
+  };
 
   function startCamera() {
-    ui.toCameraStarted();
-
     connectCamera().then(function() {
-      video.addEventListener('canplay', function(ev){
+      video.addEventListener('canplay', function(){
         (function loop() {
           addTextToImage();
           setTimeout(loop, 1000 / 60);
         })();
         resizeCanvas();
-        video.play();
+        video.play().then(ui.toCameraStarted); // as a promise so button is not ready too early
       }, false);
-      video.play();
+      video.play().then(ui.toCameraStarted);
     }, createNoCameraUI);
   }
 
@@ -86,6 +85,7 @@
             var vendorURL = window.URL || window.webkitURL;
             video.src = vendorURL.createObjectURL(stream);
           }
+          localstream = stream;
           resolve();
         }, reject
       );
@@ -359,6 +359,9 @@
 
   function takepicture() {
     video.pause();
+    localstream.getTracks()[0].stop();
+    CAMERA_STARTED = false;
+
     $('#streaming').addClass('no-display');
     $(".input-wrapper").removeClass("no-display");
     $('#share-photo').removeClass('no-display');
@@ -366,7 +369,7 @@
 
   function untakepicture() {
     clearMessage();
-    video.play();
+    startCamera();
 
     $('#streaming').removeClass('no-display');
     $('#share-photo').addClass('no-display');
@@ -599,8 +602,8 @@
     });
 
     function createArrayFromKnuthShuffle() {
-      var array = Array.apply(null, Array(SELFIE_COUNT));
-      array = array.map(function(_, i) { return i + 1; })
+      var array = Array.apply(null, new Array(SELFIE_COUNT));
+      array = array.map(function(_, i) { return i + 1; });
       var currentIndex = SELFIE_COUNT;
       var temp;
       var randomIndex;
