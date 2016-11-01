@@ -1,3 +1,5 @@
+@import bootstrap
+
 /* Styles adapted from https://github.com/DevProgress/swear-jar,
  * ifihadaquarter.com
 
@@ -28,6 +30,80 @@
   src: local("Montserrat-Thin"), url(Montserrat-Thin.otf) format("opentype")
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000
 
+// Override Bootstrap variables here (defaults from bootstrap-sass v3.3.7):
+
+//
+// Variables
+// --------------------------------------------------
+
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+
+// $gray-base:              #000
+// $gray-darker:            lighten($gray-base, 13.5%) // #222
+// $gray-dark:              lighten($gray-base, 20%)   // #333
+// $gray:                   lighten($gray-base, 33.5%) // #555
+// $gray-light:             lighten($gray-base, 46.7%) // #777
+// $gray-lighter:           lighten($gray-base, 93.5%) // #eee
+
+
+// $brand-success:         #5cb85c
+
+// $brand-warning:         #f0ad4e
+$brand-danger:          #ff3333
+
+$brand-primary:         #0057b8
+$brand-info:            #0066cc
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+
+$body-bg:               #0057b8
+//** Global text color on `<body>`.
+$text-color:            #ffffff
+
+//** Global textual link color.
+$link-color:            #ffffff
+//** Link hover color set via `darken()` function.
+// $link-hover-color:      darken($link-color, 15%)
+//** Link hover decoration.
+$link-hover-decoration: underline
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+
+// $font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif
+// $font-family-serif:       Georgia, "Times New Roman", Times, serif
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+// $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace
+// $font-family-base:        $font-family-sans-serif
+
+// $font-size-base:          14px
+// $font-size-large:         ceil(($font-size-base * 1.25)) // ~18px
+// $font-size-small:         ceil(($font-size-base * 0.85)) // ~12px
+
+// $font-size-h1:            floor(($font-size-base * 2.6)) // ~36px
+// $font-size-h2:            floor(($font-size-base * 2.15)) // ~30px
+// $font-size-h3:            ceil(($font-size-base * 1.7)) // ~24px
+// $font-size-h4:            ceil(($font-size-base * 1.25)) // ~18px
+// $font-size-h5:            $font-size-base
+// $font-size-h6:            ceil(($font-size-base * 0.85)) // ~12px
+
+//** Unit-less `line-height` for use in components like buttons.
+// $line-height-base:        1.428571429 // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+// $line-height-computed:    floor(($font-size-base * $line-height-base)) // ~20px
+
+//** By default, this inherits from the `<body>`.
+// $headings-font-family:    inherit
+// $headings-font-weight:    500
+// $headings-line-height:    1.1
+// $headings-color:          inherit
 
 /* COLORS
 
@@ -41,10 +117,10 @@
   color: #ffffff
 
 .bgblue
-  background-color: #0066cc
+  background-color: #0057b8
 
 .bgred
-  background-color: #ff3333
+  background-color: #e4002b
 
 .bgwhite
   background-color: #ffffff
@@ -106,17 +182,18 @@ p
   width: 100%
   height: 70%
   margin: 0 auto
-  padding: 0.7em
   overflow: scroll
 
 /* Camera
 
 #camera
+  //@include center-block()
   text-align: center
   width: 100%
   height: 50%
 
 #video-wrapper
+  display: inline-block
   position: relative
   text-align: center
   margin: 0 auto
@@ -148,7 +225,7 @@ p
   font-size: 16px
 
 #streaming
-  margin: 1em auto
+  margin: 1rem auto
 
 #startbutton
   height: 2em
@@ -164,14 +241,15 @@ p
 
 .input-wrapper
   text-align: center
-  margin: 1em auto
+  margin: 1rem auto
   font-size: 14pt
 
 .input-message
   border: 2px solid #eee
   border-radius: 5px
-  height: 35px
+  height: 70px
   text-indent: 10px
+  //@include resizable(vertical)
 
 .result
   text-align: center
@@ -189,7 +267,6 @@ p
   width: 100%
   height: 15%
   padding: 0.4em
-  font-size: 3vh
   table
     height: 100%
   h1
@@ -200,13 +277,9 @@ h3, h4
 
 #header
   h1
-    font-size: 160%
     font-weight: bold
   h3
-    font-size: 120%
     font-weight: 100
-  h4
-    font-size: 75%
   img
     height: 1.5em
     border-radius: 20%
@@ -220,7 +293,6 @@ h3, h4
     float: right
     a
       margin-right: 6px
-      font-size: 2.5vh
       font-weight: 300
 
 /* Carousel
@@ -231,7 +303,6 @@ h3, h4
   height: 14%
   width: 100%
   text-align: center
-  //font-size: 2.2vh
 
 #carousel
   height: 100%
@@ -252,7 +323,6 @@ h3, h4
     margin: 0 auto
 
 .carousel-control
-  font-size: 8vh
   table
     height: 100%
     width: 100%
@@ -265,7 +335,6 @@ h3, h4
   bottom: 0
   height: 5%
   width: 100%
-  font-size: 2.2vh
   table
     height: 100%
     margin: 0 auto
@@ -274,7 +343,7 @@ h3, h4
 
 .button-wrapper
   text-align: center
-  margin: 0em 1em 1em 1em
+  margin: 0rem 1rem 1rem 1em
   cursor: pointer
   img
     padding-left: 10px
@@ -291,9 +360,9 @@ h3, h4
   font-size: 16px
   color: #ffffff
   &.top-row
-    padding: 20vh 0 2em 0
+    padding: 20vh 0 2rem 0
   &.bottom-row
-    padding: 5vh 0 2em 0
+    padding: 5vh 0 2rem 0
 
 .timeline-article
   padding-bottom: 1em

@@ -14,7 +14,7 @@
   var HORIZ_INC = 2*MARGIN;
   var VERT_INC = 2*MARGIN + TEXT_HEIGHT;
   const RED = "#ff3333";
-  const BLUE = "#0066cc";
+  const BLUE = "#f0ad4e";
 
   var CAMERA_STARTED = false;
 

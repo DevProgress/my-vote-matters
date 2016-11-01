@@ -1,0 +1,83 @@
+App bar
+
+Title style, Medium 20sp
+
+Buttons
+
+English: Medium 14sp, all caps
+Dense: Medium 15sp, all caps
+Tall: Bold 15sp
+
+Subheading
+
+English: Regular 16sp (device), 15sp (desktop)
+Dense: Regular 17sp (device), 16sp (desktop)
+Tall: Regular 17sp (device), 16sp (desktop)
+
+Body 1
+
+English: Regular 14sp (device), 13sp (desktop)
+Dense: Regular 15sp (dense), 14sp (desktop)
+Tall: Regular 15sp (device), 14sp (desktop)
+
+Display 4-1
+Light 112
+Reg 56
+34
+Headline 24
+Title 20sp
+Subheading 16sp
+Body 2 Medium 14 sp
+Body 1 Regular 14sp
+
+Caption Regular 12 sp
+
+Button MEDIUM ALL CAPS 14sp
+Line Height
+Display 2 1
+45 sp leading 48
+34sp leading 40
+Headline
+24 sp leading 32
+Subheading 2 1 
+16 sp leading 24dp
+Body 2 1
+13 sp 20 
+
+Specs
+
+Width of each action: The width of the view divided by the number of actions (with a max of 168dp and a minimum of 80dp)
+Height: 56dp
+Icon: 24 x 24dp
+
+
+Shifting bottom navigation bar
+
+Width minimum and maximum (this includes padding):
+
+Active view
+
+Maximum: 168dp
+Minimum: 96dp
+Inactive view
+
+Maximum: 96dp
+Minimum: 56dp
+Height:
+56dp
+
+Icon: 
+24 x 24dp
+
+Content alignment: 
+Text and icon are centered horizontally within view.
+
+Padding:
+
+6dp above icon (active view), 16dp above and below icon (inactive view)
+10dp under text
+Text label:
+Roboto Regular 14sp (active view)
+
+
+
