@@ -32,9 +32,28 @@
   var startbutton = null;
   var camerabutton = null;
 
+  // FIXME: Replace with MediaDevices.getUserMedia.
+  var getUserMedia =  (navigator.getUserMedia ||
+                      navigator.webkitGetUserMedia ||
+                      navigator.mozGetUserMedia ||
+                      navigator.msGetUserMedia);
+
+
+  var ui = {
+    hide: function(element) {
+      element.classList.add('no-display');
+    },
+    show: function(element) {
+      element.classList.remove('no-display');
+    },
+    toCameraStarted: function() {
+      this.hide(document.querySelector('#camerabutton'));
+      this.show(document.querySelector('#streaming'));
+    }
+  }
+
   function startCamera() {
-    $("#camerabutton").addClass("no-display");
-    $("#streaming").removeClass("no-display");
+    ui.toCameraStarted();
 
     connectCamera().then(function() {
       video.addEventListener('canplay', function(ev){
@@ -50,12 +69,6 @@
   }
 
   function connectCamera() {
-    // FIXME: Replace with MediaDevices.getUserMedia.
-    var getUserMedia =  (navigator.getUserMedia ||
-                        navigator.webkitGetUserMedia ||
-                        navigator.mozGetUserMedia ||
-                        navigator.msGetUserMedia);
-
     return new Promise(function(resolve, reject) {
       if (!getUserMedia) {
         reject();
@@ -153,6 +166,22 @@
 
     document.querySelector('#oauth').addEventListener('load', initOAuth);
 
+    if (!getUserMedia) {
+      ui.toCameraStarted();
+      createNoCameraUI();
+    } else {
+      navigator.mediaDevices.enumerateDevices().then(function(devices) {
+        if (devices.some(isVideoInput))
+          return;
+
+        ui.toCameraStarted();
+        createNoCameraUI();
+
+        function isVideoInput(device) {
+          return device.kind == 'videoinput';
+        }
+      });
+    }
   }
 
   function initOAuth() {
