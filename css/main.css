@@ -295,7 +295,8 @@ ul.timeline li:active .details {
     border: 2px solid #eee;
     border-radius: 5px;
     height: 35px;
-    text-indent: 10px;
+    text-indent: 2px;
+    margin-bottom: 0.75em;
 }
 
 .result {
@@ -303,7 +304,7 @@ ul.timeline li:active .details {
     background-color: white;
     padding: 0.3em;
     width: 50%;
-    margin: 0 auto;
+    margin: 1em auto;
 }
 
 .result .cancel-button {
@@ -422,7 +423,7 @@ ul.timeline li:active .details {
 
 .button-wrapper {
     text-align: center;
-    margin: 0em 1em 1em 1em;
+    margin: 1em;
     cursor: pointer;
 }
 

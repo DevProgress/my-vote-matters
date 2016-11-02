@@ -106,6 +106,7 @@
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
     camerabutton = document.getElementById('camerabutton');
+    savebutton = document.getElementById('savebutton');
     var $controls = $('#controls');
     var $window = $(window);
 
@@ -129,6 +130,12 @@
     startbutton.addEventListener('click', function(ev){
       ga('send', 'event', 'start', 'click');
       takepicture();
+      ev.preventDefault();
+    }, false);
+
+    savebutton.addEventListener('click', function(ev){
+      ga('send', 'event', 'save', 'click');
+      savepicture();
       ev.preventDefault();
     }, false);
 
@@ -283,9 +290,17 @@
   function takepicture() {
     $('#streaming').addClass('no-display');
     $(".input-wrapper").removeClass("no-display");
+    $("#savebutton").text("Save");
+    $("#savebutton").removeClass("no-display");
+    shareTarget.captureImage();
+  }
 
-    shareTarget.captureImage().then(uploadToImgur).then(function(response) {
+  function savepicture() {
+    $("#savebutton").text("Saving...");
+    uploadToImgur().then(function(response) {
       // Show this only after the upload to imgur is successful.
+      $("#savebutton").addClass("no-display");
+      $(".input-wrapper").addClass("no-display");
       $('#share-photo').removeClass('no-display');
 
       linkToShare = response.data.link;
