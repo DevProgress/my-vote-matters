@@ -161,7 +161,6 @@
 
     $controls.on('click', '.download-button', function() {
       ga('send', 'event', 'share', 'click', 'download');
-      downloadImage(this);
     });
 
     $window.on('orientationchange', function() {
@@ -304,7 +303,7 @@
       $('#share-photo').removeClass('no-display');
 
       linkToShare = response.data.link;
-      console.log(linkToShare);
+      document.querySelector('.download-button').href = linkToShare;
     }).catch(function(e){
       ga('send', 'event', 'share', 'error', 'imgur');
       onShareError('imgur', e);
@@ -395,12 +394,6 @@
         onShareError('facebook', response.error_message);
       }
     });
-  }
-
-  function downloadImage(link) {
-    var file = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-    link.href=file;
-    link.download = "my_vote_matters.png";
   }
 
   function dataURItoBlob(dataURI) {
