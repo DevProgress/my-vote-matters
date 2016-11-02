@@ -264,7 +264,7 @@
     wrapper.appendChild(textNode);
 
     document.querySelector('#streaming .text').textContent = 'Upload photo';
-    shareTarget = new UploadShareTarget();
+    shareTarget = new UploadShareTarget(textNode);
   }
 
   // Capture a photo by fetching the current contents of the video
@@ -588,12 +588,13 @@
     startCamera();
   }
 
-  function UploadShareTarget() {
+  function UploadShareTarget(textNode) {
     this.upload = document.createElement('input');
     this.upload.type ='file';
     this.upload.style.display = 'none';
     this.upload.setAttribute('capture', 'camera');
     this.upload.setAttribute('accept', 'image/*');
+    this.textNode = textNode;
     var controls = document.querySelector('#controls');
     controls.appendChild(this.upload);
   }
@@ -616,7 +617,7 @@
 
         wrapper.classList.remove('camera-failure');
         try { // might have already removed this node
-          wrapper.removeChild(textNode);
+          wrapper.removeChild(this.textNode);
         } catch (err) {
         }
         $("#canvas").removeClass("no-display");
