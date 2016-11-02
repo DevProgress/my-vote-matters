@@ -45,6 +45,11 @@
 
 
   var ui = {
+    onclick: function(selector, handler) {
+      [].forEach.call(document.querySelectorAll(selector), function(element) {
+        element.addEventListener('click', handler);
+      });
+    },
     hide: function(element) {
       element.classList.add('no-display');
     },
@@ -52,8 +57,8 @@
       element.classList.remove('no-display');
     },
     toCameraStarted: function() {
-      $('#camerabutton').addClass('no-display');
-      $('#streaming').removeClass('no-display');
+      this.hide(document.querySelector('#camerabutton'));
+      this.show(document.querySelector('#streaming'));
     }
   };
 
@@ -65,9 +70,9 @@
           setTimeout(loop, 1000 / 60);
         })();
         resizeCanvas();
-        video.play().then(ui.toCameraStarted); // as a promise so button is not ready too early
+        video.play().then(ui.toCameraStarted.bind(ui)); // as a promise so button is not ready too early
       }, false);
-      video.play().then(ui.toCameraStarted);
+      video.play().then(ui.toCameraStarted.bind(ui));
     }, createNoCameraUI);
   }
 
@@ -107,14 +112,12 @@
     startbutton = document.getElementById('startbutton');
     camerabutton = document.getElementById('camerabutton');
     savebutton = document.getElementById('savebutton');
-    var $controls = $('#controls');
-    var $window = $(window);
 
     // wait for Montserrat to be loaded
     // video wrapper is hidden at first to prevent weird flashing on page load
     // in theory document.fonts.ready works in FF and Chrome, but it doesn't, so use a hacky timeout instead
     setTimeout(function() {
-      $("#video-wrapper").removeClass("no-display");
+      ui.show(document.querySelector('#video-wrapper'));
       resizeCanvas();
       createBackgroundSelfies();
     }, 100);
@@ -144,31 +147,31 @@
       takepicture();
     }, false);
 
-    $controls.on('click', '.cancel-button', function() {
+    ui.onclick('.cancel-button', function() {
       ga('send', 'event', 'cancel', 'click');
       untakepicture();
     });
 
-    $controls.on('click', '.twitter-share-button', function() {
+    ui.onclick('.twitter-share-button', function() {
       ga('send', 'event', 'share', 'click', 'twitter');
       postToTwitter();
     });
 
-    $controls.on('click', '.fb-share-button', function() {
+    ui.onclick('.fb-share-button', function() {
       ga('send', 'event', 'share', 'click', 'facebook');
       postToFacebook();
     });
 
-    $controls.on('click', '.download-button', function() {
+    ui.onclick('.download-button', function() {
       ga('send', 'event', 'share', 'click', 'download');
       downloadImage(this);
     });
 
-    $window.on('orientationchange', function() {
+    window.addEventListener('orientationchange', function() {
       setTimeout(resizeCanvas, 300); // FIXME can this be lower?
     });
 
-    $window.on('resize', function() {
+    window.addEventListener('resize', function() {
       resizeCanvas();
     });
 
@@ -257,7 +260,7 @@
 
     // Show an error message explaining that you
     // need to upload a photo instead
-    $("#canvas").addClass("no-display");
+    ui.hide(document.querySelector("#canvas"));
     wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
     var textNode = document.createTextNode('Oops! It looks like your camera won\'t work here, but you can upload a photo instead by pressing the button below.');
@@ -288,20 +291,22 @@
   }
 
   function takepicture() {
-    $('#streaming').addClass('no-display');
-    $(".input-wrapper").removeClass("no-display");
-    $("#savebutton").text("Save");
-    $("#savebutton").removeClass("no-display");
+    ui.hide(document.querySelector('#streaming'));
+    ui.show(document.querySelector('.input-wrapper'));
+    var savebutton = document.querySelector('#savebutton');
+    savebutton.value = 'Save';
+    ui.show(document.querySelector('#savebutton'));
     shareTarget.captureImage();
   }
 
   function savepicture() {
-    $("#savebutton").text("Saving...");
+    var savebutton = document.querySelector('#savebutton');
+    savebutton.value = 'Saving...';
     uploadToImgur().then(function(response) {
       // Show this only after the upload to imgur is successful.
-      $("#savebutton").addClass("no-display");
-      $(".input-wrapper").addClass("no-display");
-      $('#share-photo').removeClass('no-display');
+      ui.hide(savebutton);
+      ui.hide(document.querySelector('.input-wrapper'));
+      ui.show(document.querySelector('#share-photo'));
 
       linkToShare = response.data.link;
       console.log(linkToShare);
@@ -315,9 +320,9 @@
     clearMessage();
     shareTarget.resumePreview();
 
-    $('#streaming').removeClass('no-display');
-    $('#share-photo').addClass('no-display');
-    $('.result').addClass('no-display');
+    ui.show(document.querySelector('#streaming'));
+    ui.hide(document.querySelector('#share-photo'));
+    ui.hide(document.querySelector('.result'));
   }
 
   function getImageData() {
@@ -341,7 +346,7 @@
   }
 
   function clearMessage() {
-    $(".input-message").val("");
+    document.querySelector('.input-message').value = '';
   }
 
   function postToTwitter() {
@@ -424,8 +429,8 @@
     // Hide the share buttons,
     // show the result field
     ga('send', 'exception', {'exDescription': 'successful ' + service + ' share', 'exFatal': false});
-    $("#share-photo").addClass("no-display");
-    $(".result").removeClass("no-display");
+    ui.hide(document.querySelector('#share-photo'));
+    ui.show(document.querySelector('.result'));
     $(".result-text").html("Success! View your post <a target=\"_blank\" href=\"" + url + "\">here.</a>");
   }
 
@@ -434,8 +439,8 @@
     ga('send', 'exception', {'exDescription': '[' + service + '] ' + err, 'exFatal': false});
     // Hide the share buttons,
     // show the result field
-    $("#share-photo").addClass("no-display");
-    $(".result").removeClass("no-display");
+    ui.hide(document.querySelector('#share-photo'));
+    ui.show(document.querySelector('.result'));
     $(".result-text").html("Sorry, something went wrong.");
   }
 
@@ -620,7 +625,7 @@
           wrapper.removeChild(this.textNode);
         } catch (err) {
         }
-        $("#canvas").removeClass("no-display");
+        ui.show(document.querySelector('#canvas'));
 
         var image = document.createElement('img');
         image.addEventListener('load', function(event) {
