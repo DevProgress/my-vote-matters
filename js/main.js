@@ -240,6 +240,8 @@
   }
 
   function createNoCameraUI() {
+    // iOS-based browsers do not support getUserMedia, but have a nice upload button including "take picture".
+    var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     ga('send', 'event', 'no-camera', 'error');
 
     // Show an error message explaining that you
@@ -247,7 +249,8 @@
     $("#canvas").addClass("no-display");
     wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
-    var textNode = document.createTextNode('Oops! It looks like your camera won\'t work here, but you can upload a photo instead by pressing the button below.');
+    var noCameraText = ios ? 'You can take or upload ' : 'Oops! It looks like your camera won\'t work here, but you can upload ';
+    var textNode = document.createTextNode(noCameraText + ' a photo instead by pressing the button below.');
     wrapper.appendChild(textNode);
 
     var controls = document.querySelector('#controls');
@@ -256,7 +259,7 @@
     upload.style.display = 'none';
     upload.setAttribute('capture', 'camera');
     upload.setAttribute('accept', 'image/*');
-    document.querySelector('#streaming .text').textContent = 'Upload photo';
+    document.querySelector('#streaming .text').textContent = iOS ? 'Upload photo' : 'Get photo';
     // FIXME: This is a dirty hack, making an Image quack like a <video> element.
     // Namely, the takepicture() function calls video.pause(),
     // which calls upload.click()
