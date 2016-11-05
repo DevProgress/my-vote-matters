@@ -37,8 +37,6 @@
   var startbutton = null;
   var camerabutton = null;
   var savebutton = null;
-  // iOS-based browsers do not support getUserMedia, but have a nice upload button including "take picture".
-  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
   // FIXME: Replace with MediaDevices.getUserMedia.
   var getUserMedia =  (navigator.getUserMedia ||
@@ -300,14 +298,14 @@
     ui.hide(document.querySelector("#canvas"));
     wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
-    var noCameraText = iOS ? 'Share why YOUR vote matters!' : 'Oops! It looks like your camera won\'t work here, but you can upload a photo instead by pressing the button below.';
+    var noCameraText = 'Share why YOUR vote matters!'
     var textNode = document.createTextNode(noCameraText);
     var textWrapper = document.createElement("span");
     textWrapper.classList.add('camera-failure-text');
     textWrapper.appendChild(textNode);
     wrapper.appendChild(textWrapper);
 
-    document.querySelector('#streaming .text').textContent = iOS ? 'Select photo' : 'Upload photo';
+    document.querySelector('#streaming .text').textContent = 'Select photo';
     shareTarget = new UploadShareTarget(textNode);
     moveControlsIntoViewport();
   }
