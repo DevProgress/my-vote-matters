@@ -598,12 +598,8 @@
         image.addEventListener('load', function(event) {
           this.computeRotation(image).then(function(degrees) {
             this.image = this.rotateImage(image, degrees);
-            // video.play = function() {};
-            // video.pause = function() {
-            //   upload.click();
-            // };
-            // video.videoWidth = video.width;
-            // video.videoHeight = video.height;
+            this.stepScale(canvas.width);
+
 
             // FIXME: This does not need to loop. Just update on each keystroke.
             (function loop() {
@@ -626,6 +622,29 @@
 
     }.bind(this));
   }
+
+  UploadShareTarget.prototype.stepScale = function(desiredWidth) {
+    var width = this.image.width;
+    var height = this.image.height;
+    var stopWidth = desiredWidth * 2;
+    var current = this.image;
+    while (width > stopWidth) { // noprotect
+      width = width / 2;
+      height = height / 2;
+      current = scaleTo(current, width, height);
+    }
+    this.image = current;
+
+    function scaleTo(source, width, height) {
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(source, 0, 0, width, height);
+      return canvas;
+    }
+  }
+
 
   UploadShareTarget.prototype.rotateImage = function(rotationImage, degrees) {
     var rotationCanvas = document.createElement('canvas');
