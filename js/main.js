@@ -262,10 +262,10 @@
     ui.hide(document.querySelector("#canvas"));
     wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
-    var textNode = document.createTextNode('Oops! It looks like your camera won\'t work here, but you can upload a photo instead by pressing the button below.');
+    var textNode = document.createTextNode('Share why YOUR vote matters.');
     wrapper.appendChild(textNode);
 
-    document.querySelector('#streaming .text').textContent = 'Upload photo';
+    document.querySelector('#streaming .text').textContent = 'Select photo';
     shareTarget = new UploadShareTarget(textNode);
   }
 
