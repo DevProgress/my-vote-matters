@@ -243,7 +243,7 @@ ul.timeline li:active .details {
     padding: 1.5vh;
     align-items: center;
     box-sizing: border-box;
-    font-size: 2.8vh;
+    font-size: 1.7em;
 }
 
 #canvas {
