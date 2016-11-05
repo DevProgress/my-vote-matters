@@ -36,6 +36,9 @@
   var photo = null;
   var startbutton = null;
   var camerabutton = null;
+  var savebutton = null;
+  // iOS-based browsers do not support getUserMedia, but have a nice upload button including "take picture".
+  var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
   // FIXME: Replace with MediaDevices.getUserMedia.
   var getUserMedia =  (navigator.getUserMedia ||
@@ -59,6 +62,7 @@
     toCameraStarted: function() {
       this.hide(document.querySelector('#camerabutton'));
       this.show(document.querySelector('#streaming'));
+      moveControlsIntoViewport();
     }
   };
 
@@ -252,6 +256,27 @@
     if (!CAMERA_STARTED) {
       drawPlaceholder();
     }
+
+    moveControlsIntoViewport();
+  }
+
+  function moveControlsIntoViewport() {
+    // check whether control area with buttons is currently visible, otherwise put it inside canvas
+    var $window = $(window);
+    var windowBottom = $window.scrollTop() + $window.height();
+    var controlsTop = $('#controls').offset().top;
+    if (windowBottom - controlsTop < 160) {
+      // todo: if we deem this important enough, we could reset the position
+      // if a future resize shows more space is available,
+      // though there's some race-condition/flickering risk there
+      $('#controls').css({
+        'position': 'absolute',
+        'zIndex': '10',
+        'width': '100%',
+        'top': '20px',
+        'left': '0'
+      })
+    }
   }
 
   function createNoCameraUI() {
@@ -262,11 +287,16 @@
     ui.hide(document.querySelector("#canvas"));
     wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
-    var textNode = document.createTextNode('Share why YOUR vote matters.');
-    wrapper.appendChild(textNode);
+    var noCameraText = iOS ? 'Share why YOUR vote matters!' : 'Oops! It looks like your camera won\'t work here, but you can upload a photo instead by pressing the button below.';
+    var textNode = document.createTextNode(noCameraText);
+    var textWrapper = document.createElement("span");
+    textWrapper.classList.add('camera-failure-text');
+    textWrapper.appendChild(textNode);
+    wrapper.appendChild(textWrapper);
 
-    document.querySelector('#streaming .text').textContent = 'Select photo';
+    document.querySelector('#streaming .text').textContent = iOS ? 'Select photo' : 'Upload photo';
     shareTarget = new UploadShareTarget(textNode);
+    moveControlsIntoViewport();
   }
 
   // Capture a photo by fetching the current contents of the video
@@ -296,6 +326,11 @@
     savebutton.value = 'Save';
     ui.show(document.querySelector('#savebutton'));
     shareTarget.captureImage();
+    video.pause();
+    if (localstream && typeof localstream.getTracks === "function") {
+      localstream.getTracks()[0].stop();
+    }
+    CAMERA_STARTED = false;
   }
 
   function savepicture() {
