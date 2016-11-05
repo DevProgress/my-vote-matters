@@ -504,24 +504,7 @@
   }
 
   function createBackgroundSelfies() {
-    var images = [
-      {"filename": "Caroline Kelly_CB.JPG", "caption": "I have never been the type of person to stay quiet about what I think is right!" },
-      {"filename": "Carrie & Margaret.jpg", "caption": "of my daughter, and the world she will inherit." },
-      {"filename": "Erin Rowley_CB.JPG", "caption": "women are now voting in a greater percentage than men. Yet as a woman it takes more than that to make my rights equal" },
-      {"filename": "Jane Ruby.png", "caption": "empowered women deserve to be heard and change happens both individually and collectively." },
-      {"filename": "Julia Viani_CB.JPG", "caption": "every vote counts, and I want to elect someone who will protect my rights & create a safe nation." },
-      {"filename": "Julie Fraga & Lucy.jpg", "caption": "helping to elect the first female president models to my daughter that women can rise to leadership positions." },
-      {"filename": "Katie & Lucy_CB (color).jpg", "caption": "I have two daughters & I want them to grow up in a country that view females not as sexual objects but as individuals" },
-      {"filename": "Monica & Francisca_CB.jpg", "caption": "I can make a difference for my children by ensuring a better future." },
-      {"filename": "Ray & Jill_CB.jpg", "caption": "we believe in unity rather than division, celebrating differences rather than condemning them & love rather than hate" },
-      {"filename": "bob-villaflor.jpg", "caption": "my non-gender conforming child will be able to grow up in a world free of discrimination." },
-      {"filename": "christy-johnston.JPG", "caption": "women's rights are human rights. As a mother to a daughter, it's important we continue to move forward, not backward" },
-      {"filename": "graham-campbell.jpg", "caption": "as a DC resident this is the only vote I have that matters nationally. It's important that I stand up & be counted." },
-      {"filename": "jay-johnston.JPG", "caption": "foreign governments are attempting to influence our election." },
-      {"filename": "maceo-marquez.jpg", "caption": "we need a qualified, sensible leader to deal with emerging challenges to the economy." },
-      {"filename": "phyllis-anderson.jpg", "caption": "she's by far the most experienced candidate & has the best temperament to serve as President. That matters." }
-    ];
-    var SELFIE_COUNT = images.length-1;
+    var SELFIE_COUNT = 15;
     const SELFIE_COL_COUNT = 4;
     const SELFIE_ROW_COUNT = 2;
     var INSIDE_MARGIN = width / 20;
@@ -529,17 +512,8 @@
     var root = document.querySelector('#photos>div');
     photoIndices.slice(0, SELFIE_ROW_COUNT * SELFIE_COL_COUNT).forEach(function(index) {
       var img = document.createElement('img');
-      img.src = 'img/samples/' + images[index].filename;
-      $(img).on('load', (function (img, text) { return function() {
-        var cv = document.createElement('canvas');
-        cv.setAttribute("width", "245");
-        cv.setAttribute("height", "236");
-        var ctx = cv.getContext('2d');
-        polaroid(cv, ctx, 245, 236, 10);
-        ctx.drawImage(img, INSIDE_MARGIN, INSIDE_MARGIN, 245 - 2*INSIDE_MARGIN, 236 - 2*INSIDE_MARGIN - TEXT_HEIGHT);
-        drawMessage(cv, ctx, text);
-        root.appendChild(cv);
-      }})(img, images[index].caption));
+      img.src = 'img/samples/selfie-' + index + '.png';
+      root.appendChild(img);
     });
 
     function createArrayFromKnuthShuffle() {

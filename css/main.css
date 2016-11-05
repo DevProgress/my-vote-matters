@@ -87,7 +87,7 @@ p {
     flex-wrap: wrap;
 }
 
-#photos canvas {
+#photos img {
     box-sizing: content-box;
     padding: 5px;
     border: none;
