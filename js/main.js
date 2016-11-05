@@ -116,6 +116,13 @@
     startbutton = document.getElementById('startbutton');
     camerabutton = document.getElementById('camerabutton');
     savebutton = document.getElementById('savebutton');
+    if (window.screen) {
+      screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
+      if (screen.height < 600 && typeof screen.lockOrientationUniversal === 'function') {
+        screen.lockOrientationUniversal("portrait");
+      }
+    }
+
 
     // wait for Montserrat to be loaded
     // video wrapper is hidden at first to prevent weird flashing on page load
