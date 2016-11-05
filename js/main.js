@@ -62,6 +62,7 @@
     toCameraStarted: function() {
       this.hide(document.querySelector('#camerabutton'));
       this.show(document.querySelector('#streaming'));
+      moveControlsIntoViewport();
     }
   };
 
@@ -256,8 +257,15 @@
       drawPlaceholder();
     }
 
+    moveControlsIntoViewport();
+  }
+
+  function moveControlsIntoViewport() {
     // check whether control area with buttons is currently visible, otherwise put it inside canvas
-    if (!$('#controls').is(':visible')) {
+    var $window = $(window);
+    var windowBottom = $window.scrollTop() + $window.height();
+    var controlsTop = $('#controls').offset().top;
+    if (windowBottom - controlsTop < 160) {
       // todo: if we deem this important enough, we could reset the position
       // if a future resize shows more space is available,
       // though there's some race-condition/flickering risk there
@@ -265,8 +273,8 @@
         'position': 'absolute',
         'zIndex': '10',
         'width': '100%',
-        'top' : '20px',
-        'left' : '0'
+        'top': '20px',
+        'left': '0'
       })
     }
   }
@@ -288,6 +296,7 @@
 
     document.querySelector('#streaming .text').textContent = iOS ? 'Select photo' : 'Upload photo';
     shareTarget = new UploadShareTarget(textNode);
+    moveControlsIntoViewport();
   }
 
   // Capture a photo by fetching the current contents of the video
