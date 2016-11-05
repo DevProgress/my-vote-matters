@@ -264,17 +264,23 @@
     // check whether control area with buttons is currently visible, otherwise put it inside canvas
     var $window = $(window);
     var windowBottom = $window.scrollTop() + $window.height();
-    var controlsTop = $('#controls').offset().top;
+    var $controls = $('#controls');
+    var controlsTop = $controls.offset().top;
     if (windowBottom - controlsTop < 160) {
-      // todo: if we deem this important enough, we could reset the position
-      // if a future resize shows more space is available,
-      // though there's some race-condition/flickering risk there
-      $('#controls').css({
+      $controls.css({
         'position': 'absolute',
         'zIndex': '10',
         'width': '100%',
         'top': '20px',
         'left': '0'
+      })
+    } else {
+      $controls.css({
+        'position': 'static',
+        'zIndex': 'auto',
+        'width': '0px',
+        'top': 'auto',
+        'left': 'auto'
       })
     }
   }
