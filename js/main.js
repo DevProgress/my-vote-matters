@@ -306,7 +306,7 @@
     wrapper.appendChild(textWrapper);
 
     document.querySelector('#streaming .text').textContent = 'Select photo';
-    shareTarget = new UploadShareTarget(textNode);
+    shareTarget = new UploadShareTarget(textWrapper);
     moveControlsIntoViewport();
   }
 
