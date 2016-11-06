@@ -75,7 +75,10 @@
         video.play().then(ui.toCameraStarted.bind(ui)); // as a promise so button is not ready too early
       }, false);
       video.play().then(ui.toCameraStarted.bind(ui));
-    }, createNoCameraUI);
+    }, function() {
+      ui.toCameraStarted();
+      createNoCameraUI();
+    });
   }
 
   function connectCamera() {
