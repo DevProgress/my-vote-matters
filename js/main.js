@@ -36,6 +36,7 @@
   var photo = null;
   var startbutton = null;
   var camerabutton = null;
+  var savebutton = null;
 
   // FIXME: Replace with MediaDevices.getUserMedia.
   var getUserMedia =  (navigator.getUserMedia ||
@@ -45,6 +46,11 @@
 
 
   var ui = {
+    onclick: function(selector, handler) {
+      [].forEach.call(document.querySelectorAll(selector), function(element) {
+        element.addEventListener('click', handler);
+      });
+    },
     hide: function(element) {
       element.classList.add('no-display');
     },
@@ -52,8 +58,9 @@
       element.classList.remove('no-display');
     },
     toCameraStarted: function() {
-      $('#camerabutton').addClass('no-display');
-      $('#streaming').removeClass('no-display');
+      this.hide(document.querySelector('#camerabutton'));
+      this.show(document.querySelector('#streaming'));
+      moveControlsIntoViewport();
     }
   };
 
@@ -65,10 +72,13 @@
           setTimeout(loop, 1000 / 60);
         })();
         resizeCanvas();
-        video.play().then(ui.toCameraStarted); // as a promise so button is not ready too early
+        video.play().then(ui.toCameraStarted.bind(ui)); // as a promise so button is not ready too early
       }, false);
-      video.play().then(ui.toCameraStarted);
-    }, createNoCameraUI);
+      video.play().then(ui.toCameraStarted.bind(ui));
+    }, function() {
+      ui.toCameraStarted();
+      createNoCameraUI();
+    });
   }
 
   function connectCamera() {
@@ -103,14 +113,19 @@
     startbutton = document.getElementById('startbutton');
     camerabutton = document.getElementById('camerabutton');
     savebutton = document.getElementById('savebutton');
-    var $controls = $('#controls');
-    var $window = $(window);
+    if (window.screen) {
+      screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
+      if (screen.height < 600 && typeof screen.lockOrientationUniversal === 'function') {
+        screen.lockOrientationUniversal("portrait");
+      }
+    }
+
 
     // wait for Montserrat to be loaded
     // video wrapper is hidden at first to prevent weird flashing on page load
     // in theory document.fonts.ready works in FF and Chrome, but it doesn't, so use a hacky timeout instead
     setTimeout(function() {
-      $("#video-wrapper").removeClass("no-display");
+      ui.show(document.querySelector('#video-wrapper'));
       resizeCanvas();
       createBackgroundSelfies();
     }, 100);
@@ -140,30 +155,30 @@
       takepicture();
     }, false);
 
-    $controls.on('click', '.cancel-button', function() {
+    ui.onclick('.cancel-button', function() {
       ga('send', 'event', 'cancel', 'click');
       untakepicture();
     });
 
-    $controls.on('click', '.twitter-share-button', function() {
+    ui.onclick('.twitter-share-button', function() {
       ga('send', 'event', 'share', 'click', 'twitter');
       postToTwitter();
     });
 
-    $controls.on('click', '.fb-share-button', function() {
+    ui.onclick('.fb-share-button', function() {
       ga('send', 'event', 'share', 'click', 'facebook');
       postToFacebook();
     });
 
-    $controls.on('click', '.download-button', function() {
+    ui.onclick('.download-button', function() {
       ga('send', 'event', 'share', 'click', 'download');
     });
 
-    $window.on('orientationchange', function() {
+    window.addEventListener('orientationchange', function() {
       setTimeout(resizeCanvas, 300); // FIXME can this be lower?
     });
 
-    $window.on('resize', function() {
+    window.addEventListener('resize', function() {
       resizeCanvas();
     });
 
@@ -245,6 +260,33 @@
     if (!CAMERA_STARTED) {
       drawPlaceholder();
     }
+
+    moveControlsIntoViewport();
+  }
+
+  function moveControlsIntoViewport() {
+    // check whether control area with buttons is currently visible, otherwise put it inside canvas
+    var $window = $(window);
+    var windowBottom = $window.scrollTop() + $window.height();
+    var $controls = $('#controls');
+    var controlsTop = $controls.offset().top;
+    if (windowBottom - controlsTop < 160) {
+      $controls.css({
+        'position': 'absolute',
+        'zIndex': '10',
+        'width': '100%',
+        'top': '20px',
+        'left': '0'
+      })
+    } else {
+      $controls.css({
+        'position': 'static',
+        'zIndex': 'auto',
+        'width': '0px',
+        'top': 'auto',
+        'left': 'auto'
+      })
+    }
   }
 
   function createNoCameraUI() {
@@ -252,14 +294,19 @@
 
     // Show an error message explaining that you
     // need to upload a photo instead
-    $("#canvas").addClass("no-display");
+    ui.hide(document.querySelector("#canvas"));
     wrapper.classList.add('camera-failure');
     wrapper.classList.add('fgwhite');
-    var textNode = document.createTextNode('Oops! It looks like your camera won\'t work here, but you can upload a photo instead by pressing the button below.');
-    wrapper.appendChild(textNode);
+    var noCameraText = 'Share why YOUR vote matters!'
+    var textNode = document.createTextNode(noCameraText);
+    var textWrapper = document.createElement("span");
+    textWrapper.classList.add('camera-failure-text');
+    textWrapper.appendChild(textNode);
+    wrapper.appendChild(textWrapper);
 
-    document.querySelector('#streaming .text').textContent = 'Upload photo';
-    shareTarget = new UploadShareTarget(textNode);
+    document.querySelector('#streaming .text').textContent = 'Select photo';
+    shareTarget = new UploadShareTarget(textWrapper);
+    moveControlsIntoViewport();
   }
 
   // Capture a photo by fetching the current contents of the video
@@ -283,20 +330,27 @@
   }
 
   function takepicture() {
-    $('#streaming').addClass('no-display');
-    $(".input-wrapper").removeClass("no-display");
-    $("#savebutton").text("Save");
-    $("#savebutton").removeClass("no-display");
+    ui.hide(document.querySelector('#streaming'));
+    ui.show(document.querySelector('.input-wrapper'));
+    var savebutton = document.querySelector('#savebutton');
+    savebutton.value = 'Save';
+    ui.show(document.querySelector('#savebutton'));
     shareTarget.captureImage();
+    video.pause();
+    if (localstream && typeof localstream.getTracks === "function") {
+      localstream.getTracks()[0].stop();
+    }
+    CAMERA_STARTED = false;
   }
 
   function savepicture() {
-    $("#savebutton").text("Saving...");
+    var savebutton = document.querySelector('#savebutton');
+    savebutton.value = 'Saving...';
     uploadToImgur().then(function(response) {
       // Show this only after the upload to imgur is successful.
-      $("#savebutton").addClass("no-display");
-      $(".input-wrapper").addClass("no-display");
-      $('#share-photo').removeClass('no-display');
+      ui.hide(savebutton);
+      ui.hide(document.querySelector('.input-wrapper'));
+      ui.show(document.querySelector('#share-photo'));
 
       linkToShare = response.data.link;
       document.querySelector('.download-button').href = linkToShare;
@@ -310,9 +364,9 @@
     clearMessage();
     shareTarget.resumePreview();
 
-    $('#streaming').removeClass('no-display');
-    $('#share-photo').addClass('no-display');
-    $('.result').addClass('no-display');
+    ui.show(document.querySelector('#streaming'));
+    ui.hide(document.querySelector('#share-photo'));
+    ui.hide(document.querySelector('.result'));
   }
 
   function getImageData() {
@@ -336,7 +390,7 @@
   }
 
   function clearMessage() {
-    $(".input-message").val("");
+    document.querySelector('.input-message').value = '';
   }
 
   function postToTwitter() {
@@ -413,8 +467,8 @@
     // Hide the share buttons,
     // show the result field
     ga('send', 'exception', {'exDescription': 'successful ' + service + ' share', 'exFatal': false});
-    $("#share-photo").addClass("no-display");
-    $(".result").removeClass("no-display");
+    ui.hide(document.querySelector('#share-photo'));
+    ui.show(document.querySelector('.result'));
     $(".result-text").html("Success! View your post <a target=\"_blank\" href=\"" + url + "\">here.</a>");
   }
 
@@ -423,8 +477,8 @@
     ga('send', 'exception', {'exDescription': '[' + service + '] ' + err, 'exFatal': false});
     // Hide the share buttons,
     // show the result field
-    $("#share-photo").addClass("no-display");
-    $(".result").removeClass("no-display");
+    ui.hide(document.querySelector('#share-photo'));
+    ui.show(document.querySelector('.result'));
     $(".result-text").html("Sorry, something went wrong.");
   }
 
@@ -495,24 +549,7 @@
   }
 
   function createBackgroundSelfies() {
-    var images = [
-      {"filename": "Caroline Kelly_CB.JPG", "caption": "I have never been the type of person to stay quiet about what I think is right!" },
-      {"filename": "Carrie & Margaret.jpg", "caption": "of my daughter, and the world she will inherit." },
-      {"filename": "Erin Rowley_CB.JPG", "caption": "women are now voting in a greater percentage than men. Yet as a woman it takes more than that to make my rights equal" },
-      {"filename": "Jane Ruby.png", "caption": "empowered women deserve to be heard and change happens both individually and collectively." },
-      {"filename": "Julia Viani_CB.JPG", "caption": "every vote counts, and I want to elect someone who will protect my rights & create a safe nation." },
-      {"filename": "Julie Fraga & Lucy.jpg", "caption": "helping to elect the first female president models to my daughter that women can rise to leadership positions." },
-      {"filename": "Katie & Lucy_CB (color).jpg", "caption": "I have two daughters & I want them to grow up in a country that view females not as sexual objects but as individuals" },
-      {"filename": "Monica & Francisca_CB.jpg", "caption": "I can make a difference for my children by ensuring a better future." },
-      {"filename": "Ray & Jill_CB.jpg", "caption": "we believe in unity rather than division, celebrating differences rather than condemning them & love rather than hate" },
-      {"filename": "bob-villaflor.jpg", "caption": "my non-gender conforming child will be able to grow up in a world free of discrimination." },
-      {"filename": "christy-johnston.JPG", "caption": "women's rights are human rights. As a mother to a daughter, it's important we continue to move forward, not backward" },
-      {"filename": "graham-campbell.jpg", "caption": "as a DC resident this is the only vote I have that matters nationally. It's important that I stand up & be counted." },
-      {"filename": "jay-johnston.JPG", "caption": "foreign governments are attempting to influence our election." },
-      {"filename": "maceo-marquez.jpg", "caption": "we need a qualified, sensible leader to deal with emerging challenges to the economy." },
-      {"filename": "phyllis-anderson.jpg", "caption": "she's by far the most experienced candidate & has the best temperament to serve as President. That matters." }
-    ];
-    var SELFIE_COUNT = images.length-1;
+    var SELFIE_COUNT = 15;
     const SELFIE_COL_COUNT = 4;
     const SELFIE_ROW_COUNT = 2;
     var INSIDE_MARGIN = width / 20;
@@ -520,17 +557,8 @@
     var root = document.querySelector('#photos>div');
     photoIndices.slice(0, SELFIE_ROW_COUNT * SELFIE_COL_COUNT).forEach(function(index) {
       var img = document.createElement('img');
-      img.src = 'img/samples/' + images[index].filename;
-      $(img).on('load', (function (img, text) { return function() {
-        var cv = document.createElement('canvas');
-        cv.setAttribute("width", "245");
-        cv.setAttribute("height", "236");
-        var ctx = cv.getContext('2d');
-        polaroid(cv, ctx, 245, 236, 10);
-        ctx.drawImage(img, INSIDE_MARGIN, INSIDE_MARGIN, 245 - 2*INSIDE_MARGIN, 236 - 2*INSIDE_MARGIN - TEXT_HEIGHT);
-        drawMessage(cv, ctx, text);
-        root.appendChild(cv);
-      }})(img, images[index].caption));
+      img.src = 'img/samples/selfie-' + index + '.png';
+      root.appendChild(img);
     });
 
     function createArrayFromKnuthShuffle() {
@@ -609,18 +637,14 @@
           wrapper.removeChild(this.textNode);
         } catch (err) {
         }
-        $("#canvas").removeClass("no-display");
+        ui.show(document.querySelector('#canvas'));
 
         var image = document.createElement('img');
         image.addEventListener('load', function(event) {
           this.computeRotation(image).then(function(degrees) {
             this.image = this.rotateImage(image, degrees);
-            // video.play = function() {};
-            // video.pause = function() {
-            //   upload.click();
-            // };
-            // video.videoWidth = video.width;
-            // video.videoHeight = video.height;
+            this.stepScale(canvas.width);
+
 
             // FIXME: This does not need to loop. Just update on each keystroke.
             (function loop() {
@@ -643,6 +667,29 @@
 
     }.bind(this));
   }
+
+  UploadShareTarget.prototype.stepScale = function(desiredWidth) {
+    var width = this.image.width;
+    var height = this.image.height;
+    var stopWidth = desiredWidth * 2;
+    var current = this.image;
+    while (width > stopWidth) { // noprotect
+      width = width / 2;
+      height = height / 2;
+      current = scaleTo(current, width, height);
+    }
+    this.image = current;
+
+    function scaleTo(source, width, height) {
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(source, 0, 0, width, height);
+      return canvas;
+    }
+  }
+
 
   UploadShareTarget.prototype.rotateImage = function(rotationImage, degrees) {
     var rotationCanvas = document.createElement('canvas');
