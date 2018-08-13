@@ -83,12 +83,8 @@
 
       getUserMedia({ video: true, audio: false },
         function(stream) {
-          if (navigator.mozGetUserMedia) {
-            video.mozSrcObject = stream;
-          } else {
-            var vendorURL = window.URL || window.webkitURL;
-            video.src = vendorURL.createObjectURL(stream);
-          }
+          var vendorURL = window.URL || window.webkitURL;
+          video.src = vendorURL.createObjectURL(stream);
           localstream = stream;
           resolve();
         }, reject
